@@ -1,0 +1,5 @@
+.env
+**.log
+node_modules
+nodemon.json
+start.bat
