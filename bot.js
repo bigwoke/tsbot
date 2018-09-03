@@ -43,12 +43,33 @@ fs.readdir('./commands/', (err, files) => {
     let jsfiles = files.filter(file => file.split('.').pop() === 'js');
     jsfiles.forEach((file, index) => {
         let command = require(`./commands/${file}`);
-        let level = command.info.level;
+        if(!command.info || !command.run) return log.warn(`Issue with file ${file}, not loading.`);
 
+        let level = command.info.level;
         log.verbose(`${index + 1}: Loaded ${file} ${level===0 ? '(root)' : level===1 ? '(mod)' : ''}`);
         ts.commands.set(command.info.name, command);
     });
     log.info(`Loaded ${jsfiles.length} commands.`);
+});
+
+fs.watch('./commands/', (eventType, filename) => {
+    if(eventType === 'rename') {
+        if(filename.split('.').pop() !== 'js') return;
+        if(fs.existsSync(`./commands/${filename}`)) {
+            let command = require(`./commands/${filename}`);
+            if(!command.info || !command.run) return log.warn(`Issue with detected file ${filename}, not loading.`);
+
+            let level = command.info.level;
+            log.verbose(`Detected and loaded new command file ${filename} ${level===0 ? '(root)' : level===1 ? '(mod)' : ''}.`);
+            ts.commands.set(command.info.name, command);
+        } else {
+            let command = filename.slice(0, -3);
+            if(!ts.commands.has(command)) return;
+            
+            log.verbose(`Detected removal of command file ${filename}, unloading.`);
+            ts.commands.delete(command);
+        }
+    }
 });
 
 ts.on('ready', async () => {
