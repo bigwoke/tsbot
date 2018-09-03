@@ -3,4 +3,5 @@
 node_modules
 nodemon.json
 start.bat
-config*.json
+\.vscode/
+.eslintrc.js
