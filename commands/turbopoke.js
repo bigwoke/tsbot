@@ -1,5 +1,4 @@
 module.exports.run = async (ts, ev, client, args) => {
-
     if(!args[0] || !args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Argument(s) missing from command syntax!');
     if(!Number.isInteger(parseInt(args[0]))) return ts.sendTextMessage(client.getID(), 1, 'error: First argument is not a number!');
 
