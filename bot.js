@@ -4,6 +4,7 @@ const log = require('winston');
 const fs = require('fs');
 const actions = require('./actions');
 const cfg = require('./config.js');
+const tools = require('./tools.js');
 
 const prefix = cfg.bot.prefix;
 const root_users = cfg.users.root;
@@ -53,22 +54,22 @@ fs.readdir('./commands/', (err, files) => {
 });
 
 fs.watch('./commands/', (eventType, filename) => {
-    if(eventType === 'rename') {
-        if(filename.split('.').pop() !== 'js') return;
-        if(fs.existsSync(`./commands/${filename}`)) {
-            let command = require(`./commands/${filename}`);
-            if(!command.info || !command.run) return log.warn(`Issue with detected file ${filename}, not loading.`);
+    if(filename.split('.').pop() !== 'js') return;
+    if(eventType !== 'rename') return;
 
-            let level = command.info.level;
-            log.verbose(`Detected and loaded new command file ${filename} ${level===0 ? '(root)' : level===1 ? '(mod)' : ''}.`);
-            ts.commands.set(command.info.name, command);
-        } else {
-            let command = filename.slice(0, -3);
-            if(!ts.commands.has(command)) return;
-            
-            log.verbose(`Detected removal of command file ${filename}, unloading.`);
-            ts.commands.delete(command);
-        }
+    if(fs.existsSync(`./commands/${filename}`)) {
+        let command = tools.reload(`./commands/${filename}`);
+        if(!command.info || !command.run) return log.warn(`Issue with detected file ${filename}, not loading.`);
+
+        let level = command.info.level;
+        log.info(`Detected and loaded new command file ${filename} ${level===0 ? '(root)' : level===1 ? '(mod)' : ''}.`);
+        ts.commands.set(command.info.name, command);
+    } else {
+        let command = filename.slice(0, -3);
+        if(!ts.commands.has(command)) return;
+        
+        log.info(`Detected removal of command file ${filename}, unloading.`);
+        ts.commands.delete(command);
     }
 });
 
@@ -154,4 +155,6 @@ ts.on('textmessage', ev => {
 ts.on('error', err => log.error(err));
 ts.on('close', ev => log.info('Connection has been closed:', ev));
 
-module.exports.ts = ts;
+module.exports = {
+    ts: ts
+};

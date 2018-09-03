@@ -9,4 +9,12 @@ function epochToLocale(epochSecs, type) {
     }
 }
 
-module.exports.convertEpoch = epochToLocale;
+function reloadModule(moduleName) {
+    delete require.cache[require.resolve(`./${moduleName}`)];
+    return require(`./${moduleName}`);
+}
+
+module.exports = {
+    convertEpoch: epochToLocale,
+    reload: reloadModule
+};
