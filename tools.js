@@ -9,9 +9,9 @@ function epochToLocale(epochSecs, type) {
     }
 }
 
-function refreshModule(moduleName) {
-    delete require.cache[require.resolve(`./${moduleName}`)];
-    return require(`./${moduleName}`);
+function refreshModule(modulePath) {
+    delete require.cache[require.resolve(modulePath)];
+    return require(modulePath);
 }
 
 module.exports = {

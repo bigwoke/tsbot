@@ -1,3 +1,5 @@
+const tools = require('../tools.js');
+
 module.exports.run = async (ts, ev, client, args, log) => {
     if(!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
     
@@ -9,7 +11,7 @@ module.exports.run = async (ts, ev, client, args, log) => {
     let toReload_name = toReload.info.name;
     ts.commands.delete(toReload_name);
 
-    let cmd = require(`./${toReload_name}.js`);
+    let cmd = tools.refresh(`./${toReload_name}.js`);
     if(!cmd.info || !cmd.run) return ts.sendTextMessage(client.getID(), 1, `Issue reloading ${toReload_name}, not reloading.`);
     ts.commands.set(cmd.info.name, cmd);
 
