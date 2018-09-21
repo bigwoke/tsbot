@@ -4,7 +4,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
     let appid = args[0];
     
-    if(!appid) return ts.sendTextMessage(client.getID(), 1, 'error: Argument(s) missing from command syntax!');
+    if(!appid) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
     if(!Number.isInteger(parseInt(appid))) return ts.sendTextMessage(client.getID(), 1, 'error: Required argument is not a number!');
 
     getPlayerCount(client, appid, (count, appname) => {

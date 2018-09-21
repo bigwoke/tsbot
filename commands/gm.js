@@ -1,5 +1,5 @@
 module.exports.run = async (ts, ev, client) => {
-    /* if(!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Argument(s) missing from command syntax!');
+    /* if(!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
     let msg = args.join(' ');
     ts.gm(msg); */
     return ts.sendTextMessage(client.getID(), 1, 'The GM command is currently disabled due to an issue with the API wrapper I use.');

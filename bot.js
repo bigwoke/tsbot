@@ -58,7 +58,7 @@ fs.watch('./commands/', (eventType, filename) => {
     if(eventType !== 'rename') return;
 
     if(fs.existsSync(`./commands/${filename}`)) {
-        let command = tools.reload(`./commands/${filename}`);
+        let command = tools.refresh(`./commands/${filename}`);
         if(!command.info || !command.run) return log.warn(`Issue with detected file ${filename}, not loading.`);
 
         let level = command.info.level;

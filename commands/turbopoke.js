@@ -1,5 +1,5 @@
 module.exports.run = async (ts, ev, client, args) => {
-    if(!args[0] || !args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Argument(s) missing from command syntax!');
+    if(!args[0] || !args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
     if(!Number.isInteger(parseInt(args[0]))) return ts.sendTextMessage(client.getID(), 1, 'error: First argument is not a number!');
 
     let user_search = args.slice(1).join(' ');
@@ -7,7 +7,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
     if(!target) return ts.sendTextMessage(client.getID(), 1, `Could not find user "${user_search}"`);
     if(target.isQuery()) return ts.sendTextMessage(client.getID(), 1, 'Bots cannot be targeted!');
-    if(args[0] > 60 || args[0] <= 0) return ts.sendTextMessage(client.getID(), 1, 'notice: The allowed range of pokes is 1-60, for reasons.');
+    if(args[0] > 60 || args[0] <= 0) return ts.sendTextMessage(client.getID(), 1, 'The allowed range of pokes is 1-60, for reasons.');
 
     let target_nick = target.getCache().client_nickname;
     let pokes = parseInt(args[0]);

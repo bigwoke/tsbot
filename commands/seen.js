@@ -1,7 +1,7 @@
 const tools = require('../tools.js');
 
 module.exports.run = async (ts, ev, client, args, log) => {
-    if(!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Argument(s) missing from command syntax!');
+    if(!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
 
     let user_search = args.slice(0).join(/\s+/g);
     let results = await ts.clientDBFind(user_search, false).catch(err => {

@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 module.exports.run = async (ts, ev, client, args, log) => {
-    if(!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Argument(s) missing from command syntax!');
+    if(!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
 
     let toEnable = args[0];
 
