@@ -1,3 +1,8 @@
+const sgProtGroups = {
+    6: ['SjfiejahkjNbeyuaikdONDKlemM='],
+    7: ['SjfiejahkjNbeyuaikdONDKlemM=', 'wkykjPweaf5tJFMLIloko5MIgrY=']
+};
+
 const config = {
     ts3: {
         host: process.env.TS_HOST || 'localhost',
@@ -9,17 +14,20 @@ const config = {
     bot: {
         nick: process.env.NICKNAME || 'tsbot',
         home: process.env.HOMECID,
-        prefix: process.env.PREFIX || '!',
+        prefix: process.env.PREFIX || '!'
     },
     users: {
         root: process.env.ROOT_USERS.split(/,\s*/g),
         mod: process.env.MOD_USERS.split(/,\s*/g)
     },
-    loglevel: 'silly',
-    sgprot: {
-        6: ['FVPGbDQhHzfxWIBGhcoSvkoxT2Y='],
-        9: ['wkykjPwfuKAeWDc94bj5o5MIgrY=']
+    modules: {
+        welcome: process.env.WELCOME === 'false' ? false : true,
+        sgprot: process.env.SGPROT === 'true' ? true : false
     },
+    loglevel: process.env.LOGLEVEL || 'info',
+    sgprot: {
+        groups: sgProtGroups
+    }
 };
 
 module.exports = config;

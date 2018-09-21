@@ -1,39 +1,14 @@
 require('dotenv').config();
-const TS3 = require('ts3-nodejs-library');
-const log = require('winston');
 const fs = require('fs');
-const actions = require('./actions');
+const ts = require('./ts.js');
+const log = require('./log.js');
+const actions = require('./actions.js');
 const cfg = require('./config.js');
 const tools = require('./tools.js');
 
 const prefix = cfg.bot.prefix;
 const root_users = cfg.users.root;
 const mod_users = cfg.users.mod;
-
-log.configure({
-    transports: [
-        new (log.transports.File)({
-            filename: 'output.log',
-            timestamp: true,
-            level: 'debug',
-            json: false
-        }),
-        new (log.transports.Console)({
-            colorize: true,
-            humanReadableUnhandledException: true,
-            level: cfg.loglevel
-        })
-    ]
-});
-
-const ts = new TS3({
-    host: cfg.ts3.host,
-    queryport: cfg.ts3.query,
-    serverport: cfg.ts3.port,
-    username: cfg.ts3.user,
-    password: cfg.ts3.pass,
-    nickname: cfg.bot.nick
-});
 
 ts.commands = new Map();
 ts.setMaxListeners(50);
@@ -76,9 +51,11 @@ fs.watch('./commands/', (eventType, filename) => {
 ts.on('ready', async () => {
     ts.whoami()
         .then(bot => {
-            let homeCID = cfg.bot.home;
             log.info(`Authorization Successful! Logged in as ${bot.client_nickname}.`);
-            ts.clientMove(bot.client_id, homeCID).catch(err => log.warn(err));
+            if(cfg.bot.home) {
+                let homeCID = cfg.bot.home;
+                ts.clientMove(bot.client_id, homeCID).catch(err => log.warn(err));
+            }
         }).catch(err => log.error(err));
     
     //Register for all events within view of SQ client
@@ -152,9 +129,11 @@ ts.on('textmessage', ev => {
     }
 });
 
-ts.on('error', err => log.error(err));
+ts.on('error', err => {
+    if(err.id === 520) {
+        log.error('Your serverquery password is either incorrect or not defined.');
+    } else {
+        log.error(err);
+    }
+});
 ts.on('close', ev => log.info('Connection has been closed:', ev));
-
-module.exports = {
-    ts: ts
-};

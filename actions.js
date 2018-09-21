@@ -1,12 +1,17 @@
-const bot = require('./bot.js');
-const tools = require('./tools.js');
 const cfg = require('./config.js');
+const ts = require('./ts.js');
+const tools = require('./tools.js');
+const log = require('./log.js');
+
+if(cfg.modules.welcome) log.info('Welcome messages are enabled.');
+if(cfg.modules.sgprot) log.info('Server group protection is enabled.');
 
 async function sendWelcomeMessage(client){
+    if(!cfg.modules.welcome) return;
     if(!client || client.isQuery()) return;
     let nick = client.getCache().client_nickname;
 
-    let cl = await bot.ts.clientDBInfo(client.getCache().client_database_id);
+    let cl = await ts.clientDBInfo(client.getCache().client_database_id);
     let created_date = tools.convertEpoch(cl.client_created);
     let created_time = tools.convertEpoch(cl.client_created, 'time');
 
@@ -19,19 +24,20 @@ async function sendWelcomeMessage(client){
     welcome += `We first saw you on ${created_date} at ${created_time} EST.\n`;
     welcome += `You can use the command [I]${cfg.bot.prefix}help[/I] to see what you can do.`;
 
-    bot.ts.sendTextMessage(client.getID(), 1, welcome);
+    ts.sendTextMessage(client.getID(), 1, welcome);
 }
 
 async function groupProtectionCheck(client) {
+    if(!cfg.modules.sgprot) return;
     let uid = client.getCache().client_unique_identifier;
 
     let sgProtInterval = setInterval( async () => {
         let cl = await client.getInfo();
 
         cl.client_servergroups.forEach( async sgid => {
-            for(let key in cfg.sgprot) {
-                if(parseInt(key) === sgid && !cfg.sgprot[key].includes(uid)) {
-                    let group = await bot.ts.getServerGroupByID(sgid);
+            for(let key in cfg.sgprot.groups) {
+                if(parseInt(key) === sgid && !cfg.sgprot.groups[key].includes(uid)) {
+                    let group = await ts.getServerGroupByID(sgid);
 
                     client.serverGroupDel(sgid);
                     client.poke(`The server group [B]${group.getCache().name}[/B] is protected!`);
