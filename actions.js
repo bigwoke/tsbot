@@ -1,12 +1,11 @@
 const cfg = require('./config.js');
-const ts = require('./ts.js');
 const tools = require('./tools.js');
 const log = require('./log.js');
 
 if(cfg.modules.welcome) log.info('Welcome messages are enabled.');
 if(cfg.modules.sgprot) log.info('Server group protection is enabled.');
 
-async function sendWelcomeMessage(client){
+async function sendWelcomeMessage(client, ts){
     if(!cfg.modules.welcome) return;
     if(!client || client.isQuery()) return;
     let nick = client.getCache().client_nickname;
@@ -27,7 +26,7 @@ async function sendWelcomeMessage(client){
     ts.sendTextMessage(client.getID(), 1, welcome);
 }
 
-async function groupProtectionCheck(client) {
+async function groupProtectionCheck(client, ts) {
     if(!cfg.modules.sgprot) return;
     let uid = client.getCache().client_unique_identifier;
 
