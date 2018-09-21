@@ -1,4 +1,5 @@
 const fs = require('fs');
+const cfg = require('../config.js');
 
 module.exports.run = async (ts, ev, client, args, log) => {
     if(!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
@@ -12,6 +13,9 @@ module.exports.run = async (ts, ev, client, args, log) => {
 
         if(jsfiles.includes(`${toEnable}.js`)) {
             if(ts.commands.has(toEnable)) return ts.sendTextMessage(client.getID(), 1, 'That command is already enabled.');
+            if(cfg.modules[toEnable.info.module] === false) {
+                return ts.sendTextMessage(client.getID(), 1, `The ${toEnable.info.module} module is disabled, and must be enabled to use this command.`);
+            }
             let cmd = require(`./${toEnable}.js`);
             ts.commands.set(cmd.info.name, cmd);
 

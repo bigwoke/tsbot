@@ -28,15 +28,20 @@ fs.readdir('./commands/', (err, files) => {
     if(err) log.error(err.stack);
 
     let jsfiles = files.filter(file => file.split('.').pop() === 'js');
+    let disabledCmds = 0;
     jsfiles.forEach((file, index) => {
         let command = require(`./commands/${file}`);
         if(!command.info || !command.run) return log.warn(`Issue with file ${file}, not loading.`);
+        if(command.info.module && cfg.modules[command.info.module] === false) {
+            disabledCmds++;
+            return log.debug(`Module '${command.info.module}' disabled, not loading ${command.info.name}.js`);
+        }
 
         let level = command.info.level;
         log.verbose(`${index + 1}: Loaded ${file} ${level===0 ? '(root)' : level===1 ? '(mod)' : ''}`);
         ts.commands.set(command.info.name, command);
     });
-    log.info(`Loaded ${jsfiles.length} commands.`);
+    log.info(`Loaded ${jsfiles.length - disabledCmds} commands.`);
 });
 
 fs.watch('./commands/', (eventType, filename) => {
@@ -46,9 +51,10 @@ fs.watch('./commands/', (eventType, filename) => {
     if(fs.existsSync(`./commands/${filename}`)) {
         let command = tools.refresh(`./commands/${filename}`);
         if(!command.info || !command.run) return log.warn(`Issue with detected file ${filename}, not loading.`);
+        if(cfg.modules[command.info.module] === false) return;
 
-        let level = command.info.level;
-        log.info(`Detected and loaded new command file ${filename} ${level===0 ? '(root)' : level===1 ? '(mod)' : ''}.`);
+        let level = command.info.level === 0 ? '(root)' : command.info.level === 1 ? '(mod)' : '';
+        log.info(`Detected and loaded new command file ${filename} ${level}`);
         ts.commands.set(command.info.name, command);
     } else {
         let command = filename.slice(0, -3);

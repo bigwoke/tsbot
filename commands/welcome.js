@@ -8,5 +8,6 @@ module.exports.info = {
     name: 'welcome',
     usage: `${process.env.PREFIX}welcome`,
     desc: 'Sends the welcome message to the user who sent the command.',
+    module: 'welcome',
     level: 2
 };
