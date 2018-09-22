@@ -31,7 +31,10 @@ fs.readdir('./commands/', (err, files) => {
     let disabledCmds = 0;
     jsfiles.forEach((file, index) => {
         let command = require(`./commands/${file}`);
-        if(!command.info || !command.run) return log.warn(`Issue with file ${file}, not loading.`);
+        if(!command.info || !command.run) {
+            disabledCmds++;
+            return log.warn(`Issue with file ${file}, not loading.`);
+        }
         if(command.info.module && cfg.modules[command.info.module] === false) {
             disabledCmds++;
             return log.debug(`Module '${command.info.module}' disabled, not loading ${command.info.name}.js`);
