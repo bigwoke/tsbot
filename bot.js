@@ -135,7 +135,7 @@ ts.on('textmessage', ev => {
     
     let cmd = ts.commands.get(fullCommand.slice(prefix.length));
     let noPerms = function(cmd) {
-        ts.sendTextMessage(client.getID(), 1, `You do not have permission to use the ${cmd} command.`);
+        ts.sendTextMessage(client.getID(), 1, `You do not have permission to use the ${cmd.info.name} command.`);
     };
 
     if(cmd) {
