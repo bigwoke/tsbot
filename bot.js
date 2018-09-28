@@ -11,6 +11,7 @@ const root_users = cfg.users.root;
 const mod_users = cfg.users.mod;
 
 const ts = new TS3({
+    protocol: cfg.ts3.protocol,
     host: cfg.ts3.host,
     queryport: cfg.ts3.query,
     serverport: cfg.ts3.port,

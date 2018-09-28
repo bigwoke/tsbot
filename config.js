@@ -5,8 +5,9 @@ const sgProtGroups = {
 
 const config = {
     ts3: {
+        protocol: process.env.TS_PROTO || 'ssh',
         host: process.env.TS_HOST || 'localhost',
-        query: process.env.TS_QUERY || '10011',
+        query: process.env.TS_QUERY || '10022',
         port: process.env.TS_PORT || '9987',
         user: process.env.TS_USER || 'serveradmin',
         pass: process.env.TS_PASS

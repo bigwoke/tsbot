@@ -48,10 +48,12 @@ Create a file in the root directory that you cloned the repo to earlier, and nam
 # TS3 Server Connection Settings #
 ##################################
 
+# Serverquery protocol (ssh or raw)
+TS_PROTO='ssh'
 # Server address
 TS_HOST='localhost'
-# Serverquery port
-TS_QUERY=10011
+# Serverquery port (defaults: ssh=10022, raw=10011)
+TS_QUERY=10022
 # Virtual server port (the one you use when joining the server)
 TS_PORT=9987
 # Serverquery admin username
