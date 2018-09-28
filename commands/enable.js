@@ -1,7 +1,8 @@
+const log = require('../log.js');
 const fs = require('fs');
 const cfg = require('../config.js');
 
-module.exports.run = async (ts, ev, client, args, log) => {
+module.exports.run = async (ts, ev, client, args) => {
     if(!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
 
     let toEnable = args[0];

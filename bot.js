@@ -145,7 +145,7 @@ ts.on('textmessage', ev => {
         } else if(cmd.info.level === 1 && !(client.level === 1 || client.level === 0)) {
             return noPerms(cmd);
         } else {
-            cmd.run(ts, ev, client, args, log);
+            cmd.run(ts, ev, client, args);
         }
     }
 });

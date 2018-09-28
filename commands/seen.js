@@ -1,6 +1,7 @@
+const log = require('../log.js');
 const tools = require('../tools.js');
 
-module.exports.run = async (ts, ev, client, args, log) => {
+module.exports.run = async (ts, ev, client, args) => {
     if(!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
 
     let user_search = args.slice(0).join(/\s+/g);

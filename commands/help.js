@@ -1,4 +1,6 @@
-module.exports.run = async (ts, ev, client, args, log) => {
+const log = require('../log.js');
+
+module.exports.run = async (ts, ev, client) => {
     let count = 1, resp = `[U]Command Page ${count}[/U]:\n`;
     ts.commands.forEach(cmd => {
         let color = (cmd.info.level === 2) ? '#00825a' : (cmd.info.level === 1) ? '#d58500' : '#ff3300';
