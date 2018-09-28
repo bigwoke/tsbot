@@ -19,6 +19,7 @@ There are also an ever-increasing amount of neat commands:
 - seen - Shows the last time any users with the specified username were online
 - turbopoke - Pokes the target user up to 60 times twice per second
 - welcome - Manually invokes the welcome message function
+- whois - Returns basic information about any client based on unique ID
 
 Along with some useful maintenence-based 'root' commands: 
 

@@ -1,11 +1,11 @@
-function epochToLocale(epochSecs, type) {
+function epochNumberToDate(epochSeconds, type) {
     let locale_date = new Date(0);
-    locale_date.setUTCSeconds(epochSecs);
+    locale_date.setUTCSeconds(epochSeconds);
 
-    if( type === 'time' ) {
-        return locale_date.toLocaleTimeString('en-US');
-    } else {
-        return locale_date.toLocaleDateString('en-US');
+    switch(type) {
+    case 't': return locale_date.toLocaleTimeString('en-US');
+    case 'd': return locale_date.toLocaleDateString('en-US');
+    default: return `${locale_date.toLocaleDateString('en-US')} ${locale_date.toLocaleTimeString('en-US')}`;
     }
 }
 
@@ -15,6 +15,6 @@ function refreshModule(modulePath) {
 }
 
 module.exports = {
-    convertEpoch: epochToLocale,
+    toDate: epochNumberToDate,
     refresh: refreshModule
 };

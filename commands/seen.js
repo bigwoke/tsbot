@@ -24,8 +24,8 @@ module.exports.run = async (ts, ev, client, args, log) => {
         dbidArray.forEach( element => {
             ts.clientDBInfo(element)
                 .then( user => {
-                    let last_d = tools.convertEpoch(user.client_lastconnected);
-                    let last_t = tools.convertEpoch(user.client_lastconnected, 'time');
+                    let last_d = tools.toDate(user.client_lastconnected, 'd');
+                    let last_t = tools.toDate(user.client_lastconnected, 't');
                     let user_nick = user.client_nickname;
                     count++;
 
@@ -34,7 +34,7 @@ module.exports.run = async (ts, ev, client, args, log) => {
                         resp = '';
                     }
 
-                    resp += `\n[B]${user_nick}[/B]: Last seen on ${last_d} at ${last_t} ET`;
+                    resp += `\n[B]${user_nick}[/B]: Last seen on ${last_d} at ${last_t}`;
                     if(count === dbidArray.length) ts.sendTextMessage(client.getID(), 1, resp);
                 }).catch(err => log.error(err));
         });
@@ -42,12 +42,12 @@ module.exports.run = async (ts, ev, client, args, log) => {
         let cldbid = results.cldbid;
         ts.clientDBInfo(cldbid)
             .then( user => {
-                let last_d = tools.convertEpoch(user.client_lastconnected);
-                let last_t = tools.convertEpoch(user.client_lastconnected, 'time');
+                let last_d = tools.toDate(user.client_lastconnected, 'd');
+                let last_t = tools.toDate(user.client_lastconnected, 't');
                 let user_nick = user.client_nickname;
 
                 let resp = 'Found 1 matching client in the database:';
-                resp += `\n[B]${user_nick}[/B]: Last seen on ${last_d} at ${last_t} Eastern Time`;
+                resp += `\n[B]${user_nick}[/B]: Last seen on ${last_d} at ${last_t}`;
                 
                 ts.sendTextMessage(client.getID(), 1, resp);
             }).catch(err => log.error(err));

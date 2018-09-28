@@ -11,8 +11,8 @@ async function sendWelcomeMessage(client, ts){
     let nick = client.getCache().client_nickname;
 
     let cl = await ts.clientDBInfo(client.getCache().client_database_id);
-    let created_date = tools.convertEpoch(cl.client_created);
-    let created_time = tools.convertEpoch(cl.client_created, 'time');
+    let created_date = tools.toDate(cl.client_created, 'd');
+    let created_time = tools.toDate(cl.client_created, 't');
 
     let visit_count = cl.client_totalconnections.toString();
 
@@ -20,7 +20,7 @@ async function sendWelcomeMessage(client, ts){
     let num_suffix = (end == 1) ? 'st' : (end == 2) ? 'nd' : (end == 3) ? 'rd' : 'th';
 
     let welcome = `Hello [b]${nick}[/b], this is your ${visit_count + num_suffix} visit! `;
-    welcome += `We first saw you on ${created_date} at ${created_time} EST.\n`;
+    welcome += `We first saw you on ${created_date} at ${created_time}.\n`;
     welcome += `You can use the command [I]${cfg.bot.prefix}help[/I] to see what you can do.`;
 
     ts.sendTextMessage(client.getID(), 1, welcome);
