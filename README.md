@@ -15,6 +15,8 @@ There are also an ever-increasing amount of neat commands:
 - coinflip - Flips a coin, 50/50 RNG
 - diceroll - Rolls a die with the given amount of sides
 - help - Displays all commands the user has access to
+- msggroup - Sends a message to online members of a given server group
+- msguser - Sends a message to the given online user
 - playercount - Returns the player count of the given Steam game
 - seen - Shows the last time any users with the specified username were online
 - turbopoke - Pokes the target user up to 60 times twice per second
