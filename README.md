@@ -13,6 +13,7 @@ There are also an ever-increasing amount of neat commands:
 - broadcast - Sends a message to the current virtual server
 - clientinfo - Dumps standard information about a client
 - coinflip - Flips a coin, 50/50 RNG
+- define - Finds the definition for the given word
 - diceroll - Rolls a die with the given amount of sides
 - help - Displays all commands the user has access to
 - msggroup - Sends a message to online members of a given server group
@@ -20,6 +21,7 @@ There are also an ever-increasing amount of neat commands:
 - playercount - Returns the player count of the given Steam game
 - seen - Shows the last time any users with the specified username were online
 - turbopoke - Pokes the target user up to 60 times twice per second
+- urban - Gets the top entries for a search term from Urban Dictionary
 - welcome - Manually invokes the welcome message function
 - whois - Returns basic information about any client based on unique ID
 
