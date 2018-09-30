@@ -31,6 +31,8 @@ Along with some useful maintenence-based 'root' commands:
 - enable - Enables the given command if it's disabled
 - gm - Sends the given message to all virtual servers (this seems buggy, I have a workaround but chances are it won't work for you)
 - reload - Reloads the given command
+- sgpadd - Adds the given user to the protected list for the given server group
+- sgprm - Removes the given user from a group's protected list
 
 Everything that isn't considered a root command can be toggled, including the passive functions.
 
@@ -100,20 +102,11 @@ SGPROT='false'
 LOGLEVEL='info'
 ```
 
-#### 2) config.js
+#### 2) Server group protection
 
-One feature of this bot is server group protection, as you can read about above. If you choose to use this feature, it must be configured to work properly. At the top of `config.js`, you'll see the following object:
+One feature of this bot is server group protection, as you can read about above. If you choose to use this feature, it must be configured to work properly. Technically you can manually edit `sgprot.json` in the root directory, but there are easier ways to do this. That file does have to exist with an empty object (`{}`) inside for the bot to run, but you shouldn't have to worry about that.
 
-```JS
-const sgProtGroups = {
-    6: ['SjfiejahkjNbeyuaikdONDKlemM='],
-    7: ['SjfiejahkjNbeyuaikdONDKlemM=', 'wkykjPweaf5tJFMLIloko5MIgrY=']
-};
-```
-
-This is the configuration for server group protection. If you have any knowledge of JavaScript, this should be relatively straightforward and you probably know what to do from here, but in case you don't I'll try to make it as clear as possible. Each entry (row) represents a group and the users that belong in said group. Each group should have a comma at the end, except for the last one. The number at the beginning is the server group ID, and the array (brackets) contains a comma delimited list of strings containing users' unique IDs. If you plan on using server group protection, you should change the example entries to suit your server groups and users. Follow the example, and if it works you did it, if not come back to this example and see if you have any inconsistencies.
-
-I hope to eventually come up with a better way to configure this option that makes sense and is easily readable, but for now this is what we have.
+To configure server group protection, you must be a root user, then you can use `!sgpadd` to add protected users to server groups, and in doing so, protecting those server groups. Use `!help` for information about the commands related to group protection. Note: the file `sgprot.json` must be able to be edited, which shouldn't be a problem on Windows, but Linux users should be wary about giving this file the correct permissions.
 
 ### Running the bot
 
