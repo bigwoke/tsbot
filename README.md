@@ -104,7 +104,7 @@ LOGLEVEL='info'
 
 #### 2) Server group protection
 
-One feature of this bot is server group protection, as you can read about above. If you choose to use this feature, it must be configured to work properly. Technically you can manually edit `sgprot.json` in the root directory, but there are easier ways to do this. That file does have to exist with an empty object (`{}`) inside for the bot to run, but you shouldn't have to worry about that.
+One feature of this bot is server group protection, as you can read about above. If you choose to use this feature, it must be configured to work properly. Technically you can manually edit `sgprot.json` in the root directory, but there are easier ways to do this. The one thing you do have to do is create this file called `sgprot.json`, and inside it, simply put `{}`. That's it, an empty object. Then you can configure it:
 
 To configure server group protection, you must be a root user, then you can use `!sgpadd` to add protected users to server groups, and in doing so, protecting those server groups. Use `!help` for information about the commands related to group protection. Note: the file `sgprot.json` must be able to be edited, which shouldn't be a problem on Windows, but Linux users should be wary about giving this file the correct permissions.
 
