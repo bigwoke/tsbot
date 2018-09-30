@@ -1,8 +1,10 @@
 const https = require('https');
 
 module.exports.run = async (ts, ev, client, args) => {
-    let word = args[0];    
+    let word = args[0];
+    let regex = new RegExp('^[a-zA-Z]+$');
     if(!word) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
+    if(!regex.test(word)) return ts.sendTextMessage(client.getID(), 1, 'That does not seem to be a word.');
 
     let dict_url = 'https://owlbot.info/api/v2/dictionary/' + word + '?format=json';
     https.get(dict_url, resp => {
@@ -19,11 +21,12 @@ module.exports.run = async (ts, ev, client, args) => {
             let msg = `There are ${definitions} definitions for the word "${word}":\n`;
 
             for(let ct = 0; ct < definitions && msg.length < 900; ct++) {
-                msg += `    [b]${ct + 1}[/b]:  ${response[ct].type}. ${response[ct].definition}\n`;
+                let type = response[ct].type;
+                let def = response[ct].definition.replace(/â/g, '"');
+                msg += `\t[b]${ct + 1}[/b]:  ${type}. ${def}\n`;
             }
 
             ts.sendTextMessage(client.getID(), ev.targetmode, msg);
-
         });
     });
 };
