@@ -9,12 +9,6 @@ function epochNumberToDate(epochSeconds, type) {
     }
 }
 
-function refreshModule(modulePath) {
-    delete require.cache[require.resolve(modulePath)];
-    return require(modulePath);
-}
-
 module.exports = {
     toDate: epochNumberToDate,
-    refresh: refreshModule
 };

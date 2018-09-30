@@ -35,7 +35,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
     name: 'urban',
-    usage: `${process.env.PREFIX}urban <word>`,
-    desc: 'Grabs the definition(s) for the given word from Urban Dictionary.',
+    usage: `${process.env.PREFIX}urban <phrase>`,
+    desc: 'Gets the top entries for the given term from Urban Dictionary.',
     level: 2
 };

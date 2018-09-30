@@ -4,7 +4,6 @@ const fs = require('fs');
 const log = require('./log.js');
 const actions = require('./actions.js');
 const cfg = require('./config.js');
-const tools = require('./tools.js');
 
 const prefix = cfg.bot.prefix;
 const root_users = cfg.users.root;
@@ -29,23 +28,22 @@ fs.readdir('./commands/', (err, files) => {
     if(err) log.error(err.stack);
 
     let jsfiles = files.filter(file => file.split('.').pop() === 'js');
-    let disabledCmds = 0;
-    jsfiles.forEach((file, index) => {
+    let count = 0;
+    jsfiles.forEach(file => {
         let command = require(`./commands/${file}`);
         if(!command.info || !command.run) {
-            disabledCmds++;
             return log.warn(`Issue with file ${file}, not loading.`);
         }
         if(command.info.module && cfg.modules[command.info.module] === false) {
-            disabledCmds++;
             return log.debug(`Module '${command.info.module}' disabled, not loading ${command.info.name}.js`);
         }
-
+        count++;
+                
         let level = command.info.level;
-        log.verbose(`${index + 1}: Loaded ${file} ${level===0 ? '(root)' : level===1 ? '(mod)' : ''}`);
+        log.verbose(`${count}: Loaded ${file} ${level===0 ? '(root)' : level===1 ? '(mod)' : ''}`);
         ts.commands.set(command.info.name, command);
     });
-    log.info(`Loaded ${jsfiles.length - disabledCmds} commands.`);
+    log.info(`Loaded ${count} commands.`);
 });
 
 fs.watch('./commands/', (eventType, filename) => {
@@ -53,7 +51,7 @@ fs.watch('./commands/', (eventType, filename) => {
     if(eventType !== 'rename') return;
 
     if(fs.existsSync(`./commands/${filename}`)) {
-        let command = tools.refresh(`./commands/${filename}`);
+        let command = require(`./commands/${filename}`);
         if(!command.info || !command.run) return log.warn(`Issue with detected file ${filename}, not loading.`);
         if(cfg.modules[command.info.module] === false) return;
 
@@ -66,6 +64,7 @@ fs.watch('./commands/', (eventType, filename) => {
         
         log.info(`Detected removal of command file ${filename}, unloading.`);
         ts.commands.delete(command);
+        delete require.cache[require.resolve(`./commands/${command}.js`)];
     }
 });
 
