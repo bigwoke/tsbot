@@ -1,8 +1,3 @@
-const sgProtGroups = {
-    6: ['SjfiejahkjNbeyuaikdONDKlemM='],
-    7: ['SjfiejahkjNbeyuaikdONDKlemM=', 'wkykjPweaf5tJFMLIloko5MIgrY=']
-};
-
 const config = {
     ts3: {
         protocol: process.env.TS_PROTO || 'ssh',
@@ -26,9 +21,7 @@ const config = {
         sgprot: process.env.SGPROT === 'true' ? true : false
     },
     loglevel: process.env.LOGLEVEL || 'info',
-    sgprot: {
-        groups: sgProtGroups
-    }
+    sgprot: require('./sgprot.json')
 };
 
 module.exports = config;

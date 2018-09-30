@@ -34,8 +34,8 @@ async function groupProtectionCheck(client, ts) {
         let cl = await client.getInfo();
 
         cl.client_servergroups.forEach( async sgid => {
-            for(let key in cfg.sgprot.groups) {
-                if(parseInt(key) === sgid && !cfg.sgprot.groups[key].includes(uid)) {
+            for(let key in cfg.sgprot) {
+                if(parseInt(key) === sgid && !cfg.sgprot[key].includes(uid)) {
                     let group = await ts.getServerGroupByID(sgid);
 
                     client.serverGroupDel(sgid);

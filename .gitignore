@@ -5,3 +5,4 @@ nodemon.json
 start.bat
 \.vscode/
 .eslintrc.js
+sgprot.json
