@@ -25,5 +25,6 @@ module.exports.info = {
     name: 'sgpadd',
     usage: `${process.env.PREFIX}sgpadd <sgid> <uniqueid>`,
     desc: 'Adds the given user to the protected list for the given server group.',
+    module: 'sgprot',
     level: 0
 };

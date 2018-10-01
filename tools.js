@@ -9,6 +9,11 @@ function epochNumberToDate(epochSeconds, type) {
     }
 }
 
+function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
+
 module.exports = {
     toDate: epochNumberToDate,
+    isEmpty: isObjectEmpty
 };

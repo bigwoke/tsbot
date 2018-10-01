@@ -32,5 +32,6 @@ module.exports.info = {
     name: 'sgprm',
     usage: `${process.env.PREFIX}sgprm <sgid> <uniqueid>`,
     desc: 'Removes the given user from the protected list for the given server group.',
+    module: 'sgprot',
     level: 0
 };
