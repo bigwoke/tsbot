@@ -19,8 +19,8 @@ module.exports.run = async (ts, ev, client, args) => {
     group_members.forEach( async clinfo => {
         let cl = await ts.getClientByUID(clinfo.client_unique_identifier);
         ts.sendTextMessage(cl.getID(), 1, `[To group ${targetgroup.getCache().name}] from ${client.getCache().client_nickname}: ${message}`);
-        ts.sendTextMessage(client.getID(), 1, `Sent message to group ${targetgroup.getCache().name}.`);
     });
+    ts.sendTextMessage(client.getID(), 1, `Sent message to group ${targetgroup.getCache().name}.`);
 };
 
 module.exports.info = {
