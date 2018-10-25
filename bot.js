@@ -1,6 +1,10 @@
 require('dotenv').config();
 const TS3 = require('ts3-nodejs-library');
 const fs = require('fs');
+const tools = require('./tools.js');
+
+tools.verifyFile('./sgprot.json');
+
 const log = require('./log.js');
 const actions = require('./actions.js');
 const cfg = require('./config.js');

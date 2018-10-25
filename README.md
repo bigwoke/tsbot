@@ -20,6 +20,7 @@ There are also an ever-increasing amount of neat commands:
 - msguser - Sends a message to the given online user
 - playercount - Returns the player count of the given Steam game
 - seen - Shows the last time any users with the specified username were online
+- sgplist - Lists currently protected server groups
 - turbopoke - Pokes the target user up to 60 times twice per second
 - urban - Gets the top entries for a search term from Urban Dictionary
 - welcome - Manually invokes the welcome message function
@@ -44,7 +45,7 @@ Clone the repo into its own directory, and set up the following:
 
 ### Configuration
 
-Two things need to be done to configure the bot to the fullest extent. Most of the configurable options can be put in a `.env` file. However, due to the nature of the server group protection feature, its configuration must be done in `config.js`. Of course, you could change all the values in `config.js`, but I would suggest keeping as much as possible in `.env`. I'll cover that first.
+Two things need to be done to configure the bot to the fullest extent. Most of the configurable options can be put in a `.env` file. However, due to the nature of the server group protection feature, its configuration must be done in `sgprot.json`. Of course, you could change all the values in `sgprot.json`, but there is a preferred (and supported) way to configure this instead. I'll cover the ENV file first.
 
 #### 1) .ENV
 
@@ -104,7 +105,13 @@ LOGLEVEL='info'
 
 #### 2) Server group protection
 
-One feature of this bot is server group protection, as you can read about above. If you choose to use this feature, it must be configured to work properly. Technically you can manually edit `sgprot.json` in the root directory, but there are easier ways to do this. The one thing you do have to do is create this file called `sgprot.json`, and inside it, simply put `{}`. That's it, an empty object. Then you can configure it:
+One feature of this bot is server group protection, as you can read about above. If you choose to use this feature, it must be configured to work properly. Technically you can manually edit `sgprot.json` in the root directory, but there is an easier way to do this:
+
+**Important:**
+
+It is very important that you keep a list of users and their respective server groups *before* you start setting this up, and I'll tell you why. The first time you add a user to a protected server group, if there are any other users online in the server when this happens, their groups will be revoked, and you will need to re-add them after using `!sgpadd` on those users. For this reason, I also highly recommend you add yourself to the appropriate group you want protected to avoid inadvertently removing your own admin. If this does happen, don't worry, you can fix it using ssh/telnet serverquery and the credentials you're using for the bot. However, that's a lot of work for a simple mistake, so it's obviously best to make sure you don't get to that point in the first place.
+
+That being said, let's move on.
 
 To configure server group protection, you must be a root user, then you can use `!sgpadd` to add protected users to server groups, and in doing so, protecting those server groups. Use `!help` for information about the commands related to group protection. Note: the file `sgprot.json` must be able to be edited, which shouldn't be a problem on Windows, but Linux users should be wary about giving this file the correct permissions.
 

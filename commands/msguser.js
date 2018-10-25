@@ -1,5 +1,5 @@
 module.exports.run = async (ts, ev, client, args) => {
-    if(!args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
+    if(!args[0] || !args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
 
     let uid_search  = args[0];
     let target = await ts.getClientByUID(uid_search);

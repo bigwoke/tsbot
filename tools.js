@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 function epochNumberToDate(epochSeconds, type) {
     let locale_date = new Date(0);
     locale_date.setUTCSeconds(epochSeconds);
@@ -13,7 +15,17 @@ function isObjectEmpty(obj) {
     return Object.keys(obj).length === 0;
 }
 
+function createEmptyFileIfAbsent(file) {
+    try {
+        fs.accessSync(file);
+    } catch(err) {
+        if(err.code !== 'ENOENT') throw err;
+        fs.writeFileSync(file, '{}');
+    }
+}
+
 module.exports = {
     toDate: epochNumberToDate,
-    isEmpty: isObjectEmpty
+    isEmpty: isObjectEmpty,
+    verifyFile: createEmptyFileIfAbsent
 };

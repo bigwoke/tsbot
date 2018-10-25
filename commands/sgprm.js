@@ -3,7 +3,7 @@ const fs = require('fs');
 const sgprot = require('../sgprot.json');
 
 module.exports.run = async (ts, ev, client, args) => {
-    if(!args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
+    if(!args[0] || !args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
     if(!Number.isInteger(parseInt(args[0]))) return ts.sendTextMessage(client.getID(), 1, 'First argument is not an integer!');
 
     let sgid = args[0];
