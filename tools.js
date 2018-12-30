@@ -1,31 +1,31 @@
-const fs = require('fs');
+const fs = require('fs')
 
-function epochNumberToDate(epochSeconds, type) {
-    let locale_date = new Date(0);
-    locale_date.setUTCSeconds(epochSeconds);
+function epochNumberToDate (epochSeconds, type) {
+  let localeDate = new Date(0)
+  localeDate.setUTCSeconds(epochSeconds)
 
-    switch(type) {
-    case 't': return locale_date.toLocaleTimeString('en-US');
-    case 'd': return locale_date.toLocaleDateString('en-US');
-    default: return `${locale_date.toLocaleDateString('en-US')} ${locale_date.toLocaleTimeString('en-US')}`;
-    }
+  switch (type) {
+    case 't': return localeDate.toLocaleTimeString('en-US')
+    case 'd': return localeDate.toLocaleDateString('en-US')
+    default: return `${localeDate.toLocaleDateString('en-US')} ${localeDate.toLocaleTimeString('en-US')}`
+  }
 }
 
-function isObjectEmpty(obj) {
-    return Object.keys(obj).length === 0;
+function isObjectEmpty (obj) {
+  return Object.keys(obj).length === 0
 }
 
-function createEmptyFileIfAbsent(file) {
-    try {
-        fs.accessSync(file);
-    } catch(err) {
-        if(err.code !== 'ENOENT') throw err;
-        fs.writeFileSync(file, '{}');
-    }
+function createEmptyFileIfAbsent (file) {
+  try {
+    fs.accessSync(file)
+  } catch (err) {
+    if (err.code !== 'ENOENT') throw err
+    fs.writeFileSync(file, '{}')
+  }
 }
 
 module.exports = {
-    toDate: epochNumberToDate,
-    isEmpty: isObjectEmpty,
-    verifyFile: createEmptyFileIfAbsent
-};
+  toDate: epochNumberToDate,
+  isEmpty: isObjectEmpty,
+  verifyFile: createEmptyFileIfAbsent
+}
