@@ -151,6 +151,7 @@ ts.on('textmessage', ev => {
     } else {
       cmd.run(ts, ev, client, args)
       log.debug(`Command '${cmd.info.name}' receieved from '${nick}'`)
+      log.silly(`Full content of '${cmd.info.name}' (from '${nick}'): ${message}`)
     }
   }
 })
