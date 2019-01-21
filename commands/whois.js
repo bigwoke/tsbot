@@ -1,4 +1,5 @@
 const tools = require('../tools.js')
+const cfg = require('../config.js')
 
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!')
@@ -11,8 +12,9 @@ module.exports.run = async (ts, ev, client, args) => {
 
   let resp = `Who is the client with UID "${searchUID}"?\n`
   let targetNick = target.client_nickname
+  let targetLevel = cfg.users.root.includes(searchUID) ? 'Admin' : cfg.users.mod.includes(searchUID) ? 'Mod' : 'User'
   let targetLastSeen = tools.toDate(target.client_lastconnected)
-  resp += `Nickname: ${targetNick}\nDBID: ${targetDBID.cldbid}\nLast Seen: ${targetLastSeen}`
+  resp += `Nickname: ${targetNick}\nDBID: ${targetDBID.cldbid}\nPermission Level: ${targetLevel}\nLast Seen: ${targetLastSeen}`
   ts.sendTextMessage(client.getID(), 1, resp)
 }
 

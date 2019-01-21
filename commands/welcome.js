@@ -1,7 +1,7 @@
 const actions = require('../actions.js')
 
 module.exports.run = async (ts, ev, client) => {
-  actions.welcome(client)
+  actions.welcome(client, ts)
 }
 
 module.exports.info = {

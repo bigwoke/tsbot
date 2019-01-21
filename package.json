@@ -1,11 +1,11 @@
 {
   "name": "tsbot",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Custom TeamSpeak 3 Bot",
   "main": "bot.js",
   "dependencies": {
     "dotenv": "^5.0.1",
-    "ts3-nodejs-library": "^1.10.1",
+    "ts3-nodejs-library": "^1.12.0",
     "winston": "^2.4.4"
   },
   "devDependencies": {

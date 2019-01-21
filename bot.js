@@ -125,6 +125,7 @@ ts.on('clientmoved', ev => {
 ts.on('textmessage', ev => {
   const message = ev.msg
   const client = ev.invoker
+  const nick = client.getCache().client_nickname
 
   if (!client || client.isQuery()) return
 
@@ -149,6 +150,7 @@ ts.on('textmessage', ev => {
       return noPerms(cmd)
     } else {
       cmd.run(ts, ev, client, args)
+      log.debug(`Command '${cmd.info.name}' receieved from '${nick}'`)
     }
   }
 })

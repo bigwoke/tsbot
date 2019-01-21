@@ -99,6 +99,7 @@ SGPROT='false'
 ###########
 
 # Console log level. I don't recommend changing this but it's an option.
+# Valid log levels are the same as those used by NPM.
 # Note that output.log will always be at debug level regardless.
 LOGLEVEL='info'
 ```
@@ -118,3 +119,7 @@ To configure server group protection, you must be a root user, then you can use 
 ### Running the bot
 
 Once you've configured everything above, starting and running the bot should be as simple as running `node bot.js` in the bot's root directory. If something goes wrong, follow the error thrown in the command prompt window you started the bot from. If that's not helpful, check that there are no syntax errors in the config file if you edited it, and all information required is present in `.env`.
+
+## Known Issues
+
+1. Using the `!enable` command will crash/restart the bot, thereby enabling all commands (assuming its module is enabled) and forcing the user to reopen a chat dialog with the bot.
