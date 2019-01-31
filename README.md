@@ -10,6 +10,7 @@ All that being said, the features with this bot are somewhat light. There are cu
 
 There are also an ever-increasing amount of neat commands:
 
+- 8ball - Theoretical magic 8 ball with a pool of 20 typical responses
 - broadcast - Sends a message to the current virtual server
 - clientinfo - Dumps standard information about a client
 - coinflip - Flips a coin, 50/50 RNG
@@ -30,7 +31,7 @@ Along with some useful maintenence-based 'root' commands:
 
 - disable - Disables the given command if it's enabled and non-root
 - enable - Enables the given command if it's disabled
-- gm - Sends the given message to all virtual servers (this seems buggy, I have a workaround but chances are it won't work for you)
+- gm - Sends the given message to all virtual servers
 - reload - Reloads the given command
 - sgpadd - Adds the given user to the protected list for the given server group
 - sgprm - Removes the given user from a group's protected list
