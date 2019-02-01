@@ -111,11 +111,11 @@ One feature of this bot is server group protection, as you can read about above.
 
 **Important:**
 
-It is very important that you keep a list of users and their respective server groups *before* you start setting this up, and I'll tell you why. The first time you add a user to a protected server group, if there are any other users online in the server when this happens, their groups will be revoked, and you will need to re-add them after using `!sgpadd` on those users. For this reason, I also highly recommend you add yourself to the appropriate group you want protected to avoid inadvertently removing your own admin. If this does happen, don't worry, you can fix it using ssh/telnet serverquery and the credentials you're using for the bot. However, that's a lot of work for a simple mistake, so it's obviously best to make sure you don't get to that point in the first place.
+It is very important that you keep a list of users and their respective server groups *before* you start setting this up, and I'll tell you why. The first time you add a user to a protected server group, if there are any other users online in the server when this happens, their groups will be revoked, and you will need to re-add them after using `sgpadd` on those users. For this reason, I also highly recommend you add yourself to the appropriate group you want protected to avoid inadvertently removing your own admin. If this does happen, don't worry, you can fix it using ssh/telnet serverquery and the credentials you're using for the bot. However, that's a lot of work for a simple mistake, so it's obviously best to make sure you don't get to that point in the first place.
 
 That being said, let's move on.
 
-To configure server group protection, you must be a root user, then you can use `!sgpadd` to add protected users to server groups, and in doing so, protecting those server groups. Use `!help` for information about the commands related to group protection. Note: the file `sgprot.json` must be able to be edited, which shouldn't be a problem on Windows, but Linux users should be wary about giving this file the correct permissions.
+To configure server group protection, you must be a root user, then you can use `sgpadd` to add protected users to server groups, and in doing so, protecting those server groups. Use `help` for information about the commands related to group protection. Note: the file `sgprot.json` must be able to be edited, which shouldn't be a problem on Windows, but Linux users should be wary about giving this file the correct permissions.
 
 ### Running the bot
 
@@ -123,4 +123,5 @@ Once you've configured everything above, starting and running the bot should be 
 
 ## Known Issues
 
-1. Using the `!enable` command will crash/restart the bot, thereby enabling all commands (assuming its module is enabled) and forcing the user to reopen a chat dialog with the bot.
+1. Using the `enable` command will crash/restart the bot, thereby enabling all commands (assuming its module is enabled) and forcing the user to reopen a chat dialog with the bot.
+2. The `gm` command will function properly, but it will come with a TypeError. I think the issue is with the `ts3-nodejs-library` dependency, but I need to look into it.
