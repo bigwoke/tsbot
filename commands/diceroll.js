@@ -7,13 +7,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
   rollResult = Math.floor(Math.random() * Math.floor(upperLimit)) + 1
 
-  if (ev.targetmode === 3) {
-    ts.sendTextMessage('', 3, `On a die labeled 1 to ${upperLimit}, you rolled a ${rollResult}.`)
-  } else if (ev.targetmode === 2) {
-    ts.sendTextMessage(client.getCache().cid, 2, `On a die labeled 1 to ${upperLimit}, you rolled a ${rollResult}.`)
-  } else {
-    ts.sendTextMessage(client.getID(), 1, `On a die labeled 1 to ${upperLimit}, you rolled a ${rollResult}.`)
-  }
+  ts.sendTextMessage(client.getID(), ev.targetmode, `On a die labeled 1 to ${upperLimit}, you rolled a ${rollResult}.`)
 }
 
 module.exports.info = {

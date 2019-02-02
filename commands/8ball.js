@@ -23,14 +23,7 @@ module.exports.run = async (ts, ev, client, args) => {
   ]
 
   let outlook = outlookList[Math.floor(Math.random() * outlookList.length)]
-
-  if (ev.targetmode === 3) {
-    ts.sendTextMessage('', 3, `8 Ball says: "${outlook}"`)
-  } else if (ev.targetmode === 2) {
-    ts.sendTextMessage(client.getCache().cid, 2, `8 Ball says: "${outlook}"`)
-  } else {
-    ts.sendTextMessage(client.getID(), 1, `8 Ball says: "${outlook}"`)
-  }
+  ts.sendTextMessage(client.getID(), ev.targetmode, `8 Ball says: "${outlook}"`)
 }
 
 module.exports.info = {

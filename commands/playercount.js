@@ -7,13 +7,7 @@ module.exports.run = async (ts, ev, client, args) => {
   if (!Number.isInteger(parseInt(appid))) return ts.sendTextMessage(client.getID(), 1, 'error: Required argument is not a number!')
 
   getPlayerCount(client, appid, (count, appname) => {
-    if (ev.targetmode === 3) {
-      ts.sendTextMessage('', 3, `Current ${appname} player count: [b]${count}[/b]`)
-    } else if (ev.targetmode === 2) {
-      ts.sendTextMessage(client.getCache().cid, 2, `Current ${appname} player count: [b]${count}[/b]`)
-    } else {
-      ts.sendTextMessage(client.getID(), 1, `Current ${appname} player count: [b]${count}[/b]`)
-    }
+    ts.sendTextMessage(client.getID(), ev.targetmode, `Current ${appname} player count: [b]${count}[/b]`)
   })
 
   function getPlayerCount (client, appid, callback) {
