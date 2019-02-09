@@ -18,10 +18,12 @@ const config = {
   },
   modules: {
     welcome: process.env.WELCOME !== 'false',
-    sgprot: process.env.SGPROT === 'true'
+    sgprot: process.env.SGPROT === 'true',
+    groupbyip: process.env.GROUPBYIP === 'true'
   },
   loglevel: process.env.LOGLEVEL || 'info',
-  sgprot: require('./sgprot.json')
+  sgprot: require('./sgprot.json'),
+  groupbyip: require('./groupbyip.json')
 }
 
 module.exports = config

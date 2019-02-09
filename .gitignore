@@ -6,3 +6,4 @@ start.bat
 \.vscode/
 .eslintrc.js
 sgprot.json
+groupbyip.json

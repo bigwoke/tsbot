@@ -4,6 +4,7 @@ const log = require('./log.js')
 
 if (cfg.modules.welcome) log.info('Welcome messages are enabled.')
 if (cfg.modules.sgprot) log.info('Server group protection is enabled.')
+if (cfg.modules.groupbyip) log.info('Client auto group membership by IP is enabled.')
 
 async function sendWelcomeMessage (client, ts) {
   if (!cfg.modules.welcome) return
@@ -50,7 +51,22 @@ async function groupProtectionCheck (client, ts) {
   })
 }
 
+async function assignGroupByIPAddress (client, ts) {
+  if (!cfg.modules.groupbyip) return
+
+  let clinfo = await client.getInfo()
+  let clAddr = clinfo.connection_client_ip
+  let clGroups = clinfo.client_servergroups
+
+  for (let key in cfg.groupbyip) {
+    if (key === clAddr && !clGroups.includes(cfg.groupbyip[key])) {
+      client.serverGroupAdd(cfg.groupbyip[key].toString())
+    }
+  }
+}
+
 module.exports = {
   welcome: sendWelcomeMessage,
-  sgCheck: groupProtectionCheck
+  sgCheck: groupProtectionCheck,
+  groupByIP: assignGroupByIPAddress
 }
