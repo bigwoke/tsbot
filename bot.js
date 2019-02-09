@@ -109,7 +109,7 @@ ts.on('clientconnect', ev => {
 
   actions.welcome(client, ts)
   actions.sgCheck(client, ts)
-  actions.groupByIP(client, ts)
+  actions.ipGroups(client, ts)
 })
 
 ts.on('clientdisconnect', ev => {

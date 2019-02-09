@@ -52,15 +52,19 @@ async function groupProtectionCheck (client, ts) {
 }
 
 async function assignGroupByIPAddress (client, ts) {
-  if (!cfg.modules.groupbyip) return
+  if (!cfg.modules.ipgroups) return
 
   let clinfo = await client.getInfo()
   let clAddr = clinfo.connection_client_ip
   let clGroups = clinfo.client_servergroups
 
-  for (let key in cfg.groupbyip) {
-    if (key === clAddr && !clGroups.includes(cfg.groupbyip[key])) {
-      client.serverGroupAdd(cfg.groupbyip[key].toString())
+  for (let key in cfg.ipgroups) {
+    if (key === clAddr) {
+      for (let value in cfg.ipgroups[key]) {
+        if (!clGroups.includes(value)) {
+          client.serverGroupAdd(cfg.ipgroups[key][value].toString())
+        }
+      }
     }
   }
 }
@@ -68,5 +72,5 @@ async function assignGroupByIPAddress (client, ts) {
 module.exports = {
   welcome: sendWelcomeMessage,
   sgCheck: groupProtectionCheck,
-  groupByIP: assignGroupByIPAddress
+  ipGroups: assignGroupByIPAddress
 }
