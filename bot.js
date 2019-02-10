@@ -4,6 +4,7 @@ const fs = require('fs')
 const tools = require('./tools.js')
 
 tools.verifyFile('./sgprot.json')
+tools.verifyFile('./ipgroups.json')
 
 const log = require('./log.js')
 const actions = require('./actions.js')
