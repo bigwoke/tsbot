@@ -7,6 +7,7 @@ All that being said, the features with this bot are somewhat light. There are cu
 
 - Welcome messaging - pretty straightforward, sends a message to clients upon joining the server with some cool information attached (connections, first connection, etc).
 - Server group protection - essentially a server group whitelist, where only users with certain unique IDs can be added to specified server groups.
+- Automatic server group membership based on IP - sets a client to a specified server group on connection if their IP address matches.
 
 There are also an ever-increasing amount of neat commands:
 
@@ -27,7 +28,7 @@ There are also an ever-increasing amount of neat commands:
 - welcome - Manually invokes the welcome message function
 - whois - Returns basic information about any client based on unique ID
 
-Along with some useful maintenence-based 'root' commands: 
+Along with some useful, typically maintenence-based 'root' commands: 
 
 - disable - Disables the given command if it's enabled and non-root
 - enable - Enables the given command if it's disabled
@@ -35,6 +36,9 @@ Along with some useful maintenence-based 'root' commands:
 - reload - Reloads the given command
 - sgpadd - Adds the given user to the protected list for the given server group
 - sgprm - Removes the given user from a group's protected list
+- ipgadd - Assigns a server group to an IP address
+- ipgrm - Removes a server group assignment from an IP address
+- ipglist - Lists the server groups assigned to their respective IP addresses.
 
 Everything that isn't considered a root command can be toggled, including the passive functions.
 
@@ -94,6 +98,8 @@ MOD_USERS=''
 WELCOME='true'
 # Should server group protection be enabled?
 SGPROT='false'
+# Should automatic group membership be enabled?
+IPGROUPS='false'
 
 ###########
 # Logging #
