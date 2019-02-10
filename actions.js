@@ -41,6 +41,7 @@ async function groupProtectionCheck (client, ts) {
 
           client.serverGroupDel(sgid)
           client.poke(`The server group [B]${group.getCache().name}[/B] is protected!`)
+          log.info(`User ${client.getCache().client_nickname} was removed from protected group ${group.getCache().name}`)
         }
       }
     })
@@ -62,7 +63,9 @@ async function assignGroupByIPAddress (client, ts) {
     if (key === clAddr) {
       for (let value in cfg.ipgroups[key]) {
         if (!clGroups.includes(value)) {
+          let group = await ts.getServerGroupByID(cfg.ipgroups[key][value])
           client.serverGroupAdd(cfg.ipgroups[key][value].toString())
+          log.info(`User ${client.getCache().client_nickname} was added to the group ${group.getCache().name} assigned to their IP address.`)
         }
       }
     }
