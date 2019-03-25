@@ -7,6 +7,14 @@ const config = {
     user: process.env.TS_USER || 'serveradmin',
     pass: process.env.TS_PASS
   },
+  db: {
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || '27017',
+    name: process.env.DB_NAME || 'db',
+    user: process.env.DB_USER,
+    pass: process.env.DB_PASS,
+    opts: { useNewUrlParser: true }
+  },
   bot: {
     nick: process.env.NICKNAME || 'tsbot',
     home: process.env.HOMECID,

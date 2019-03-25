@@ -1,6 +1,7 @@
 require('dotenv').config()
 const TS3 = require('ts3-nodejs-library')
 const fs = require('fs')
+const db = require('./db.js')
 const tools = require('./tools.js')
 
 tools.verifyFile('./sgprot.json')
@@ -26,6 +27,7 @@ const ts = new TS3({
 
 module.exports = ts
 
+db.mount(ts)
 ts.commands = new Map()
 ts.setMaxListeners(50)
 
