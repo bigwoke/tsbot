@@ -24,6 +24,6 @@ module.exports.info = {
   name: 'ipglist',
   usage: `${process.env.PREFIX}ipglist`,
   desc: 'Lists all IP addresses with groups assigned to them.',
-  module: 'ipglist',
-  level: 0
+  module: 'ipgroups',
+  level: 1
 }

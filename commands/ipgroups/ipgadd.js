@@ -27,6 +27,6 @@ module.exports.info = {
   name: 'ipgadd',
   usage: `${process.env.PREFIX}ipgadd <ip address> <server group id>`,
   desc: 'Assigns the given server group to an IP address.',
-  module: 'groupbyip',
+  module: 'ipgroups',
   level: 0
 }
