@@ -1,6 +1,8 @@
 require('dotenv').config()
 const TS3 = require('ts3-nodejs-library')
 const fs = require('fs')
+const watch = require('node-watch')
+const path = require('path')
 const db = require('./db.js')
 const tools = require('./tools.js')
 
@@ -31,47 +33,50 @@ db.mount(ts)
 ts.commands = new Map()
 ts.setMaxListeners(50)
 
-fs.readdir('./commands/', (err, files) => {
-  if (err) log.error(err.stack)
+tools.getFiles('./commands/').then(files => {
+  files = tools.flatArray(files)
+  let jsfiles = files.filter(f => f.split('.').pop() === 'js')
 
-  let jsfiles = files.filter(file => file.split('.').pop() === 'js')
   let count = 0
   jsfiles.forEach(file => {
-    let command = require(`./commands/${file}`)
-    if (!command.info || !command.run) {
+    let cmd = require(path.resolve(file))
+    if (!cmd.info || !cmd.run) {
       return log.warn(`Issue with file ${file}, not loading.`)
     }
-    if (command.info.module && cfg.modules[command.info.module] === false) {
-      return log.debug(`Module '${command.info.module}' disabled, not loading ${command.info.name}.js`)
+    if (cmd.info.module && cfg.modules[cmd.info.module] === false) {
+      return log.debug(`Module '${cmd.info.module}' disabled, not loading ${cmd.info.name}.`)
     }
     count++
 
-    let level = command.info.level
-    log.verbose(`${count}: Loaded ${file} ${level === 0 ? '(root)' : level === 1 ? '(mod)' : ''}`)
-    ts.commands.set(command.info.name, command)
+    let level = cmd.info.level === 0 ? '(root)' : cmd.info.level === 1 ? '(mod)' : ''
+    log.verbose(`${count}: Loaded ${file} ${level}`)
+    ts.commands.set(cmd.info.name, cmd)
   })
   log.info(`Loaded ${count} commands.`)
 })
 
-fs.watch('./commands/', (eventType, filename) => {
-  if (filename.split('.').pop() !== 'js') return
-  if (eventType !== 'rename') return
+watch('./commands/', { filter: /\.js$/, recursive: true }, (evt, file) => {
+  let fileName = path.basename(file)
+  if (fs.existsSync(path.resolve(file))) {
+    let cmd = require(path.resolve(file))
 
-  if (fs.existsSync(`./commands/${filename}`)) {
-    let command = require(`./commands/${filename}`)
-    if (!command.info || !command.run) return log.warn(`Issue with detected file ${filename}, not loading.`)
-    if (cfg.modules[command.info.module] === false) return
+    if (!cmd.info || !cmd.run) {
+      return log.warn(`Issue with detected file: ${fileName}. Not loaded.`)
+    }
+    if (cfg.modules[cmd.info.module] === false) {
+      return log.verbose(`Detected file ${fileName}, but its module is disabled. Not loaded.`)
+    }
 
-    let level = command.info.level === 0 ? '(root)' : command.info.level === 1 ? '(mod)' : ''
-    log.info(`Detected and loaded new command file ${filename} ${level}`)
-    ts.commands.set(command.info.name, command)
+    let level = cmd.info.level === 0 ? '(root)' : cmd.info.level === 1 ? '(mod)' : ''
+    log.info(`Detected and loaded command file ${fileName}. ${level}`)
+    ts.commands.set(cmd.info.name, cmd)
   } else {
-    let command = filename.slice(0, -3)
-    if (!ts.commands.has(command)) return
+    let cmd = fileName.slice(0, -3)
+    if (!ts.commands.has(cmd)) return
 
-    log.info(`Detected removal of command file ${filename}, unloading.`)
-    ts.commands.delete(command)
-    delete require.cache[require.resolve(`./commands/${command}.js`)]
+    log.info(`Detected removal of command file ${fileName}, unloading.`)
+    ts.commands.delete(cmd)
+    delete require.cache[require.resolve(path.resolve(`./commands/${cmd}.js`))]
   }
 })
 

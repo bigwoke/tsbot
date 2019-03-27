@@ -6,6 +6,7 @@
   "dependencies": {
     "dotenv": "^5.0.1",
     "mongodb": "^3.2.2",
+    "node-watch": "^0.6.0",
     "ts3-nodejs-library": "^1.12.4",
     "winston": "^2.4.4"
   },
