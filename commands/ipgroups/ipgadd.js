@@ -1,6 +1,6 @@
-const log = require('../log.js')
+const log = require('../../log.js')
 const fs = require('fs')
-const ipgroups = require('../ipgroups.json')
+const ipgroups = require('../../ipgroups.json')
 
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[0] || !args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!')

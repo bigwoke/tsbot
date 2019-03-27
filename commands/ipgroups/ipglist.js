@@ -1,5 +1,5 @@
-const ipgroups = require('../ipgroups.json')
-const tools = require('../tools.js')
+const ipgroups = require('../../ipgroups.json')
+const tools = require('../../tools.js')
 
 module.exports.run = async (ts, ev, client) => {
   if (tools.isEmpty(ipgroups)) return ts.sendTextMessage(client.getID(), 1, 'No server groups are assigned to any IP addresses.')

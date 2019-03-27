@@ -1,6 +1,6 @@
-const log = require('../log.js')
+const log = require('../../log.js')
 const fs = require('fs')
-const sgprot = require('../sgprot.json')
+const sgprot = require('../../sgprot.json')
 
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[0] || !args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!')
