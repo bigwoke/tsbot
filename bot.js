@@ -3,15 +3,15 @@ const TS3 = require('ts3-nodejs-library')
 const fs = require('fs')
 const watch = require('node-watch')
 const path = require('path')
-const db = require('./db.js')
+
+const actions = require('./actions.js')
 const tools = require('./tools.js')
+const cfg = require('./config.js')
+const log = require('./log.js')
+const db = !cfg.modules.db ? null : require('./db.js')
 
 tools.verifyFile('./sgprot.json')
 tools.verifyFile('./ipgroups.json')
-
-const log = require('./log.js')
-const actions = require('./actions.js')
-const cfg = require('./config.js')
 
 const prefix = cfg.bot.prefix
 const rootUsers = cfg.users.root
@@ -49,14 +49,16 @@ tools.getFiles('./commands/').then(files => {
     count++
 
     let level = cmd.info.level === 0 ? '(root)' : cmd.info.level === 1 ? '(mod)' : ''
-    log.verbose(`${count}: Loaded ${file} ${level}`)
+    log.verbose(`${count}: Loaded ${path.relative('./commands/', file)} ${level}`)
     ts.commands.set(cmd.info.name, cmd)
   })
   log.info(`Loaded ${count} commands.`)
 })
 
-watch('./commands/', { filter: /\.js$/, recursive: true }, (evt, file) => {
+watch('./commands/', { filter: /\.js$/, recursive: true, delay: 500 }, (evt, file) => {
   let fileName = path.basename(file)
+  delRequireCache(file, fileName)
+
   if (fs.existsSync(path.resolve(file))) {
     let cmd = require(path.resolve(file))
 
@@ -71,12 +73,15 @@ watch('./commands/', { filter: /\.js$/, recursive: true }, (evt, file) => {
     log.info(`Detected and loaded command file ${fileName}. ${level}`)
     ts.commands.set(cmd.info.name, cmd)
   } else {
-    let cmd = fileName.slice(0, -3)
+    log.info(`Detected removal of command ${fileName}, unloading.`)
+  }
+
+  function delRequireCache (file, name) {
+    let cmd = name.slice(0, -3)
     if (!ts.commands.has(cmd)) return
 
-    log.info(`Detected removal of command file ${fileName}, unloading.`)
     ts.commands.delete(cmd)
-    delete require.cache[require.resolve(path.resolve(`./commands/${cmd}.js`))]
+    delete require.cache[require.resolve(path.resolve(file))]
   }
 })
 

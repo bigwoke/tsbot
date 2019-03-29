@@ -25,6 +25,7 @@ const config = {
     mod: process.env.MOD_USERS.split(/,\s*/g)
   },
   modules: {
+    db: process.env.DB === 'true',
     welcome: process.env.WELCOME !== 'false',
     sgprot: process.env.SGPROT === 'true',
     ipgroups: process.env.IPGROUPS === 'true'
