@@ -55,7 +55,7 @@ tools.getFiles('./commands/').then(files => {
   log.info(`Loaded ${count} commands.`)
 })
 
-watch('./commands/', { filter: /\.js$/, recursive: true, delay: 500 }, (evt, file) => {
+watch('./commands/', { filter: /\.js$/, recursive: true }, (evt, file) => {
   let fileName = path.basename(file)
   delRequireCache(file, fileName)
 
@@ -78,8 +78,6 @@ watch('./commands/', { filter: /\.js$/, recursive: true, delay: 500 }, (evt, fil
 
   function delRequireCache (file, name) {
     let cmd = name.slice(0, -3)
-    if (!ts.commands.has(cmd)) return
-
     ts.commands.delete(cmd)
     delete require.cache[require.resolve(path.resolve(file))]
   }
