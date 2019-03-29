@@ -106,18 +106,6 @@ ts.on('ready', async () => {
     log.info('Subscribed to all events.')
   }).catch(err => log.error(err))
 
-  /* ts.channelList({})
-    .then(async chList => {
-      let events = []
-      chList.forEach(ch => {
-        events.push(ts.registerEvent('channel', ch.getID()))
-      })
-      await Promise.all(events)
-        .then(console.log('subscribed to channels'))
-        .catch(err => log.error(err))
-    })
-    .catch(err => log.error(err)) */
-
   ts.clientList({ client_type: 0 })
     .then(list => {
       list.forEach(client => {
