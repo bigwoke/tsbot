@@ -29,7 +29,7 @@ const ts = new TS3({
 
 module.exports = ts
 
-db.mount(ts)
+if (cfg.modules.db) db.mount(ts)
 ts.commands = new Map()
 ts.setMaxListeners(50)
 
@@ -104,7 +104,19 @@ ts.on('ready', async () => {
     ts.registerEvent('textprivate')
   ]).then(() => {
     log.info('Subscribed to all events.')
-  }).catch(err => log.error(err.stack))
+  }).catch(err => log.error(err))
+
+  /* ts.channelList({})
+    .then(async chList => {
+      let events = []
+      chList.forEach(ch => {
+        events.push(ts.registerEvent('channel', ch.getID()))
+      })
+      await Promise.all(events)
+        .then(console.log('subscribed to channels'))
+        .catch(err => log.error(err))
+    })
+    .catch(err => log.error(err)) */
 
   ts.clientList({ client_type: 0 })
     .then(list => {
