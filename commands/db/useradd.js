@@ -9,7 +9,7 @@ module.exports.run = async (ts, ev, client, args) => {
   }
 
   let uidRegex = /^.{27}=$/g
-  let nameRegex = /^[A-Za-z_ ]+$/g
+  let nameRegex = /^[a-z_ ]+$/i
 
   if (!nameRegex.test(args[0])) {
     return ts.sendTextMessage(client.getID(), 1, 'error: Name does not match the required pattern.')
