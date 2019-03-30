@@ -24,28 +24,28 @@ module.exports.run = async (ts, ev, client, args) => {
     let valid = checkValue(key, args[i], validKeys, [regexName, regexUID])
     if (!valid) return ts.sendTextMessage(client.getID(), 1, 'Invalid value.')
 
-    let filter = { name: key }
-    let update = { $set: { [key]: [args[i]] } }
+    let filter = { name: args[0] }
+    let update = { $set: { [key]: args[i] } }
 
     if (Array.isArray(match[0][key])) {
-      update = { $addToSet: { [key]: [args[i]] } }
+      update = { $addToSet: { [key]: args[i] } }
     }
 
     ts.data.collection('users').updateOne(filter, update, (err, res) => {
       if (err) log.error('[DB] Error updating record', key)
 
-      if (res.result.nModified === 0 && res.result.ok === 1) {
-        ts.sendTextMessage(client.getID(), 1, 'Document not edited, existing entry is the same.')
+      if (res.result.n === 0) {
+        ts.sendTextMessage(client.getID(), 1, 'Couldn\'t find document, please report this bug.')
+      } else if (res.result.n === 1 && res.result.nModified === 0 && res.result.ok === 1) {
+        ts.sendTextMessage(client.getID(), 1, `${i - 1}: Not editing document, value already exists.`)
       } else if (res.result.nModified === 1) {
-        ts.sendTextMessage(client.getID(), 1, 'Document successfully edited.')
+        ts.sendTextMessage(client.getID(), 1, `${i - 1}: Document successfully edited.`)
         log.info('[DB] Existing user document edited:', args[0], 'key changed:', key)
       } else {
-        ts.sendTextMessage(client.getID(), 1, 'Issue with editing document.')
+        ts.sendTextMessage(client.getID(), 1, `${i - 1}: Issue editing document.`)
       }
     })
   }
-
-  ts.sendTextMessage(client.getID(), 1, 'Successfully edited document.')
 }
 
 function checkValue (key, value, validKeys, regex) {
