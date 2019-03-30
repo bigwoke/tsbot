@@ -31,7 +31,7 @@ module.exports.run = async (ts, ev, client, args) => {
           uids += `, ${uid}`
         }
       })
-      resp += `[B]${user.name}[/B]:\t${uids}\n`
+      resp += `[B]${user.name}[/B]:\t${uids || 'NONE'}\n`
     })
 
     ts.sendTextMessage(client.getID(), 1, resp).catch(err => {
