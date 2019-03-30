@@ -39,18 +39,22 @@ tools.getFiles('./commands/').then(files => {
 
   let count = 0
   jsfiles.forEach(file => {
-    let cmd = require(path.resolve(file))
-    if (!cmd.info || !cmd.run) {
-      return log.warn(`Issue with file ${file}, not loading.`)
-    }
-    if (cmd.info.module && cfg.modules[cmd.info.module] === false) {
-      return log.debug(`Module '${cmd.info.module}' disabled, not loading ${cmd.info.name}.`)
-    }
-    count++
+    try {
+      let cmd = require(path.resolve(file))
+      if (!cmd.info || !cmd.run) {
+        return log.warn(`Issue with file ${file}, not loading.`)
+      }
+      if (cmd.info.module && cfg.modules[cmd.info.module] === false) {
+        return log.debug(`Module '${cmd.info.module}' disabled, not loading ${cmd.info.name}.`)
+      }
+      count++
 
-    let level = cmd.info.level === 0 ? '(root)' : cmd.info.level === 1 ? '(mod)' : ''
-    log.verbose(`${count}: Loaded ${path.relative('./commands/', file)} ${level}`)
-    ts.commands.set(cmd.info.name, cmd)
+      let level = cmd.info.level === 0 ? '(root)' : cmd.info.level === 1 ? '(mod)' : ''
+      log.verbose(`${count}: Loaded ${path.relative('./commands/', file)} ${level}`)
+      ts.commands.set(cmd.info.name, cmd)
+    } catch (err) {
+      log.warn(`Issue loading command file ${file}:`, err.stack)
+    }
   })
   log.info(`Loaded ${count} commands.`)
 })
@@ -60,18 +64,22 @@ watch('./commands/', { filter: /\.js$/, recursive: true }, (evt, file) => {
   delRequireCache(file, fileName)
 
   if (fs.existsSync(path.resolve(file))) {
-    let cmd = require(path.resolve(file))
+    try {
+      let cmd = require(path.resolve(file))
 
-    if (!cmd.info || !cmd.run) {
-      return log.warn(`Issue with detected file: ${fileName}. Not loaded.`)
-    }
-    if (cfg.modules[cmd.info.module] === false) {
-      return log.verbose(`Detected file ${fileName}, but its module is disabled. Not loaded.`)
-    }
+      if (!cmd.info || !cmd.run) {
+        return log.warn(`Issue with detected file: ${fileName}. Not loaded.`)
+      }
+      if (cfg.modules[cmd.info.module] === false) {
+        return log.verbose(`Detected file ${fileName}, but its module is disabled. Not loaded.`)
+      }
 
-    let level = cmd.info.level === 0 ? '(root)' : cmd.info.level === 1 ? '(mod)' : ''
-    log.info(`Detected and loaded command file ${fileName}. ${level}`)
-    ts.commands.set(cmd.info.name, cmd)
+      let level = cmd.info.level === 0 ? '(root)' : cmd.info.level === 1 ? '(mod)' : ''
+      log.info(`Detected and loaded command file ${fileName}. ${level}`)
+      ts.commands.set(cmd.info.name, cmd)
+    } catch (err) {
+      log.warn(`Issue loading command file ${fileName}:`, err.stack)
+    }
   } else {
     log.info(`Detected removal of command ${fileName}, unloading.`)
   }
@@ -93,7 +101,6 @@ ts.on('ready', async () => {
       }
     }).catch(err => log.error(err))
 
-  // Register for all events within view of SQ client
   await Promise.all([
     ts.registerEvent('server'),
     ts.registerEvent('channel', 0),

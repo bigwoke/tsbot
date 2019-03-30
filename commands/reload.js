@@ -2,7 +2,11 @@ const log = require('../log.js')
 
 function refresh (modulePath) {
   delete require.cache[require.resolve(modulePath)]
-  return require(modulePath)
+  try {
+    return require(modulePath)
+  } catch (err) {
+    log.warn(`Issue reloading command file ${modulePath}:`, err.stack)
+  }
 }
 
 module.exports.run = async (ts, ev, client, args) => {
@@ -17,7 +21,9 @@ module.exports.run = async (ts, ev, client, args) => {
   ts.commands.delete(nameToReload)
 
   let cmd = refresh(`./${nameToReload}.js`)
-  if (!cmd.info || !cmd.run) return ts.sendTextMessage(client.getID(), 1, `Issue reloading ${nameToReload}, not reloading.`)
+  if (!cmd || !cmd.info || !cmd.run) {
+    return ts.sendTextMessage(client.getID(), 1, `Issue reloading ${nameToReload}, not reloading.`)
+  }
   ts.commands.set(cmd.info.name, cmd)
 
   ts.sendTextMessage(client.getID(), 1, `Command ${nameToReload} has been manually reloaded.`)
