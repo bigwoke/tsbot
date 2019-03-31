@@ -3,15 +3,10 @@ const log = require('../../log.js')
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[2]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!')
 
-  let match = await ts.data.collection('users').find({ name: args[0] }).toArray()
-  if (match.length === 0) {
-    return ts.sendTextMessage(client.getID(), 1, 'Could not find a user with that name.')
-  } else if (match.length > 1) {
-    log.warn('[DB] Multiple user documents with name', args[0])
-    return ts.sendTextMessage(client.getID(), 1, 'ERR: Multiple users found with that name.')
-  }
+  let match = await ts.data.collection('users').findOne({ name: args[0] }).toArray()
+  if (!match) return ts.sendTextMessage(client.getID(), 1, 'Could not find a user with that name.')
 
-  if (!Object.keys(match[0]).includes(args[1] || args[1] === '_id')) {
+  if (!Object.keys(match).includes(args[1] || args[1] === '_id')) {
     return ts.sendTextMessage(client.getID(), 1, 'Invalid key.')
   }
 
@@ -27,7 +22,7 @@ module.exports.run = async (ts, ev, client, args) => {
     let filter = { name: args[0] }
     let update = { $set: { [key]: args[i] } }
 
-    if (Array.isArray(match[0][key])) {
+    if (Array.isArray(match[key])) {
       update = { $addToSet: { [key]: args[i] } }
     }
 
@@ -37,7 +32,7 @@ module.exports.run = async (ts, ev, client, args) => {
       if (res.result.n === 0) {
         ts.sendTextMessage(client.getID(), 1, 'Couldn\'t find document, please report this bug.')
       } else if (res.result.n === 1 && res.result.nModified === 0 && res.result.ok === 1) {
-        ts.sendTextMessage(client.getID(), 1, `${i - 1}: Not editing document, value already exists.`)
+        ts.sendTextMessage(client.getID(), 1, `${i - 1}: Not editing document, value already exists.`) // I REALLY DON'T EVEN LIKE THIS COMMAND BURN IT
       } else if (res.result.nModified === 1) {
         ts.sendTextMessage(client.getID(), 1, `${i - 1}: Document successfully edited.`)
         log.info('[DB] Existing user document edited:', args[0], 'key changed:', key)

@@ -3,14 +3,14 @@ const log = require('../../log.js')
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument!')
 
-  let match = await ts.data.collection('groups').find({ _id: args[0] }).toArray()
-  if (match.length === 0) return ts.sendTextMessage(client.getID(), 1, 'Document does not exist.')
+  let match = await ts.data.collection('groups').findOne({ _id: args[0] })
+  if (!match) return ts.sendTextMessage(client.getID(), 1, 'Document does not exist.')
 
   let filter = { _id: args[0] }
   let update = { $set: { prot: true } }
   let resp = `Group ${args[0]} protection is now enabled.`
 
-  if (match[0].prot) {
+  if (match.prot) {
     update = { $set: { prot: false } }
     resp = `Group ${args[0]} protection is now disabled.`
   }

@@ -3,8 +3,8 @@ const log = require('../../log.js')
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[0] || !args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!')
 
-  let match = await ts.data.collection('users').find({ name: args[0] }).toArray()
-  if (match.length !== 0 && args[2] !== '--edit') {
+  let match = await ts.data.collection('users').findOne({ name: args[0] }).toArray()
+  if (match && args[2] !== '--edit') {
     return ts.sendTextMessage(client.getID(), 1, 'Document already exists. Append "--edit" to add UID.')
   }
 
