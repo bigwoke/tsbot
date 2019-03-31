@@ -1,8 +1,18 @@
 const log = require('../log.js')
 
 module.exports.run = async (ts, ev, client) => {
-  let count = 1; let resp = `[U]Command Page ${count}[/U]:\n`
-  ts.commands.forEach(cmd => {
+  let count = 1
+  let resp = `[U]Command Page ${count}[/U]:\n`
+
+  let commands = new Map(Array
+    .from(ts.commands)
+    .sort((a, b) => {
+      if (a[0] < b[0]) return -1
+      if (a[0] > b[0]) return 1
+      return 0
+    }))
+
+  commands.forEach(cmd => {
     let color = (cmd.info.level === 2) ? '#00825a' : (cmd.info.level === 1) ? '#d58500' : '#ff3300'
     if (client.level <= cmd.info.level) {
       if (resp.length >= 900) {
@@ -16,6 +26,7 @@ module.exports.run = async (ts, ev, client) => {
       resp += `[color=${color}]${cmd.info.usage}[/color] - ${cmd.info.desc}\n`
     }
   })
+
   ts.sendTextMessage(client.getID(), 1, resp).catch(err => {
     if (err.id === 1541) {
       ts.sendTextMessage(client.getID(), 1, 'error: Too many characters, please report this bug.')
