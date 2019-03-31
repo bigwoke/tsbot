@@ -1,7 +1,7 @@
 const log = require('../../log.js')
 
 module.exports.run = async (ts, ev, client, args) => {
-  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!')
+  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument!')
 
   let filter = { name: args[0] }
 
@@ -21,5 +21,6 @@ module.exports.info = {
   name: 'userdel',
   usage: `${process.env.PREFIX}userdel <name>`,
   desc: 'Removes a user\'s entry from the database.',
+  module: 'db',
   level: 0
 }

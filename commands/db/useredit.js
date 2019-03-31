@@ -61,7 +61,7 @@ function checkValue (key, value, validKeys, regex) {
 
 module.exports.info = {
   name: 'useredit',
-  usage: `${process.env.PREFIX}useredit <name> <key> <new value> [new value 2...]`,
+  usage: `${process.env.PREFIX}useredit <name> <key (name | uid)> <new value> [new value 2...]`,
   desc: 'Edits an existing user document.',
   module: 'db',
   level: 0

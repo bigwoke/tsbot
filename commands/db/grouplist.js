@@ -1,10 +1,10 @@
 const log = require('../../log.js')
 
 module.exports.run = async (ts, ev, client, args) => {
-  ts.data.collection('users').find({}).toArray((err, res) => {
-    if (err) log.error('[DB] Error fetching all user documents.', err.stack)
+  ts.data.collection('groups').find({}).toArray((err, res) => {
+    if (err) log.error('[DB] Error fetching all group documents.', err.stack)
     let count = 1
-    let resp = `[U]User List Page ${count}[/U]:\n`
+    let resp = `[U]Group List Page ${count}[/U]:\n`
 
     res = res.sort((a, b) => {
       if (a.name < b.name) return -1
@@ -12,7 +12,7 @@ module.exports.run = async (ts, ev, client, args) => {
       return 0
     })
 
-    res.forEach(user => {
+    res.forEach(group => {
       if (resp.length >= 900) {
         ts.sendTextMessage(client.getID(), 1, resp).catch(err => {
           ts.sendTextMessage(client.getID(), 1, 'ERR: Too many characters, please report this bug.')
@@ -20,18 +20,29 @@ module.exports.run = async (ts, ev, client, args) => {
         })
 
         count++
-        resp = `[U]User List Page ${count}[/U]:\n`
+        resp = `[U]Group List Page ${count}[/U]:\n`
       }
 
-      let uids
-      user.uid.forEach(uid => {
-        if (!uids) {
-          uids = uid
+      let authUsers
+      let autoUsers
+
+      group.auth_users.forEach(user => {
+        if (!authUsers) {
+          authUsers = user
         } else {
-          uids += `, ${uid}`
+          authUsers += `, ${user}`
         }
       })
-      resp += `[B]${user.name}[/B]:\t${user._id}\t${uids || 'NONE'}\n`
+
+      group.auto_users.forEach(user => {
+        if (!autoUsers) {
+          authUsers = user
+        } else {
+          authUsers += `, ${user}`
+        }
+      })
+
+      resp += `[B]${group.name}[/B] (${group._id}):\tProt: ${group.prot}\tAuth: ${authUsers || 'NONE'}\tAuto: ${autoUsers || 'NONE'}\n`
     })
 
     ts.sendTextMessage(client.getID(), 1, resp).catch(err => {
@@ -44,9 +55,9 @@ module.exports.run = async (ts, ev, client, args) => {
 }
 
 module.exports.info = {
-  name: 'userlist',
-  usage: `${process.env.PREFIX}userlist`,
-  desc: 'Lists users in the database and their UIDs.',
+  name: 'grouplist',
+  usage: `${process.env.PREFIX}grouplist`,
+  desc: 'Lists groups in the database and their properties.',
   module: 'db',
   level: 1
 }
