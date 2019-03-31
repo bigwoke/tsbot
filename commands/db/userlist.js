@@ -31,9 +31,10 @@ module.exports.run = async (ts, ev, client, args) => {
           uids += `, ${uid}`
         }
       })
-      resp += `[B]${user.name}[/B]:\t${user._id}\t${uids || 'NONE'}\n`
+      resp += `[B]${user.name}[/B]:\t${user._id}\t${uids || 'NO UID'}\n`
     })
 
+    if (res.length === 0) return ts.sendTextMessage(client.getID(), 1, 'No user documents.')
     ts.sendTextMessage(client.getID(), 1, resp).catch(err => {
       if (err.id === 1541) {
         ts.sendTextMessage(client.getID(), 1, 'ERR: Too many characters, please report this bug.')
