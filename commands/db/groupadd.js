@@ -3,7 +3,7 @@ const log = require('../../log.js')
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!')
 
-  let match = await ts.data.collection('groups').findOne({ _id: args[0] }).toArray()
+  let match = await ts.data.collection('groups').findOne({ _id: args[0] })
   if (match) return ts.sendTextMessage(client.getID(), 1, 'Document already exists.')
 
   let _idRegex = /^\d+$/
