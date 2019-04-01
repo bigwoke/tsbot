@@ -35,13 +35,24 @@ async function groupProtectionCheck (client, ts) {
     let cl = await client.getInfo()
 
     cl.client_servergroups.forEach(async sgid => {
-      for (let key in cfg.sgprot) {
-        if (parseInt(key) === sgid && !cfg.sgprot[key].includes(uid)) {
-          let group = await ts.getServerGroupByID(sgid)
+      if (cfg.modules.db) {
+        let group = await ts.data.collection('groups').findOne({ _id: sgid })
+        if (!group) return
 
+        if (group.prot && !group.auth_users.includes(uid)) {
           client.serverGroupDel(sgid)
-          client.poke(`The server group [B]${group.getCache().name}[/B] is protected!`)
-          log.info(`User ${client.getCache().client_nickname} was removed from protected group ${group.getCache().name}`)
+          client.poke(`The server group [B]${group.name}[/B] is protected!`)
+          log.info(`User ${client.getCache().client_nickname} was removed from protected group ${group.name}`)
+        }
+      } else {
+        for (let key in cfg.sgprot) {
+          if (parseInt(key) === sgid && !cfg.sgprot[key].includes(uid)) {
+            let group = await ts.getServerGroupByID(sgid)
+
+            client.serverGroupDel(sgid)
+            client.poke(`The server group [B]${group.getCache().name}[/B] is protected!`)
+            log.info(`User ${client.getCache().client_nickname} was removed from protected group ${group.getCache().name}`)
+          }
         }
       }
     })
@@ -75,5 +86,5 @@ async function assignGroupByIPAddress (client, ts) {
 module.exports = {
   welcome: sendWelcomeMessage,
   sgCheck: groupProtectionCheck,
-  ipGroups: assignGroupByIPAddress
+  autoGroups: assignGroupByIPAddress
 }
