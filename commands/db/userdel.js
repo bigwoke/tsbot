@@ -2,8 +2,13 @@ const log = require('../../log.js')
 
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument!')
-
   let filter = { name: args[0] }
+
+  let user = await ts.data.collection('users').findOne(filter)
+  if (user) {
+    let update = { $pull: { auth_users: user._id } }
+    ts.data.collection('groups').updateOne({ auth_users: user._id }, update)
+  }
 
   ts.data.collection('users').deleteOne(filter, (err, res) => {
     if (err) log.error('Error deleting user document:', err.stack)
