@@ -2,23 +2,24 @@ const log = require('../../log.js')
 
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!')
+  let groupid = parseInt(args[0])
 
-  let match = await ts.data.collection('groups').findOne({ _id: args[0] })
+  let match = await ts.data.collection('groups').findOne({ _id: groupid })
   if (match) return ts.sendTextMessage(client.getID(), 1, 'Document already exists.')
 
   let _idRegex = /^\d+$/
 
-  if (!_idRegex.test(args[0])) {
+  if (!_idRegex.test(groupid)) {
     return ts.sendTextMessage(client.getID(), 1, 'Given id does not match the required pattern.')
   }
 
-  let group = await ts.getServerGroupByID(args[0])
+  let group = await ts.getServerGroupByID(groupid)
   if (!group) ts.sendTextMessage(client.getID(), 1, 'That servergroup does not exist on the server.')
 
   let groupName = group.getCache().name
 
   let insert = {
-    _id: args[0],
+    _id: groupid,
     name: groupName,
     prot: false,
     auth_users: [],
@@ -32,7 +33,7 @@ module.exports.run = async (ts, ev, client, args) => {
       ts.sendTextMessage(client.getID(), 1, 'Group document was not inserted.')
     } else {
       ts.sendTextMessage(client.getID(), 1, 'Successfully inserted group document.')
-      log.info('[DB] Inserted new group document: group', args[0], groupName)
+      log.info('[DB] Inserted new group document: group', groupid, groupName)
     }
   })
 }

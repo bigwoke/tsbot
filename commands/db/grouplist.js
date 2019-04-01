@@ -31,7 +31,6 @@ module.exports.run = async (ts, ev, client, args) => {
       for (let j = 0; j < group.auth_users.length; j++) {
         let id = group.auth_users[j]
         let user = await ts.data.collection('users').findOne({ _id: id })
-        console.log(id, user)
         if (!authUsers) {
           authUsers = user.name
         } else {

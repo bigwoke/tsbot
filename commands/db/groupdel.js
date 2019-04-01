@@ -2,15 +2,16 @@ const log = require('../../log.js')
 
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument!')
+  let groupid = parseInt(args[0])
 
-  let filter = { _id: args[0] }
+  let filter = { _id: groupid }
 
   ts.data.collection('groups').deleteOne(filter, (err, res) => {
     if (err) log.error('Error deleting user document:', err.stack)
 
     if (res.result.n === 1) {
       ts.sendTextMessage(client.getID(), 1, 'Successfully removed group document.')
-      log.info('[DB] Group document removed:', args[0])
+      log.info('[DB] Group document removed:', groupid)
     } else {
       ts.sendTextMessage(client.getID(), 1, 'Group document with given id could not be found.')
     }

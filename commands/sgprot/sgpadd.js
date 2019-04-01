@@ -3,20 +3,18 @@ const cfg = require('../../config.js')
 const fs = require('fs')
 const sgprot = cfg.modules.db ? null : require('../../sgprot.json')
 
-let useDB = cfg.modules.db
-
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[0] || !args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!')
   if (!Number.isInteger(parseInt(args[0]))) return ts.sendTextMessage(client.getID(), 1, 'First argument is not a group ID.')
 
-  if (useDB) {
+  if (cfg.modules.db) {
     addUserDB()
   } else {
     addUserFile()
   }
 
   async function addUserFile () {
-    let sgid = args[0]
+    let sgid = parseInt(args[0])
     let uid = args[1]
 
     if (!sgprot[sgid]) sgprot[sgid] = []
@@ -35,7 +33,7 @@ module.exports.run = async (ts, ev, client, args) => {
   }
 
   async function addUserDB () {
-    let sgid = args[0]
+    let sgid = parseInt(args[0])
     let userDBName = args[1]
 
     let groupMatch = await ts.data.collection('groups').findOne({ _id: sgid })
@@ -66,7 +64,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'sgpadd',
-  usage: `${process.env.PREFIX}sgpadd <sgid> <${useDB ? 'user name' : 'uniqueid'}>`,
+  usage: `${process.env.PREFIX}sgpadd <sgid> <${cfg.modules.db ? 'user name' : 'uniqueid'}>`,
   desc: 'Adds the given user to the protected list for the given server group.',
   module: 'sgprot',
   level: 0

@@ -16,7 +16,7 @@ module.exports.run = async (ts, ev, client, args) => {
   }
 
   function delUserFile () {
-    let sgid = args[0]
+    let sgid = parseInt(args[0])
     let uid = args[1]
 
     if (!sgprot[sgid]) return ts.sendTextMessage(client.getID(), 1, 'That group is not protected, and there are no users to protect.')
@@ -39,7 +39,7 @@ module.exports.run = async (ts, ev, client, args) => {
   }
 
   async function delUserDB () {
-    let sgid = args[0]
+    let sgid = parseInt(args[0])
     let userDBName = args[1]
 
     let groupMatch = await ts.data.collection('groups').findOne({ _id: sgid })
