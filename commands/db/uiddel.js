@@ -12,8 +12,6 @@ module.exports.run = async (ts, ev, client, args) => {
   ts.data.collection('users').updateOne(filter, update, (err, res) => {
     if (err) log.error('Error removing unique ID:', err.stack)
 
-    console.log(args[1])
-
     if (res.result.n === 0) {
       ts.sendTextMessage(client.getID(), 1, 'Couldn\'t find document, please report this bug.')
     } else if (res.result.n === 1 && res.result.nModified === 0 && res.result.ok === 1) {
