@@ -26,8 +26,8 @@ module.exports.run = async (ts, ev, client, args) => {
 }
 
 module.exports.info = {
-  name: 'uiddel',
-  usage: `${process.env.PREFIX}uiddel <name> <unique ID>`,
+  name: 'deluid',
+  usage: `${process.env.PREFIX}deluid <name> <unique ID>`,
   desc: 'Removes a unique ID from a user document.',
   module: 'db',
   level: 0

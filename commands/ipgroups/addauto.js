@@ -58,8 +58,8 @@ module.exports.run = async (ts, ev, client, args) => {
 }
 
 module.exports.info = {
-  name: 'agadd',
-  usage: `${process.env.PREFIX}agadd <sgid> <${cfg.modules.db ? 'user name' : 'ip address'}>`,
+  name: 'addauto',
+  usage: `${process.env.PREFIX}addauto <sgid> <${cfg.modules.db ? 'user name' : 'ip address'}>`,
   desc: 'Assigns the given server group to an IP address.',
   module: 'autogroups',
   level: 0

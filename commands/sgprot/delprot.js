@@ -15,6 +15,32 @@ module.exports.run = async (ts, ev, client, args) => {
     delUserFile()
   }
 
+  async function delUserDB () {
+    let sgid = parseInt(args[0])
+    let userDBName = args[1]
+
+    let userMatch = await ts.data.collection('users').findOne({ name: userDBName })
+    if (!userMatch) return ts.sendTextMessage(client.getID(), 1, 'That user is not registered in the database.')
+
+    let filter = { _id: sgid }
+    let update = { $pull: { auth_users: userMatch._id } }
+
+    ts.data.collection('groups').updateOne(filter, update, (err, res) => {
+      if (err) log.error('[DB] Error updating auth_users in group document:', err.stack)
+
+      if (res.result.n === 0) {
+        ts.sendTextMessage(client.getID(), 1, 'Could not find specified group.')
+      } else if (res.result.n === 1 && res.result.nModified === 0 && res.result.ok === 1) {
+        ts.sendTextMessage(client.getID(), 1, 'That user is not authorized.')
+      } else if (res.result.nModified === 1) {
+        ts.sendTextMessage(client.getID(), 1, `Successfully deauthorized ${userDBName}.`)
+        log.info(`[DB] Removed ${userDBName} from auth_users in group ${sgid}.`)
+      } else {
+        ts.sendTextMessage(client.getID(), 1, 'Issue deauthorizing user.')
+      }
+    })
+  }
+
   function delUserFile () {
     let sgid = parseInt(args[0])
     let uid = args[1]
@@ -37,40 +63,11 @@ module.exports.run = async (ts, ev, client, args) => {
     ts.sendTextMessage(client.getID(), 1, `ID ${uid} has been removed from group ${sgid} protection.`)
     log.info(`Root user has manually removed ${uid} from allowed members list for protected group with ID ${sgid}`)
   }
-
-  async function delUserDB () {
-    let sgid = parseInt(args[0])
-    let userDBName = args[1]
-
-    let groupMatch = await ts.data.collection('groups').findOne({ _id: sgid })
-    let userMatch = await ts.data.collection('users').findOne({ name: userDBName })
-
-    if (!groupMatch) return ts.sendTextMessage(client.getID(), 1, 'That group is not registered in the database.')
-    if (!userMatch) return ts.sendTextMessage(client.getID(), 1, 'That user is not registered in the database.')
-
-    let filter = { _id: sgid }
-    let update = { $pull: { auth_users: userMatch._id } }
-
-    ts.data.collection('groups').updateOne(filter, update, (err, res) => {
-      if (err) log.error('[DB] Error updating auth_users in group document:', err.stack)
-
-      if (res.result.n === 0) {
-        ts.sendTextMessage(client.getID(), 1, 'Couldn\'t find document, please report this bug.')
-      } else if (res.result.n === 1 && res.result.nModified === 0 && res.result.ok === 1) {
-        ts.sendTextMessage(client.getID(), 1, 'That user is not authorized.')
-      } else if (res.result.nModified === 1) {
-        ts.sendTextMessage(client.getID(), 1, `Successfully deauthorized ${userDBName}.`)
-        log.info(`[DB] Removed ${userDBName} from auth_users in group ${sgid}.`)
-      } else {
-        ts.sendTextMessage(client.getID(), 1, 'Issue deauthorizing user.')
-      }
-    })
-  }
 }
 
 module.exports.info = {
-  name: 'sgprm',
-  usage: `${process.env.PREFIX}sgprm <sgid> <${useDB ? 'user name' : 'uniqueid'}>`,
+  name: 'delprot',
+  usage: `${process.env.PREFIX}delprot <sgid> <${useDB ? 'user name' : 'uniqueid'}>`,
   desc: 'Removes the given user from the protected list for the given server group.',
   module: 'sgprot',
   level: 0

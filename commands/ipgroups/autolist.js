@@ -50,8 +50,8 @@ module.exports.run = async (ts, ev, client) => {
 }
 
 module.exports.info = {
-  name: 'aglist',
-  usage: `${process.env.PREFIX}aglist`,
+  name: 'autolist',
+  usage: `${process.env.PREFIX}autolist`,
   desc: 'Lists all IP addresses with groups assigned to them.',
   module: 'autogroups',
   level: 1

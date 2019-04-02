@@ -39,8 +39,8 @@ module.exports.run = async (ts, ev, client, args) => {
 }
 
 module.exports.info = {
-  name: 'groupadd',
-  usage: `${process.env.PREFIX}groupadd <id>`,
+  name: 'addgroup',
+  usage: `${process.env.PREFIX}addgroup <id>`,
   desc: 'Adds a servergroup and its basic properties to the database.',
   module: 'db',
   level: 0

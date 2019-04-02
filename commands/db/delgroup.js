@@ -19,8 +19,8 @@ module.exports.run = async (ts, ev, client, args) => {
 }
 
 module.exports.info = {
-  name: 'groupdel',
-  usage: `${process.env.PREFIX}groupdel <id>`,
+  name: 'delgroup',
+  usage: `${process.env.PREFIX}delgroup <id>`,
   desc: 'Removes a group document from the database.',
   module: 'db',
   level: 0

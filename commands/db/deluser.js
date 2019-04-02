@@ -23,8 +23,8 @@ module.exports.run = async (ts, ev, client, args) => {
 }
 
 module.exports.info = {
-  name: 'userdel',
-  usage: `${process.env.PREFIX}userdel <name>`,
+  name: 'deluser',
+  usage: `${process.env.PREFIX}deluser <name>`,
   desc: 'Removes a user\'s entry from the database.',
   module: 'db',
   level: 0

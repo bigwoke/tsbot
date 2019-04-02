@@ -35,8 +35,8 @@ module.exports.run = async (ts, ev, client, args) => {
 }
 
 module.exports.info = {
-  name: 'uidadd',
-  usage: `${process.env.PREFIX}uidadd <name> <unique ID>`,
+  name: 'adduid',
+  usage: `${process.env.PREFIX}adduid <name> <unique ID>`,
   desc: 'Adds a unique ID to a user document.',
   module: 'db',
   level: 0

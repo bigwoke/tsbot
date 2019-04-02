@@ -25,8 +25,8 @@ module.exports.run = async (ts, ev, client, args) => {
 }
 
 module.exports.info = {
-  name: 'groupprot',
-  usage: `${process.env.PREFIX}groupprot <id>`,
+  name: 'protgroup',
+  usage: `${process.env.PREFIX}protgroup <id>`,
   desc: 'Toggles protected status of the given servergroup.',
   module: 'db',
   level: 0
