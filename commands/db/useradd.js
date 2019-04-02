@@ -10,19 +10,23 @@ module.exports.run = async (ts, ev, client, args) => {
   let nameRegex = /^[a-z_ ]+$/i
 
   if (!nameRegex.test(args[0])) {
-    return ts.sendTextMessage(client.getID(), 1, 'error: Name does not match the required pattern.')
+    return ts.sendTextMessage(client.getID(), 1, 'Name does not match the required pattern.')
   }
 
   if (args[1] && !uidRegex.test(args[1])) {
-    return ts.sendTextMessage(client.getID(), 1, 'error: Unique ID does not match the required pattern.')
+    return ts.sendTextMessage(client.getID(), 1, 'Unique ID does not match the required pattern.')
   }
 
   let filter = { name: args[0] }
   let update = { $set: { uid: [] } }
-  if (args[1]) {
-    update = { $addToSet: { uid: args[1] } }
-  }
   let options = { upsert: true }
+
+  if (args[1]) {
+    let cl = await ts.getClientByUID(args[1])
+    let addr = cl.getCache().connection_client_ip
+
+    update = { $addToSet: { uid: args[1], ip: addr } }
+  }
 
   ts.data.collection('users').updateOne(filter, update, options, (err, res) => {
     if (err) log.error('[DB] Error inserting/updating document:', err.stack)

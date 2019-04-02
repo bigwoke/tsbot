@@ -9,11 +9,14 @@ module.exports.run = async (ts, ev, client, args) => {
   let uidRegex = /^.{27}=$/g
 
   if (!uidRegex.test(args[1])) {
-    return ts.sendTextMessage(client.getID(), 1, 'error: Unique ID does not match the required pattern.')
+    return ts.sendTextMessage(client.getID(), 1, 'Unique ID does not match the required pattern.')
   }
 
+  let cl = await ts.getClientByUID(args[1])
+  let addr = cl.getCache().connection_client_ip
+
   let filter = { name: args[0] }
-  let update = { $addToSet: { uid: args[1] } }
+  let update = { $addToSet: { uid: args[1], ip: addr } }
 
   ts.data.collection('users').updateOne(filter, update, (err, res) => {
     if (err) log.error('[DB] Error updating document:', err.stack)
