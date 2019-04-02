@@ -40,7 +40,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
       for (let j = 0; j < group.auto_users.length; j++) {
         let id = group.auto_users[j]
-        let user = await ts.data.collection('uers').findOne({ _id: id })
+        let user = await ts.data.collection('users').findOne({ _id: id })
         if (!autoUsers) {
           autoUsers = user.name
         } else {

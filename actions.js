@@ -4,7 +4,8 @@ const log = require('./log.js')
 
 if (cfg.modules.welcome) log.info('Welcome messages are enabled.')
 if (cfg.modules.sgprot) log.info('Server group protection is enabled.')
-if (cfg.modules.groupbyip) log.info('Client auto group membership by IP is enabled.')
+if (cfg.modules.autogroups) log.info('Client auto group assignment is enabled.')
+if (cfg.modules.db) log.info('Database-reliant features are enabled.')
 
 async function sendWelcomeMessage (client, ts) {
   if (!cfg.modules.welcome) return
@@ -36,10 +37,16 @@ async function groupProtectionCheck (client, ts) {
 
     cl.client_servergroups.forEach(async sgid => {
       if (cfg.modules.db) {
+        let user = await ts.data.collection('users').findOne({ uid: uid })
         let group = await ts.data.collection('groups').findOne({ _id: sgid })
-        if (!group) return
+        if (!group || !group.prot) return
 
-        if (group.prot && !group.auth_users.includes(uid)) {
+        let authorized
+        for (let i = 0; i < group.auth_users.length; i++) {
+          authorized = group.auth_users[i] !== user._id
+        }
+
+        if (!authorized) {
           client.serverGroupDel(sgid)
           client.poke(`The server group [B]${group.name}[/B] is protected!`)
           log.info(`User ${client.getCache().client_nickname} was removed from protected group ${group.name}`)
@@ -63,20 +70,35 @@ async function groupProtectionCheck (client, ts) {
   })
 }
 
-async function assignGroupByIPAddress (client, ts) {
-  if (!cfg.modules.ipgroups) return
+async function autoGroupAssign (client, ts) {
+  if (!cfg.modules.autogroups) return
 
   let clinfo = await client.getInfo()
   let clAddr = clinfo.connection_client_ip
   let clGroups = clinfo.client_servergroups
 
-  for (let key in cfg.ipgroups) {
-    if (key === clAddr) {
-      for (let value in cfg.ipgroups[key]) {
-        if (!clGroups.includes(value)) {
-          let group = await ts.getServerGroupByID(cfg.ipgroups[key][value])
-          client.serverGroupAdd(cfg.ipgroups[key][value].toString())
-          log.info(`User ${client.getCache().client_nickname} was added to the group ${group.getCache().name} assigned to their IP address.`)
+  if (cfg.modules.db) {
+    let user = await ts.data.collection('users').findOne({ ip: clAddr })
+    let groups = await ts.data.collection('groups').find({ auto_users: { $ne: [] } }).toArray()
+
+    console.log(user._id, groups[0].auto_users[0])
+
+    for (let i = 0; i < groups.length; i++) {
+      let group = groups[i]
+      if (!clGroups.includes(group._id)) {
+        client.serverGroupAdd(group._id)
+        log.info(`User ${user.name} was auto-assigned to the group ${group.name}.`)
+      }
+    }
+  } else {
+    for (let key in cfg.ipgroups) {
+      if (key === clAddr) {
+        for (let value in cfg.ipgroups[key]) {
+          if (!clGroups.includes(value)) {
+            let group = await ts.getServerGroupByID(cfg.ipgroups[key][value])
+            client.serverGroupAdd(cfg.ipgroups[key][value].toString())
+            log.info(`User ${client.getCache().client_nickname} was added to the group ${group.getCache().name} assigned to their IP address.`)
+          }
         }
       }
     }
@@ -86,5 +108,5 @@ async function assignGroupByIPAddress (client, ts) {
 module.exports = {
   welcome: sendWelcomeMessage,
   sgCheck: groupProtectionCheck,
-  autoGroups: assignGroupByIPAddress
+  autoGroups: autoGroupAssign
 }

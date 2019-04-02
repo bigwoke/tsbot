@@ -28,11 +28,11 @@ const config = {
     db: process.env.DB === 'true',
     welcome: process.env.WELCOME !== 'false',
     sgprot: process.env.SGPROT === 'true',
-    ipgroups: process.env.IPGROUPS === 'true'
+    autogroups: process.env.AUTOGROUPS === 'true'
   },
   loglevel: process.env.LOGLEVEL || 'info',
   sgprot: require('./sgprot.json'),
-  ipgroups: require('./ipgroups.json')
+  autogroups: require('./autogroups.json')
 }
 
 module.exports = config

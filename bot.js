@@ -10,8 +10,10 @@ const cfg = require('./config.js')
 const log = require('./log.js')
 const db = !cfg.modules.db ? null : require('./db.js')
 
-tools.verifyFile('./sgprot.json')
-tools.verifyFile('./ipgroups.json')
+if (cfg.modules.db) {
+  tools.verifyFile('./sgprot.json')
+  tools.verifyFile('./autogroups.json')
+}
 
 const prefix = cfg.bot.prefix
 const rootUsers = cfg.users.root
@@ -127,7 +129,7 @@ ts.on('clientconnect', ev => {
 
   actions.welcome(client, ts)
   actions.sgCheck(client, ts)
-  actions.ipGroups(client, ts)
+  actions.autoGroups(client, ts)
 })
 
 ts.on('clientdisconnect', ev => {
@@ -163,9 +165,7 @@ ts.on('textmessage', ev => {
   }
 
   if (cmd) {
-    if (cmd.info.level === 0 && !client.level === 0) {
-      return noPerms(cmd)
-    } else if (cmd.info.level === 1 && !(client.level === 1 || client.level === 0)) {
+    if (cmd.info.level < client.level) {
       return noPerms(cmd)
     } else {
       cmd.run(ts, ev, client, args)
