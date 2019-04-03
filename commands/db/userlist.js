@@ -31,7 +31,7 @@ module.exports.run = async (ts, ev, client, args) => {
           uids += `, ${uid}`
         }
       })
-      resp += `[B]${user.name.padEnd(10)}[/B]:\t_id: ${user._id}\tuid: ${uids || 'NO UID'}\n`
+      resp += `[B]${user.name}[/B]:\t_id: ${user._id}\tuid: ${uids || 'NO UID'}\n`
     })
 
     if (res.length === 0) return ts.sendTextMessage(client.getID(), 1, 'No user documents.')
