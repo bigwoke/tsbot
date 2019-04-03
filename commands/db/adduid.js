@@ -13,7 +13,16 @@ module.exports.run = async (ts, ev, client, args) => {
   }
 
   let cl = await ts.getClientByUID(args[1])
-  let addr = cl.getCache().connection_client_ip
+  let addr
+  if (!cl) {
+    ts.clientDBFind(args[1], true).then(clFind => {
+      ts.clientDBInfo(clFind.cldbid).then(cl => {
+        addr = cl.client_lastip
+      })
+    })
+  } else {
+    addr = cl.getCache().connection_client_ip
+  }
 
   let filter = { name: args[0] }
   let update = { $addToSet: { uid: args[1], ip: addr } }
