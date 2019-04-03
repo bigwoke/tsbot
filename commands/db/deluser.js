@@ -6,8 +6,10 @@ module.exports.run = async (ts, ev, client, args) => {
 
   let user = await ts.data.collection('users').findOne(filter)
   if (user) {
-    let update = { $pull: { auth_users: user._id } }
-    ts.data.collection('groups').updateOne({ auth_users: user._id }, update)
+    let groupUpdate = { $pull: { auth_users: user._id } }
+    ts.data.collection('groups').updateOne({ auth_users: user._id }, groupUpdate)
+    let quotesUpdate = { $set: { author: user.name } }
+    ts.data.collection('quotes').updateMany({ author: user._id }, quotesUpdate)
   }
 
   ts.data.collection('users').deleteOne(filter, (err, res) => {

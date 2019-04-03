@@ -28,7 +28,8 @@ const config = {
     db: process.env.DB === 'true',
     welcome: process.env.WELCOME !== 'false',
     sgprot: process.env.SGPROT === 'true',
-    autogroups: process.env.AUTOGROUPS === 'true'
+    autogroups: process.env.AUTOGROUPS === 'true',
+    quotes: process.env.QUOTES === 'true'
   },
   loglevel: process.env.LOGLEVEL || 'info',
   sgprot: require('./sgprot.json'),
