@@ -31,15 +31,14 @@ async function sendWelcomeMessage (client, ts) {
 async function groupProtectionCheck (client, ts) {
   if (!cfg.modules.sgprot) return
   let uid = client.getCache().client_unique_identifier
+  let cl = await client.getInfo()
 
-  let sgProtInterval = setInterval(async () => {
-    let cl = await client.getInfo()
-
+  let sgProtInterval = setInterval(() => {
     cl.client_servergroups.forEach(async sgid => {
       if (cfg.modules.db) {
         let user = await ts.data.collection('users').findOne({ uid: uid })
         let group = await ts.data.collection('groups').findOne({ _id: sgid })
-        if (!group || !group.prot) return
+        if (!user || !group || !group.prot) return
 
         let authorized
         for (let i = 0; i < group.auth_users.length; i++) {
@@ -80,8 +79,7 @@ async function autoGroupAssign (client, ts) {
   if (cfg.modules.db) {
     let user = await ts.data.collection('users').findOne({ ip: clAddr })
     let groups = await ts.data.collection('groups').find({ auto_users: { $ne: [] } }).toArray()
-
-    console.log(user._id, groups[0].auto_users[0])
+    if (!user || groups.length === 0) return
 
     for (let i = 0; i < groups.length; i++) {
       let group = groups[i]
