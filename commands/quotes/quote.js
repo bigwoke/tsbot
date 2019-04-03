@@ -1,26 +1,52 @@
 const log = require('../../log.js')
 
 module.exports.run = async (ts, ev, client, args) => {
-  let dateOpts = {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    timeZoneName: 'short'
-  }
-
   if (!args[0]) {
     getRandomQuote((quote, author) => {
-      let date = `[color=#777777](${quote.date.toLocaleString(undefined, dateOpts)})[/color]`
+      let opts = formatQuote(quote)
+      let date = `[color=#777777](${quote.date.toLocaleString(undefined, opts)})[/color]`
       displayQuote(`#${quote.number} - ${author.name}: "${quote.quote}" ${date}`)
     })
   } else {
     getQuote(args[0], (quote, author) => {
-      let date = `[color=#777777](${quote.date.toLocaleString(undefined, dateOpts)})[/color]`
+      let opts = formatQuote(quote)
+      let date = `[color=#777777](${quote.date.toLocaleString(undefined, opts)})[/color]`
       displayQuote(`#${quote.number} - ${author.name}: "${quote.quote}" ${date}`)
     })
+  }
+
+  function formatQuote (q) {
+    let vague = !q.date.getSeconds() && !q.date.getMilliseconds()
+    let opts = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZoneName: 'short'
+    }
+
+    if (vague) {
+      opts.second = undefined
+
+      if (q.date.getMinutes() === 0) {
+        opts.minute = undefined
+
+        if (q.date.getHours() === 0) {
+          opts.hour = undefined
+          opts.timeZoneName = undefined
+          opts.month = 'short'
+
+          if (q.date.getDate() === 1) {
+            opts.day = undefined
+            opts.month = 'long'
+          }
+        }
+      }
+    }
+
+    return opts
   }
 
   function displayQuote (output) {
@@ -49,6 +75,7 @@ module.exports.run = async (ts, ev, client, args) => {
       let query = { number: parseInt(searchTerm) }
       ts.data.collection('quotes').findOne(query, (err, res) => {
         if (err) log.error('[DB] Error getting quote from database:', err.stack)
+        if (!res) return ts.sendTextMessage(client.getID(), ev.targetmode, 'Could not find quote.')
 
         let quote = res
 
