@@ -12,35 +12,38 @@ module.exports.run = async (ts, ev, client, args) => {
     return ts.sendTextMessage(client.getID(), 1, 'Unique ID does not match the required pattern.')
   }
 
-  let cl = await ts.getClientByUID(args[1])
-  let addr
-  if (!cl) {
-    ts.clientDBFind(args[1], true).then(clFind => {
-      ts.clientDBInfo(clFind.cldbid).then(cl => {
-        addr = cl.client_lastip
-      })
+  getAddr(addr => {
+    let filter = { name: args[0] }
+    let update = { $addToSet: { uid: args[1], ip: addr } }
+
+    ts.data.collection('users').updateOne(filter, update, (err, res) => {
+      if (err) log.error('[DB] Error updating document:', err.stack)
+
+      if (res.result.n === 0) {
+        ts.sendTextMessage(client.getID(), 1, 'Couldn\'t find document, please report this bug.')
+      } else if (res.result.n === 1 && res.result.nModified === 0 && res.result.ok === 1) {
+        ts.sendTextMessage(client.getID(), 1, 'User document already has that ID.')
+      } else if (res.result.nModified === 1) {
+        ts.sendTextMessage(client.getID(), 1, 'Successfully added unique ID.')
+        log.info('[DB] Unique ID', args[1], 'added to', args[0])
+      } else {
+        ts.sendTextMessage(client.getID(), 1, 'Issue adding unique ID.')
+      }
     })
-  } else {
-    addr = cl.getCache().connection_client_ip
-  }
-
-  let filter = { name: args[0] }
-  let update = { $addToSet: { uid: args[1], ip: addr } }
-
-  ts.data.collection('users').updateOne(filter, update, (err, res) => {
-    if (err) log.error('[DB] Error updating document:', err.stack)
-
-    if (res.result.n === 0) {
-      ts.sendTextMessage(client.getID(), 1, 'Couldn\'t find document, please report this bug.')
-    } else if (res.result.n === 1 && res.result.nModified === 0 && res.result.ok === 1) {
-      ts.sendTextMessage(client.getID(), 1, 'User document already has that ID.')
-    } else if (res.result.nModified === 1) {
-      ts.sendTextMessage(client.getID(), 1, 'Successfully added unique ID.')
-      log.info('[DB] Unique ID', args[1], 'added to', args[0])
-    } else {
-      ts.sendTextMessage(client.getID(), 1, 'Issue adding unique ID.')
-    }
   })
+
+  async function getAddr (callback) {
+    let cl = await ts.getClientByUID(args[1])
+    if (!cl) {
+      ts.clientDBFind(args[1], true).then(clFind => {
+        ts.clientDBInfo(clFind.cldbid).then(cl => {
+          callback(cl.client_lastip)
+        })
+      })
+    } else {
+      callback(cl.getCache().connection_client_ip)
+    }
+  }
 }
 
 module.exports.info = {

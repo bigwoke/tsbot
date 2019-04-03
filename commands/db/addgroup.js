@@ -27,7 +27,7 @@ module.exports.run = async (ts, ev, client, args) => {
   }
 
   ts.data.collection('groups').insertOne(insert, (err, res) => {
-    if (err) log.error('[DB] Error inserting/updating document:', err.stack)
+    if (err) log.error('[DB] Error inserting document:', err.stack)
 
     if (res.result.n === 0) {
       ts.sendTextMessage(client.getID(), 1, 'Group document was not inserted.')

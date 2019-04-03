@@ -21,41 +21,44 @@ module.exports.run = async (ts, ev, client, args) => {
   let update = { $set: { uid: [] } }
   let options = { upsert: true }
 
-  if (args[1]) {
+  getAddr(addr => {
+    if (args[1]) {
+      update = { $addToSet: { uid: args[1], ip: addr } }
+    }
+
+    ts.data.collection('users').updateOne(filter, update, options, (err, res) => {
+      if (err) log.error('[DB] Error inserting/updating document:', err.stack)
+
+      if (res.result.upserted) {
+        ts.sendTextMessage(client.getID(), 1, 'Successfully inserted user document.')
+        log.info('[DB] New user document inserted:', args[0])
+      } else {
+        if (res.result.n === 0) {
+          ts.sendTextMessage(client.getID(), 1, 'Couldn\'t find document, please report this bug.')
+        } else if (res.result.n === 1 && res.result.nModified === 0 && res.result.ok === 1) {
+          ts.sendTextMessage(client.getID(), 1, 'User document already has that value.')
+        } else if (res.result.nModified === 1) {
+          ts.sendTextMessage(client.getID(), 1, 'Successfully updated user document.')
+          log.info('[DB] Existing user document updated:', args[0])
+        } else {
+          ts.sendTextMessage(client.getID(), 1, 'Issue editing document.')
+        }
+      }
+    })
+  })
+
+  async function getAddr (callback) {
     let cl = await ts.getClientByUID(args[1])
-    let addr
     if (!cl) {
       ts.clientDBFind(args[1], true).then(clFind => {
         ts.clientDBInfo(clFind.cldbid).then(cl => {
-          addr = cl.client_lastip
+          callback(cl.client_lastip)
         })
       })
     } else {
-      addr = cl.getCache().connection_client_ip
+      callback(cl.getCache().connection_client_ip)
     }
-
-    update = { $addToSet: { uid: args[1], ip: addr } }
   }
-
-  ts.data.collection('users').updateOne(filter, update, options, (err, res) => {
-    if (err) log.error('[DB] Error inserting/updating document:', err.stack)
-
-    if (res.result.upserted) {
-      ts.sendTextMessage(client.getID(), 1, 'Successfully inserted user document.')
-      log.info('[DB] New user document inserted:', args[0])
-    } else {
-      if (res.result.n === 0) {
-        ts.sendTextMessage(client.getID(), 1, 'Couldn\'t find document, please report this bug.')
-      } else if (res.result.n === 1 && res.result.nModified === 0 && res.result.ok === 1) {
-        ts.sendTextMessage(client.getID(), 1, 'User document already has that value.')
-      } else if (res.result.nModified === 1) {
-        ts.sendTextMessage(client.getID(), 1, 'Successfully updated user document.')
-        log.info('[DB] Existing user document updated:', args[0])
-      } else {
-        ts.sendTextMessage(client.getID(), 1, 'Issue editing document.')
-      }
-    }
-  })
 }
 
 module.exports.info = {
