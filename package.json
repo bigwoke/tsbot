@@ -1,25 +1,25 @@
 {
   "name": "tsbot",
-  "version": "4.1.1",
+  "version": "5.0.0",
   "description": "Custom TeamSpeak 3 Bot",
   "main": "bot.js",
   "dependencies": {
     "dotenv": "^5.0.1",
     "mongodb": "^3.2.2",
     "node-watch": "^0.6.0",
-    "ts3-nodejs-library": "^1.12.4",
+    "ts3-nodejs-library": "^1.12.5",
     "winston": "^2.4.4"
   },
   "devDependencies": {
     "standard": "^12.0.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --trace-warnings bot.js"
   },
   "repository": {
     "type": "git",
     "url": "\u0016"
   },
-  "author": "DJ",
+  "author": "bigwoke",
   "license": "ISC"
 }
