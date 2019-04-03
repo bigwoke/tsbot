@@ -9,7 +9,7 @@ function buildURI () {
     return cfg.db.uri
   }
   if (cfg.db.user && cfg.db.pass) {
-    return `mongodb://${cfg.db.user}:${cfg.db.pass}@${cfg.db.host}:${cfg.db.port}/${cfg.db.name}`
+    return `mongodb://${cfg.db.user}:${cfg.db.pass}@${cfg.db.host}:${cfg.db.port}`
   }
   log.warn('[DB] Warning: connecting to database without proper credentials.')
   return `mongodb://${cfg.db.host}:${cfg.db.port}/${cfg.db.name}`
