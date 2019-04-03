@@ -13,6 +13,7 @@ const config = {
     name: process.env.DB_NAME || 'db',
     user: process.env.DB_USER,
     pass: process.env.DB_PASS,
+    uri: process.env.DB_URI,
     opts: { useNewUrlParser: true }
   },
   bot: {

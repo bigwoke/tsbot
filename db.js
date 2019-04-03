@@ -2,7 +2,18 @@ const cfg = require('./config.js')
 const log = require('./log.js')
 const MongoClient = require('mongodb').MongoClient
 
-const url = `mongodb://${cfg.db.host}:${cfg.db.port}/${cfg.db.name}`
+const url = buildURI()
+
+function buildURI () {
+  if (cfg.db.uri && cfg.db.uri.length > 0) {
+    return cfg.db.uri
+  }
+  if (cfg.db.user && cfg.db.pass) {
+    return `mongodb://${cfg.db.user}:${cfg.db.pass}@${cfg.db.host}:${cfg.db.port}/${cfg.db.name}`
+  }
+  log.warn('[DB] Warning: connecting to database without proper credentials.')
+  return `mongodb://${cfg.db.host}:${cfg.db.port}/${cfg.db.name}`
+}
 
 function mountData (ts) {
   MongoClient.connect(url, cfg.db.opts, (err, data) => {
