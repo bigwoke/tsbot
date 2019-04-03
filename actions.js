@@ -31,21 +31,33 @@ async function sendWelcomeMessage (client, ts) {
 async function groupProtectionCheck (client, ts) {
   if (!cfg.modules.sgprot) return
   let uid = client.getCache().client_unique_identifier
-  let cl = await client.getInfo()
 
-  let sgProtInterval = setInterval(() => {
+  let sgProtInterval = setInterval(async () => {
+    let cl = await client.getInfo().catch(err => {
+      if (err.id === 512) return
+      log.error('Error getting client info:', err.stack)
+    })
+
+    if (!cl) {
+      clearInterval(sgProtInterval)
+      return
+    }
+
     cl.client_servergroups.forEach(async sgid => {
       if (cfg.modules.db) {
         let user = await ts.data.collection('users').findOne({ uid: uid })
         let group = await ts.data.collection('groups').findOne({ _id: sgid })
         if (!user || !group || !group.prot) return
 
-        let authorized
+        let auth
         for (let i = 0; i < group.auth_users.length; i++) {
-          authorized = group.auth_users[i] !== user._id
+          if (user._id.equals(group.auth_users[i])) {
+            auth = true
+            break
+          }
         }
 
-        if (!authorized) {
+        if (!auth) {
           client.serverGroupDel(sgid)
           client.poke(`The server group [B]${group.name}[/B] is protected!`)
           log.info(`User ${client.getCache().client_nickname} was removed from protected group ${group.name}`)
@@ -62,7 +74,7 @@ async function groupProtectionCheck (client, ts) {
         }
       }
     })
-  }, 2000)
+  }, 2500)
 
   client.on('clientdisconnect', () => {
     clearInterval(sgProtInterval)

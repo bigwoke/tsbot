@@ -44,6 +44,7 @@ module.exports.run = async (ts, ev, client) => {
 
         msg += `${j === 0 ? '' : ', '}${user.name}`
       }
+      msg += '\n'
     }
     ts.sendTextMessage(client.getID(), 1, msg)
   }
