@@ -103,7 +103,7 @@ DB_USER=''
 # Database login password
 DB_PASS=''
 # Custom MongoDB connection URI string.
-# If specified, everything else is ignored.
+# If specified, all other connection info is ignored.
 DB_URI=''
 
 #####################
