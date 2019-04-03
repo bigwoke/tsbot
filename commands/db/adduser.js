@@ -54,5 +54,5 @@ module.exports.info = {
   usage: `${process.env.PREFIX}adduser <name> [unique ID]`,
   desc: 'Adds a user and their unique ID to the database.',
   module: 'db',
-  level: 0
+  level: 1
 }
