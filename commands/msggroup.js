@@ -8,6 +8,7 @@ module.exports.run = async (ts, ev, client, args) => {
   let message = args.slice(1).join(' ')
 
   let members = await targetgroup.clientList()
+  members = members.filter(m => { return m.client_unique_identifier !== 'ServerQuery' })
 
   if (!Array.isArray(members)) {
     let cl = await ts.getClientByUID(members.client_unique_identifier)
