@@ -41,7 +41,7 @@ module.exports.run = async (ts, ev, client, args) => {
         })
       })
     } else {
-      callback(cl.getCache().connection_client_ip)
+      callback(cl.connectionClientIp)
     }
   }
 }

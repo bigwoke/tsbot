@@ -130,7 +130,7 @@ ts.on('ready', async () => {
 
 ts.on('clientconnect', ev => {
   let client = ev.client
-  let nick = client.getCache().client_nickname
+  let nick = client.nickname
 
   log.silly(`[+] Client "${nick}" connected.`)
 
@@ -144,20 +144,20 @@ ts.on('clientdisconnect', ev => {
 })
 
 ts.on('clientmoved', ev => {
-  if (ev.client.getCache().client_type !== 0) return
-  let nick = ev.client.getCache().client_nickname
-  let cname = ev.channel.getCache().channel_name
+  if (ev.client.type !== 0) return
+  let nick = ev.client.nickname
+  let cname = ev.channel.name
   log.silly(`[x] Client "${nick}" moved to channel "${cname}"`)
 })
 
 ts.on('textmessage', ev => {
   const message = ev.msg
   const client = ev.invoker
-  const nick = client.getCache().client_nickname
+  const nick = client.nickname
 
   if (!client || client.isQuery()) return
 
-  let uid = client.getCache().client_unique_identifier
+  let uid = client.uniqueIdentifier
   let args = message.split(/\s+/g)
   let fullCommand = args[0]
   args = args.slice(1)

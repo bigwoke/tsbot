@@ -39,7 +39,7 @@ module.exports.run = async (ts, ev, client) => {
 
       for (let value in autogroups[key]) {
         let group = await ts.getServerGroupByID(autogroups[key][value].toString())
-        let groupName = group.getCache().name
+        let groupName = group.name
 
         msg += `${parseInt(value) === 0 ? '' : ', '}${groupName} (${autogroups[key][value]})`
         if (value === autogroups[key].length) msg += '\n'

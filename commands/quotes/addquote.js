@@ -43,7 +43,7 @@ module.exports.run = async (ts, ev, client, args) => {
       if (error) log.error('[DB] Error inserting quote:', error.stack)
 
       if (result.result.ok === 1) {
-        log.info(`Quote #${num} added by ${client.getCache().client_nickname}`)
+        log.info(`Quote #${num} added by ${client.nickname}`)
         ts.sendTextMessage(client.getID(), 1, `Inserted quote #${num}.`)
       }
     })

@@ -7,8 +7,8 @@ module.exports.run = async (ts, ev, client, args) => {
 
   let message = args.slice(1).join(' ')
 
-  ts.sendTextMessage(target.getID(), 1, `[b]${client.getCache().client_nickname}[/b] says: ${message}`)
-  ts.sendTextMessage(client.getID(), 1, `Sent message to ${target.getCache().client_nickname}.`)
+  ts.sendTextMessage(target.getID(), 1, `[b]${client.nickname}[/b] says: ${message}`)
+  ts.sendTextMessage(client.getID(), 1, `Sent message to ${target.client_nickname}.`)
 }
 
 module.exports.info = {

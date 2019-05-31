@@ -9,14 +9,14 @@ module.exports.run = async (ts, ev, client, args) => {
   if (target.isQuery()) return ts.sendTextMessage(client.getID(), 1, 'Bots cannot be targeted!')
   if (args[0] > 60 || args[0] <= 0) return ts.sendTextMessage(client.getID(), 1, 'The allowed range of pokes is 1-60, for reasons.')
 
-  let targetNick = target.getCache().client_nickname
+  let targetNick = target.nickname
   let pokes = parseInt(args[0])
 
   ts.sendTextMessage(client.getID(), 1, `Poking "${targetNick}" ${pokes} times.`)
 
   let count = 1
   let pokeInterval = setInterval(() => {
-    target.poke(`(${count}/${pokes}) from "${client.getCache().client_nickname}"`)
+    target.poke(`(${count}/${pokes}) from "${client.nickname}"`)
     if (count === pokes) clearInterval(pokeInterval)
     count++
   }, 500)

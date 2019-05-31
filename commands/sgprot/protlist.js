@@ -15,7 +15,7 @@ module.exports.run = async (ts, ev, client) => {
     let msg = 'The following server groups are protected:\n'
     for (let key in sgprot) {
       let group = await ts.getServerGroupByID(key)
-      let groupName = group.getCache().name
+      let groupName = group.name
 
       msg += `[b]${groupName}[/b] (${key}):\t`
 

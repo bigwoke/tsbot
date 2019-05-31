@@ -16,7 +16,7 @@ module.exports.run = async (ts, ev, client, args) => {
   let group = await ts.getServerGroupByID(groupid)
   if (!group) ts.sendTextMessage(client.getID(), 1, 'That servergroup does not exist on the server.')
 
-  let groupName = group.getCache().name
+  let groupName = group.name
 
   let insert = {
     _id: groupid,

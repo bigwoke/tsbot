@@ -10,9 +10,9 @@ if (cfg.modules.db) log.info('Database-reliant features are enabled.')
 async function sendWelcomeMessage (client, ts) {
   if (!cfg.modules.welcome) return
   if (!client || client.isQuery()) return
-  let nick = client.getCache().client_nickname
+  let nick = client.nickname
 
-  let cl = await ts.clientDBInfo(client.getCache().client_database_id)
+  let cl = await ts.clientDBInfo(client.databaseId)
   let dateCreated = tools.toDate(cl.client_created, 'd')
   let timeCreated = tools.toDate(cl.client_created, 't')
 
@@ -30,7 +30,7 @@ async function sendWelcomeMessage (client, ts) {
 
 async function groupProtectionCheck (client, ts) {
   if (!cfg.modules.sgprot) return
-  let uid = client.getCache().client_unique_identifier
+  let uid = client.uniqueIdentifier
 
   let sgProtInterval = setInterval(async () => {
     let cl = await client.getInfo().catch(err => {
@@ -60,16 +60,16 @@ async function groupProtectionCheck (client, ts) {
         if (!auth) {
           client.serverGroupDel(sgid)
           client.poke(`The server group [B]${group.name}[/B] is protected!`)
-          log.info(`User ${client.getCache().client_nickname} was removed from protected group ${group.name}`)
+          log.info(`User ${client.nickname} was removed from protected group ${group.name}`)
         }
       } else {
         for (let key in cfg.sgprot) {
           if (parseInt(key) === sgid && !cfg.sgprot[key].includes(uid)) {
-            let group = await ts.getServerGroupByID(sgid)
+            let serverGroup = await ts.getServerGroupByID(sgid)
 
             client.serverGroupDel(sgid)
-            client.poke(`The server group [B]${group.getCache().name}[/B] is protected!`)
-            log.info(`User ${client.getCache().client_nickname} was removed from protected group ${group.getCache().name}`)
+            client.poke(`The server group [B]${serverGroup.name}[/B] is protected!`)
+            log.info(`User ${client.nickname} was removed from protected group ${serverGroup.name}`)
           }
         }
       }
@@ -107,7 +107,7 @@ async function autoGroupAssign (client, ts) {
           if (!clGroups.includes(value)) {
             let group = await ts.getServerGroupByID(cfg.ipgroups[key][value])
             client.serverGroupAdd(cfg.ipgroups[key][value].toString())
-            log.info(`User ${client.getCache().client_nickname} was added to the group ${group.getCache().name} assigned to their IP address.`)
+            log.info(`User ${client.nickname} was added to the group ${group.name} assigned to their IP address.`)
           }
         }
       }
