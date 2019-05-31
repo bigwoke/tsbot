@@ -34,6 +34,13 @@ module.exports = ts
 if (cfg.modules.db) db.mount(ts)
 ts.commands = new Map()
 ts.setMaxListeners(50)
+ts.version().then(res => {
+  if (res.version > '3.8') {
+    ts.charLimit = 8192
+  } else {
+    ts.charLimit = 1024
+  }
+})
 
 tools.getFiles('./commands/').then(files => {
   files = tools.flatArray(files)

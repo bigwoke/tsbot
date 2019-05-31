@@ -16,16 +16,17 @@ module.exports.run = async (ts, ev, client, args) => {
 
     resp.on('end', () => {
       let response = JSON.parse(data)
-      let definitions = response.length
+      if (!response.definition) return ts.sendTextMessage(client.getID(), ev.targetmode, 'No definition.')
 
+      let definitions = response.length
       let msg = `Found ${definitions} definition(s) for the word "${word}":\n`
 
-      for (let ct = 0; ct < definitions && msg.length < 900; ct++) {
+      for (let ct = 0; ct < definitions && msg.length < ts.charLimit - 100; ct++) {
         let type = response[ct].type
         let def = response[ct].definition.replace(/â/g, '"')
         let append = `\t[b]${ct + 1}[/b]:  ${type}. ${def}\n`
 
-        if ((msg + append).length >= 1024) {
+        if ((msg + append).length >= ts.charLimit) {
           break
         }
         msg += append

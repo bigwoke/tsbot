@@ -22,8 +22,8 @@ module.exports.run = async (ts, ev, client, args) => {
         let votes = response[ct].thumbs_up
         let append = `\t[b]${ct + 1}[/b]:  ${def}\t[i](${votes} upvotes)[/i]\n`
 
-        if ((msg + append).length >= 1024) {
-          msg = msg.replace(entries, ct)
+        if ((msg + append).length >= ts.charLimit) {
+          msg = msg.replace(`${entries} entries`, `${ct} entries`)
           break
         }
         msg += append

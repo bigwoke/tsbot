@@ -15,9 +15,9 @@ module.exports.run = async (ts, ev, client) => {
   commands.forEach(cmd => {
     let color = (cmd.info.level === 2) ? '#00825a' : (cmd.info.level === 1) ? '#d58500' : '#ff3300'
     if (client.level <= cmd.info.level) {
-      if (resp.length >= 900) {
+      if (resp.length >= ts.charLimit - 100) {
         ts.sendTextMessage(client.getID(), 1, resp).catch(err => {
-          ts.sendTextMessage(client.getID(), 1, 'error: Too many characters, please report this bug.')
+          ts.sendTextMessage(client.getID(), 1, 'error: Too many characters in response.')
           log.error(err)
         })
         count++

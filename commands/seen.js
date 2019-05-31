@@ -30,8 +30,11 @@ module.exports.run = async (ts, ev, client, args) => {
           let userNick = user.client_nickname
           count++
 
-          if (resp.length >= 900) {
-            ts.sendTextMessage(client.getID(), 1, resp)
+          if (resp.length >= ts.charLimit - 100) {
+            ts.sendTextMessage(client.getID(), 1, resp).catch(err => {
+              ts.sendTextMessage(client.getID(), 1, 'error: Too many characters in response.')
+              log.error('Error printing long message:', err.stack)
+            })
             resp = ''
           }
 

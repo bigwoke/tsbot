@@ -11,8 +11,8 @@ module.exports.run = async (ts, ev, client, args) => {
   let hasDate = datePos !== -1
 
   let quote = hasDate ? args.slice(1, datePos).join(' ') : args.slice(1).join(' ')
-  if (quote.length >= 950) {
-    return ts.sendTextMessage(client.getID(), 1, 'Quote is too long, maximum 950 characters.')
+  if (quote.length >= 4096) {
+    return ts.sendTextMessage(client.getID(), 1, 'Quote is too long, maximum 4096 characters.')
   }
 
   let date
