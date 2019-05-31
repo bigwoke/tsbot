@@ -30,7 +30,6 @@ Some tools for moderators or trusted users with elevated permissions:
 - autolist - Lists the server groups assigned to their respective IP addresses
 - addquote - Adds a quote, the user who said* it, and optionally a date to the database
 - broadcast - Sends a message to the current virtual server
-- clientinfo - Dumps standard information about a client
 - grouplist - Lists all groups and their protected and auto-assigned users
 - msggroup - Sends a message to online members of a given server group
 - msguser - Sends a message to the given online user
