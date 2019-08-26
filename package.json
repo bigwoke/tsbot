@@ -5,6 +5,7 @@
   "main": "bot.js",
   "dependencies": {
     "dotenv": "^5.0.1",
+    "eslint-utils": "^1.4.2",
     "lodash": "^4.17.14",
     "mongodb": "^3.2.6",
     "node-watch": "^0.6.2",
