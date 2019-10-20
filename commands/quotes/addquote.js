@@ -7,7 +7,7 @@ module.exports.run = async (ts, ev, client, args) => {
   let user = await ts.data.collection('users').findOne({ name: args[0] })
   if (!user) return ts.sendTextMessage(client.getID(), 1, 'That user could not be found.')
 
-  let datePos = args.indexOf('-date')
+  let datePos = args.indexOf('--date')
   let hasDate = datePos !== -1
 
   let quote = hasDate ? args.slice(1, datePos).join(' ') : args.slice(1).join(' ')
@@ -52,7 +52,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'addquote',
-  usage: `${process.env.PREFIX}addquote <user> <quote> [-date mm/dd/yyyy [hh:mm [am/pm]]]`,
+  usage: `${process.env.PREFIX}addquote <user> <quote> [--date mm/dd/yyyy [hh:mm [am/pm]]]`,
   desc: 'Adds the given quote by the given user.',
   module: 'quote',
   level: 1
