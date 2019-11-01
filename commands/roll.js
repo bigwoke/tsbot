@@ -11,8 +11,8 @@ module.exports.run = async (ts, ev, client, args) => {
 }
 
 module.exports.info = {
-  name: 'diceroll',
-  usage: `${process.env.PREFIX}diceroll [sides]`,
-  desc: 'Rolls a die using the inclusive upper limit given, or six if none is given.',
+  name: 'roll',
+  usage: `${process.env.PREFIX}roll [max]`,
+  desc: 'Picks a number between one and the inclusive upper limit given, or six if none is given.',
   level: 2
 }
