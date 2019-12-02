@@ -7,9 +7,9 @@ module.exports.run = async (ts, ev, client, args) => {
     let color = (cmd.info.level === 2) ? '#00825a' : (cmd.info.level === 1) ? '#d58500' : '#ff3300'
 
     if (client.level <= cmd.info.level) {
-      ts.sendTextMessage(client.getID(), 1, `[color=${color}]${cmd.info.usage}[/color] - ${cmd.info.desc}\n`)
+      ts.sendTextMessage(client.getID(), ev.targetmode, `[color=${color}]${cmd.info.usage}[/color] - ${cmd.info.desc}\n`)
     } else {
-      ts.sendTextMessage(client.getID(), 1, 'You do not have permission to view info for this command.')
+      ts.sendTextMessage(client.getID(), ev.targetmode, 'You do not have permission to view info for this command.')
     }
   } else {
     let count = 1
