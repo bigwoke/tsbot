@@ -1,15 +1,15 @@
 {
   "name": "tsbot",
-  "version": "5.0.4",
+  "version": "5.0.5",
   "description": "Custom TeamSpeak 3 Bot",
   "main": "bot.js",
   "dependencies": {
     "dotenv": "^5.0.1",
-    "eslint-utils": "^1.4.2",
-    "lodash": "^4.17.14",
-    "mongodb": "^3.2.6",
-    "node-watch": "^0.6.2",
-    "ts3-nodejs-library": "^1.13.0",
+    "eslint-utils": "^1.4.3",
+    "lodash": "^4.17.15",
+    "mongodb": "^3.3.5",
+    "node-watch": "^0.6.3",
+    "ts3-nodejs-library": "^1.16.1",
     "winston": "^2.4.4"
   },
   "devDependencies": {
