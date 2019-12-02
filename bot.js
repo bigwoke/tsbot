@@ -162,7 +162,13 @@ ts.on('textmessage', ev => {
   let fullCommand = args[0]
   args = args.slice(1)
 
-  client.level = rootUsers.includes(uid) ? 0 : modUsers.includes(uid) ? 1 : 2
+  if (!cfg.modules.db) {
+    client.level = rootUsers.includes(uid) ? 0 : modUsers.includes(uid) ? 1 : 2
+  } else {
+    ts.data.collection('users').findOne({ 'uid': uid }).then(user => {
+      client.level = rootUsers.includes(uid) ? 0 : user.elevated ? 1 : 2
+    })
+  }
 
   if (!fullCommand.startsWith(prefix)) return
 
