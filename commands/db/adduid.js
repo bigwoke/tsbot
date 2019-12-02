@@ -36,7 +36,9 @@ module.exports.run = async (ts, ev, client, args) => {
     let cl = await ts.getClientByUID(args[1])
     if (!cl) {
       ts.clientDBFind(args[1], true).then(clFind => {
+        clFind = clFind[0]
         ts.clientDBInfo(clFind.cldbid).then(cl => {
+          cl = cl[0]
           callback(cl.client_lastip)
         })
       })

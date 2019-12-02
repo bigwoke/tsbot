@@ -12,7 +12,7 @@ async function sendWelcomeMessage (client, ts) {
   if (!client || client.isQuery()) return
   let nick = client.nickname
 
-  let cl = await ts.clientDBInfo(client.databaseId)
+  let cl = (await ts.clientDBInfo(client.databaseId))[0]
   let dateCreated = tools.toDate(cl.client_created, 'd')
   let timeCreated = tools.toDate(cl.client_created, 't')
 

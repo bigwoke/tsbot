@@ -16,7 +16,7 @@ module.exports.run = async (ts, ev, client, args) => {
   if (!results) return
 
   // If the search returns an array of multiple results
-  if (Array.isArray(results)) {
+  if (Array.isArray(results) && results.length > 1) {
     let dbidArray = results.map(user => user.cldbid)
     let resp = `Found ${dbidArray.length} matching clients in the database:\n`
     let count = 0
@@ -25,6 +25,7 @@ module.exports.run = async (ts, ev, client, args) => {
     dbidArray.forEach(element => {
       ts.clientDBInfo(element)
         .then(user => {
+          user = user[0]
           let lastDate = tools.toDate(user.client_lastconnected, 'd')
           let lastTime = tools.toDate(user.client_lastconnected, 't')
           let userNick = user.client_nickname
@@ -43,9 +44,13 @@ module.exports.run = async (ts, ev, client, args) => {
         }).catch(err => log.error(err))
     })
   } else {
+    if (Array.isArray(results) && results.length === 1) {
+      results = results[0]
+    }
     let cldbid = results.cldbid
     ts.clientDBInfo(cldbid)
       .then(user => {
+        user = user[0]
         let lastDate = tools.toDate(user.client_lastconnected, 'd')
         let lastTime = tools.toDate(user.client_lastconnected, 't')
         let userNick = user.client_nickname
