@@ -1,7 +1,7 @@
 const log = require('../../log.js')
 
 module.exports.run = async (ts, ev, client, args) => {
-  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument!')
+  if (!args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!')
 
   let match = await ts.data.collection('users').findOne({ name: args[0] })
   if (match) return ts.sendTextMessage(client.getID(), 1, 'Document already exists.')
@@ -51,7 +51,9 @@ module.exports.run = async (ts, ev, client, args) => {
     let cl = await ts.getClientByUID(args[1])
     if (!cl) {
       ts.clientDBFind(args[1], true).then(clFind => {
+        clFind = clFind[0]
         ts.clientDBInfo(clFind.cldbid).then(cl => {
+          cl = cl[0]
           callback(cl.client_lastip)
         })
       })
@@ -63,7 +65,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'adduser',
-  usage: `${process.env.PREFIX}adduser <name> [unique ID]`,
+  usage: `${process.env.PREFIX}adduser <name> <unique ID>`,
   desc: 'Adds a user and their unique ID to the database.',
   module: 'db',
   level: 1
