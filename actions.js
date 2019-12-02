@@ -21,9 +21,14 @@ async function sendWelcomeMessage (client, ts) {
   let end = visitCount.slice(-1)
   let numSuffix = (end === 1) ? 'st' : (end === 2) ? 'nd' : (end === 3) ? 'rd' : 'th'
 
+  let bot = await ts.whoami()
+  let channel = await ts.getChannelByID(bot.client_channel_id)
+
   let welcome = `Hello [b]${nick}[/b], this is your ${visitCount + numSuffix} visit! `
   welcome += `We first saw you on ${dateCreated} at ${timeCreated}.\n`
-  welcome += `You can use the command [I]${cfg.bot.prefix}help[/I] to see what you can do.`
+  welcome += `You can use the command [I]${cfg.bot.prefix}help[/I] to see what you can do, but `
+  welcome += 'I can only see your command if you send a PM, or if we are in the same channel. '
+  welcome += `I currently reside in the channel "${channel.name}."`
 
   ts.sendTextMessage(client.getID(), 1, welcome)
 }
