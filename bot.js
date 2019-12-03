@@ -162,29 +162,33 @@ ts.on('textmessage', ev => {
   let fullCommand = args[0]
   args = args.slice(1)
 
+  if (!fullCommand.startsWith(prefix)) return
+
   if (!cfg.modules.db) {
     client.level = rootUsers.includes(uid) ? 0 : modUsers.includes(uid) ? 1 : 2
+    runCommand()
   } else {
     ts.data.collection('users').findOne({ 'uid': uid }).then(user => {
-      client.level = rootUsers.includes(uid) ? 0 : user.elevated ? 1 : 2
+      client.level = user.level
+      runCommand()
     })
   }
 
-  if (!fullCommand.startsWith(prefix)) return
-
-  let cmd = ts.commands.get(fullCommand.slice(prefix.length))
-  let noPerms = function (cmd) {
-    ts.sendTextMessage(client.getID(), 1, `You do not have permission to use the ${cmd.info.name} command.`)
+  function runCommand () {
+    let cmd = ts.commands.get(fullCommand.slice(prefix.length))
+    if (cmd) {
+      if (cmd.info.level < client.level) {
+        return noPerms(cmd)
+      } else {
+        cmd.run(ts, ev, client, args)
+        log.debug(`Command '${cmd.info.name}' receieved from '${nick}'`)
+        log.silly(`Full content of '${cmd.info.name}' (from '${nick}'): ${message}`)
+      }
+    }
   }
 
-  if (cmd) {
-    if (cmd.info.level < client.level) {
-      return noPerms(cmd)
-    } else {
-      cmd.run(ts, ev, client, args)
-      log.debug(`Command '${cmd.info.name}' receieved from '${nick}'`)
-      log.silly(`Full content of '${cmd.info.name}' (from '${nick}'): ${message}`)
-    }
+  function noPerms (cmd) {
+    ts.sendTextMessage(client.getID(), 1, `You do not have permission to use the ${cmd.info.name} command.`)
   }
 })
 

@@ -1,4 +1,5 @@
 const log = require('../../log.js')
+const cfg = require('../../config.js')
 
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!')
@@ -17,13 +18,15 @@ module.exports.run = async (ts, ev, client, args) => {
     return ts.sendTextMessage(client.getID(), 1, 'Unique ID does not match the required pattern.')
   }
 
+  let userlevel = cfg.users.root.includes(args[1]) ? 0 : 2
+
   let filter = { name: args[0] }
-  let update = { $set: { uid: [] } }
+  let update = { $set: { level: userlevel, uid: [] } }
   let options = { upsert: true }
 
   getAddr(addr => {
     if (args[1]) {
-      update = { $addToSet: { uid: args[1], ip: addr } }
+      update = { $set: { level: userlevel }, $addToSet: { uid: args[1], ip: addr } }
     }
 
     ts.data.collection('users').updateOne(filter, update, options, (err, res) => {

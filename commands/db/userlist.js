@@ -23,7 +23,7 @@ module.exports.run = async (ts, ev, client, args) => {
         resp = `[U]User List Page ${count}[/U]:\n`
       }
 
-      let elevated = user.elevated || false
+      let level = user.level === 0 ? 'Root' : user.level === 1 ? 'Elevated' : 'User'
       let uids
       user.uid.forEach(uid => {
         if (!uids) {
@@ -32,7 +32,7 @@ module.exports.run = async (ts, ev, client, args) => {
           uids += `, ${uid}`
         }
       })
-      resp += `[B]${user.name}[/B]:\tuid: ${uids || 'NO UID'}\televated: ${elevated}\n`
+      resp += `[B]${user.name}[/B]:\tUID: ${uids || 'NO UID'}\tLevel: ${level}\n`
     })
 
     if (res.length === 0) return ts.sendTextMessage(client.getID(), 1, 'No user documents.')
