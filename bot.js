@@ -169,7 +169,7 @@ ts.on('textmessage', ev => {
     runCommand()
   } else {
     ts.data.collection('users').findOne({ 'uid': uid }).then(user => {
-      client.level = user.level
+      client.level = user.level === undefined ? 2 : user.level
       runCommand()
     })
   }
