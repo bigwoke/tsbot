@@ -32,7 +32,7 @@ module.exports.run = async (ts, ev, client, args) => {
           uids += `, ${uid}`
         }
       })
-      resp += `[B]${user.name}[/B]:\tUID: ${uids || 'NO UID'}\tLevel: ${level}\n`
+      resp += `[B]${user.name}[/B]:\tLevel: ${level}\tUID: ${uids || 'NO UID'}\n`
     })
 
     if (res.length === 0) return ts.sendTextMessage(client.getID(), 1, 'No user documents.')
