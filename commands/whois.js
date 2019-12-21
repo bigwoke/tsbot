@@ -12,7 +12,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
   let resp = `Who is the client with UID "${searchUID}"?\n`
   let targetNick = target.client_nickname
-  let targetLevel = cfg.users.root.includes(searchUID) ? 'Admin' : cfg.users.mod.includes(searchUID) ? 'Mod' : 'User'
+  let targetLevel = cfg.users.root.includes(searchUID) ? 'Root' : cfg.users.mod.includes(searchUID) ? 'Elevated' : 'User'
   let targetLastSeen = tools.toDate(target.client_lastconnected)
   resp += `Nickname: ${targetNick}\nDBID: ${targetDBID.cldbid}\nPermission Level: ${targetLevel}\nLast Seen: ${targetLastSeen}`
   ts.sendTextMessage(client.getID(), 1, resp)
