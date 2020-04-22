@@ -52,13 +52,15 @@ async function groupProtectionCheck (client, ts) {
       if (cfg.modules.db) {
         let user = await ts.data.collection('users').findOne({ uid: uid })
         let group = await ts.data.collection('groups').findOne({ _id: sgid })
-        if (!user || !group || !group.prot) return
+        if (!group || !group.prot) return
 
-        let auth
-        for (let i = 0; i < group.auth_users.length; i++) {
-          if (user._id.equals(group.auth_users[i])) {
-            auth = true
-            break
+        let auth = null
+        if (user) {
+          for (let i = 0; i < group.auth_users.length; i++) {
+            if (user._id.equals(group.auth_users[i])) {
+              auth = true
+              break
+            }
           }
         }
 
@@ -79,7 +81,7 @@ async function groupProtectionCheck (client, ts) {
         }
       }
     })
-  }, 2500)
+  }, 4000)
 
   client.on('clientdisconnect', () => {
     clearInterval(sgProtInterval)
