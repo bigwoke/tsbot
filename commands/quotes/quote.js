@@ -129,7 +129,6 @@ module.exports.run = async (ts, ev, client, args) => {
           const timeoutVals = Array.from(timeouts.values())
           const timeoutsMatchingUser = timeoutVals.filter(v => v.author._id.equals(author._id))
           
-          console.log(timeoutsMatchingUser.length, ct)
           if (timeoutsMatchingUser.length === ct - 1) {
             (() => {
               for (const to of timeouts) {
@@ -137,7 +136,6 @@ module.exports.run = async (ts, ev, client, args) => {
                 let val = to[1]
   
                 if (val.author._id.equals(author._id)) {
-                  console.log(key)
                   return timeouts.delete(key)
                 }
               }
