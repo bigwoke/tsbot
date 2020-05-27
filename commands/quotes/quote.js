@@ -72,6 +72,7 @@ module.exports.run = async (ts, ev, client, args) => {
   
         if (quote) {
           const quoteNumber = quote.number
+          const author = quote.author
           const timeoutFunc = () => timeouts.delete(quoteNumber)
   
           timeouts.set(quoteNumber, { author: author, timeout: setTimeout(timeoutFunc, ct * 5000) })
