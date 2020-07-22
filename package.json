@@ -5,16 +5,13 @@
   "main": "bot.js",
   "dependencies": {
     "dotenv": "^5.0.1",
-    "eslint-utils": "^1.4.3",
     "lodash": "^4.17.19",
     "mongodb": "^3.5.5",
     "node-watch": "^0.6.3",
     "ts3-nodejs-library": "^1.16.1",
     "winston": "^2.4.4"
   },
-  "devDependencies": {
-    "standard": "^12.0.1"
-  },
+  "devDependencies": {},
   "scripts": {
     "test": "node --trace-warnings bot.js"
   },
