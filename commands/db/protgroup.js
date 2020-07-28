@@ -1,28 +1,28 @@
-const log = require('../../log.js')
+const log = require('../../log.js');
 
 module.exports.run = async (ts, ev, client, args) => {
-  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument!')
-  let groupid = parseInt(args[0])
+  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument!');
+  const groupid = parseInt(args[0], 10);
 
-  let match = await ts.data.collection('groups').findOne({ _id: groupid })
-  if (!match) return ts.sendTextMessage(client.getID(), 1, 'Document does not exist.')
+  const match = await ts.data.collection('groups').findOne({ _id: groupid });
+  if (!match) return ts.sendTextMessage(client.getID(), 1, 'Document does not exist.');
 
-  let filter = { _id: groupid }
-  let update = { $set: { prot: true } }
-  let resp = `Group ${groupid} protection is now enabled.`
+  const filter = { _id: groupid };
+  let update = { $set: { prot: true } };
+  let resp = `Group ${groupid} protection is now enabled.`;
 
   if (match.prot) {
-    update = { $set: { prot: false } }
-    resp = `Group ${groupid} protection is now disabled.`
+    update = { $set: { prot: false } };
+    resp = `Group ${groupid} protection is now disabled.`;
   }
 
-  ts.data.collection('groups').updateOne(filter, update, (err, res) => {
-    if (err) log.error('[DB] Error setting protection status of group:', err.stack)
+  ts.data.collection('groups').updateOne(filter, update, (err) => {
+    if (err) log.error('[DB] Error setting protection status of group:', err.stack);
 
-    ts.sendTextMessage(client.getID(), 1, resp)
-    log.info(`[DB] Group ${groupid} protection is now enabled.`)
-  })
-}
+    ts.sendTextMessage(client.getID(), 1, resp);
+    log.info(`[DB] Group ${groupid} protection is now enabled.`);
+  });
+};
 
 module.exports.info = {
   name: 'protgroup',
@@ -30,4 +30,4 @@ module.exports.info = {
   desc: 'Toggles protected status of the given servergroup.',
   module: 'db',
   level: 0
-}
+};

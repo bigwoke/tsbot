@@ -1,22 +1,22 @@
-const log = require('../../log.js')
+const log = require('../../log.js');
 
-module.exports.run = async (ts, ev, client, args) => {
-  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument!')
-  let groupid = parseInt(args[0])
+module.exports.run = (ts, ev, client, args) => {
+  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument!');
+  const groupid = parseInt(args[0], 10);
 
-  let filter = { _id: groupid }
+  const filter = { _id: groupid };
 
   ts.data.collection('groups').deleteOne(filter, (err, res) => {
-    if (err) log.error('Error deleting user document:', err.stack)
+    if (err) log.error('Error deleting user document:', err.stack);
 
     if (res.result.n === 1) {
-      ts.sendTextMessage(client.getID(), 1, 'Successfully removed group document.')
-      log.info('[DB] Group document removed:', groupid)
+      ts.sendTextMessage(client.getID(), 1, 'Successfully removed group document.');
+      log.info('[DB] Group document removed:', groupid);
     } else {
-      ts.sendTextMessage(client.getID(), 1, 'Group document with given id could not be found.')
+      ts.sendTextMessage(client.getID(), 1, 'Group document with given id could not be found.');
     }
-  })
-}
+  });
+};
 
 module.exports.info = {
   name: 'delgroup',
@@ -24,4 +24,4 @@ module.exports.info = {
   desc: 'Removes a group document from the database.',
   module: 'db',
   level: 0
-}
+};

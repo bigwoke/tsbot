@@ -1,3 +1,4 @@
+/* eslint-disable no-process-env */
 const config = {
   ts3: {
     protocol: process.env.TS_PROTO || 'ssh',
@@ -22,8 +23,8 @@ const config = {
     prefix: process.env.PREFIX || '!'
   },
   users: {
-    root: process.env.ROOT_USERS.split(/,\s*/g),
-    mod: process.env.MOD_USERS.split(/,\s*/g)
+    root: process.env.ROOT_USERS.split(/,\s*/gu),
+    mod: process.env.MOD_USERS.split(/,\s*/gu)
   },
   modules: {
     db: process.env.DB === 'true',
@@ -35,6 +36,6 @@ const config = {
   loglevel: process.env.LOGLEVEL || 'info',
   sgprot: require('./sgprot.json'),
   autogroups: require('./autogroups.json')
-}
+};
 
-module.exports = config
+module.exports = config;

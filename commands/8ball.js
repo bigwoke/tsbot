@@ -1,5 +1,5 @@
-module.exports.run = async (ts, ev, client, args) => {
-  let outlookList = [
+module.exports.run = (ts, ev, client) => {
+  const outlookList = [
     'It is certain.',
     'It is decidedly so.',
     'Without a doubt.',
@@ -20,15 +20,15 @@ module.exports.run = async (ts, ev, client, args) => {
     'My sources say no.',
     'Outlook not so good.',
     'Very doubtful.'
-  ]
+  ];
 
-  let outlook = outlookList[Math.floor(Math.random() * outlookList.length)]
-  ts.sendTextMessage(client.getID(), ev.targetmode, `8 Ball says: "${outlook}"`)
-}
+  const outlook = outlookList[Math.floor(Math.random() * outlookList.length)];
+  ts.sendTextMessage(client.getID(), ev.targetmode, `8 Ball says: "${outlook}"`);
+};
 
 module.exports.info = {
   name: '8ball',
   usage: `${process.env.PREFIX}8ball`,
   desc: 'Asks a theoretical magic 8 ball for an outlook.',
   level: 2
-}
+};

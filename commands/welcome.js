@@ -1,8 +1,8 @@
-const actions = require('../actions.js')
+const actions = require('../actions.js');
 
-module.exports.run = async (ts, ev, client) => {
-  actions.welcome(client, ts)
-}
+module.exports.run = (ts, ev, client) => {
+  actions.welcome(client, ts);
+};
 
 module.exports.info = {
   name: 'welcome',
@@ -10,4 +10,4 @@ module.exports.info = {
   desc: 'Sends the welcome message to the user who sent the command.',
   module: 'welcome',
   level: 2
-}
+};
