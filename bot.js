@@ -190,7 +190,7 @@ ts.on('textmessage', ev => {
   if (cfg.modules.db) {
     ts.data.collection('users').findOne({ 'uid': uid }).then(user => {
       if (user) {
-        client.level = user.level ? user.level : 2;
+        client.level = typeof user.level === 'undefined' ? 2 : user.level;
       } else {
         client.level = 2;
       }
@@ -211,4 +211,5 @@ ts.on('error', err => {
     log.error(err);
   }
 });
+
 ts.on('close', ev => log.info('Connection has been closed:', ev));
