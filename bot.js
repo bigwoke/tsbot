@@ -80,7 +80,7 @@ watch('./commands/', { filter: /\.js$/u, recursive: true }, (evt, file) => {
   const fileName = path.basename(file);
   delRequireCache(file, fileName);
 
-  fs.access(path.resolve(file, fs.constants.F_OK, (err) => {
+  fs.access(path.resolve(file), fs.constants.F_OK, (err) => {
     if (err) {
       log.info(`Detected removal of command ${fileName}, unloading.`);
     } else {
@@ -103,7 +103,7 @@ watch('./commands/', { filter: /\.js$/u, recursive: true }, (evt, file) => {
         log.warn(`Issue loading command file ${fileName}:`, e.stack);
       }
     }
-  }));
+  });
 });
 
 ts.on('ready', async () => {
