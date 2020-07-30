@@ -1,65 +1,80 @@
 const log = require('../log.js');
+const cfg = require('../config');
 const tools = require('../tools.js');
 
-module.exports.run = async (ts, ev, client, args) => {
+module.exports.run = (ts, ev, client, args) => {
   if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
 
   const searchUser = args.slice(0).join(/\s+/gu);
-  let results = await ts.clientDBFind(searchUser, false).catch(err => {
-    if (err.id === 1281) {
-      ts.sendTextMessage(client.getID(), 1, 'No matching clients found in the database.');
+
+  async function findTS3User () {
+    let results = await ts.clientDBFind(searchUser, false).catch(err => {
+      if (err.id === 1281) {
+        ts.sendTextMessage(client.getID(), ev.targetmode, 'No matching TeamSpeak clients found.');
+      } else {
+        log.error(err);
+      }
+    });
+
+    if (!results) return;
+
+    // If the search returns an array of multiple results
+    if (Array.isArray(results) && results.length > 1) {
+      const dbidArray = results.map(user => user.cldbid);
+      let resp = `Found ${dbidArray.length} matching TeamSpeak clients:\n`;
+      let count = 0;
+
+      // For each element in the array of DBIDs
+      dbidArray.forEach(element => {
+        ts.clientDBInfo(element)
+          .then(user => {
+            [user] = user;
+            const lastDate = tools.toDate(user.client_lastconnected, 'd');
+            const lastTime = tools.toDate(user.client_lastconnected, 't');
+            const userNick = user.client_nickname;
+            count++;
+
+            if (resp.length >= ts.charLimit - 100) {
+              ts.sendTextMessage(client.getID(), 1, resp).catch(err => {
+                ts.sendTextMessage(client.getID(), 1, 'error: Too many characters in response.');
+                log.error('Error printing long message:', err.stack);
+              });
+              resp = '';
+            }
+
+            resp += `\n[B]${userNick}[/B]: Last seen on ${lastDate} at ${lastTime}`;
+            if (count === dbidArray.length) ts.sendTextMessage(client.getID(), 1, resp);
+          }).catch(err => log.error(err));
+      });
     } else {
-      log.error(err);
-    }
-  });
-
-  if (!results) return;
-
-  // If the search returns an array of multiple results
-  if (Array.isArray(results) && results.length > 1) {
-    const dbidArray = results.map(user => user.cldbid);
-    let resp = `Found ${dbidArray.length} matching clients in the database:\n`;
-    let count = 0;
-
-    // For each element in the array of DBIDs
-    dbidArray.forEach(element => {
-      ts.clientDBInfo(element)
+      if (Array.isArray(results) && results.length === 1) {
+        [results] = results;
+      }
+      const { cldbid } = results;
+      ts.clientDBInfo(cldbid)
         .then(user => {
           [user] = user;
           const lastDate = tools.toDate(user.client_lastconnected, 'd');
           const lastTime = tools.toDate(user.client_lastconnected, 't');
           const userNick = user.client_nickname;
-          count++;
 
-          if (resp.length >= ts.charLimit - 100) {
-            ts.sendTextMessage(client.getID(), 1, resp).catch(err => {
-              ts.sendTextMessage(client.getID(), 1, 'error: Too many characters in response.');
-              log.error('Error printing long message:', err.stack);
-            });
-            resp = '';
-          }
-
+          let resp = 'Found 1 matching TeamSpeak client:';
           resp += `\n[B]${userNick}[/B]: Last seen on ${lastDate} at ${lastTime}`;
-          if (count === dbidArray.length) ts.sendTextMessage(client.getID(), 1, resp);
+
+          ts.sendTextMessage(client.getID(), 1, resp);
         }).catch(err => log.error(err));
-    });
-  } else {
-    if (Array.isArray(results) && results.length === 1) {
-      [results] = results;
     }
-    const { cldbid } = results;
-    ts.clientDBInfo(cldbid)
-      .then(user => {
-        [user] = user;
-        const lastDate = tools.toDate(user.client_lastconnected, 'd');
-        const lastTime = tools.toDate(user.client_lastconnected, 't');
-        const userNick = user.client_nickname;
+  }
 
-        let resp = 'Found 1 matching client in the database:';
-        resp += `\n[B]${userNick}[/B]: Last seen on ${lastDate} at ${lastTime}`;
-
-        ts.sendTextMessage(client.getID(), 1, resp);
-      }).catch(err => log.error(err));
+  if (cfg.modules.db) {
+    ts.data.collection('users').findOne({ name: searchUser }).then(res => {
+      if (res) {
+        ts.sendTextMessage(client.getID(), ev.targetmode, `${res.name} was last seen ` +
+          `(joining or leaving) at ${res.seen.toLocaleString()}.`);
+      } else {
+        findTS3User();
+      }
+    });
   }
 };
 
