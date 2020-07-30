@@ -18,7 +18,8 @@ async function sendWelcomeMessage (client, ts) {
 
   const visitCount = cl.client_totalconnections.toString();
 
-  const end = visitCount.slice(-1);
+  let end = visitCount.slice(-1);
+  if (end > 3 && end <= 9) end = 0;
   const suffixes = ['th', 'st', 'nd', 'rd'];
   const numSuffix = suffixes[end];
 
