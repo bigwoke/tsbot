@@ -69,8 +69,14 @@ module.exports.run = (ts, ev, client, args) => {
   if (cfg.modules.db) {
     ts.data.collection('users').findOne({ name: searchUser }).then(res => {
       if (res) {
-        ts.sendTextMessage(client.getID(), ev.targetmode, `${res.name} was last seen ` +
-          `(joining or leaving) at ${res.seen.toLocaleString()}.`);
+        if (res.seen) {
+          ts.sendTextMessage(client.getID(), ev.targetmode, `${res.name} was last seen ` +
+            `(joining or leaving) at ${res.seen.toLocaleString()}.`);
+        } else {
+          ts.sendTextMessage(client.getID(), ev.targetmode, `${res.name} is missing ` +
+            'a last seen date entry.');
+          findTS3User();
+        }
       } else {
         findTS3User();
       }
