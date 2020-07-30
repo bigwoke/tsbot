@@ -106,6 +106,13 @@ watch('./commands/', { filter: /\.js$/u, recursive: true }, (evt, file) => {
   });
 });
 
+function setUserLastSeen (uniqueId) {
+  ts.data.collection('users').findOneAndUpdate(
+    { uid: uniqueId },
+    { $set: { seen: new Date(Date.now()) } }
+  ).catch(err => log.error(`Error setting last seen date: ${err}`));
+}
+
 ts.on('ready', async () => {
   ts.whoami()
     .then(bot => {
@@ -143,10 +150,12 @@ ts.on('clientconnect', ev => {
   actions.welcome(client, ts);
   actions.sgCheck(client, ts);
   actions.autoGroups(client, ts);
+  setUserLastSeen(ev.client.client_unique_identifier);
 });
 
 ts.on('clientdisconnect', ev => {
   log.silly(`[-] Client "${ev.client.client_nickname}" disconnected.`);
+  setUserLastSeen(ev.client.client_unique_identifier);
 });
 
 ts.on('clientmoved', ev => {
