@@ -20,7 +20,9 @@ function isObjectEmpty (obj) {
 
 function createEmptyFileIfAbsent (file) {
   try {
-    fs.access(file, fs.constants.R_OK);
+    fs.access(file, fs.constants.R_OK, err => {
+      if (err) log.error(err);
+    });
   } catch (err) {
     if (err.code !== 'ENOENT') return log.error('Error accessing checked file:', err.stack);
     fs.writeFile(file, '{}');
