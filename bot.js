@@ -159,10 +159,28 @@ ts.on('clientdisconnect', ev => {
 });
 
 ts.on('clientmoved', ev => {
-  if (ev.client.type !== 0) return;
-  const nick = ev.client.nickname;
-  const cname = ev.channel.name;
-  log.silly(`[x] Client "${nick}" moved to channel "${cname}"`);
+  // If the client is serverquery and an info channel is set
+  if (ev.client.type === 1 && cfg.bot.infoChannel) {
+    // If the moved client has the same name as the bot config
+    if (ev.client.nickname === cfg.bot.nick) {
+      ts.whoami().then(bot => {
+        ts.getChannelByID(bot.client_channel_id).then(ch => {
+          const spacerDesc = `${cfg.bot.nick} is currently located in:\n` +
+            `[center]"${ch.name}"[/center]\n[left]${cfg.bot.nick} can ` +
+            'be moved by authorized users with the [color=#d58500]' +
+            `${cfg.bot.prefix}summon[/color] command.`;
+
+          ts.channelEdit(cfg.bot.infoChannel, {
+            channel_description: spacerDesc
+          }).catch(log.error);
+        });
+      });
+    }
+  } else {
+    const nick = ev.client.nickname;
+    const cname = ev.channel.name;
+    log.silly(`[x] Client "${nick}" moved to channel "${cname}"`);
+  }
 });
 
 ts.on('textmessage', ev => {

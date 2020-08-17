@@ -20,7 +20,8 @@ const config = {
   bot: {
     nick: process.env.NICKNAME || 'tsbot',
     home: process.env.HOMECID,
-    prefix: process.env.PREFIX || '!'
+    prefix: process.env.PREFIX || '!',
+    infoChannel: process.env.INFO_CHANNEL_ID
   },
   users: {
     root: process.env.ROOT_USERS.split(/,\s*/gu),
