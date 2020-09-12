@@ -108,16 +108,11 @@ module.exports.run = (ts, ev, client, args) => {
 
         const match = { author: author._id };
 
-        const pipeline = [
-          { $match: { $and: [match, { number: { $nin: Array.from(timeouts.keys()) } }] } },
-          { $sample: { size: 1 } }
-        ];
-
         ts.data.collection('quotes').countDocuments(match).then(ct => {
           const timeoutVals = Array.from(timeouts.values());
           const timeoutsMatchingUser = timeoutVals.filter(v => v.author._id.equals(author._id));
 
-          if (timeoutsMatchingUser.length === ct - 1) {
+          if (timeoutsMatchingUser.length === ct) {
             (() => {
               for (const to of timeouts) {
                 const [key, val] = to;
@@ -126,8 +121,13 @@ module.exports.run = (ts, ev, client, args) => {
                   return timeouts.delete(key);
                 }
               }
-            })(); // IIFE IS VERY UGLY BUT WORKS
+            })();
           }
+
+          const pipeline = [
+            { $match: { $and: [match, { number: { $nin: Array.from(timeouts.keys()) } }] } },
+            { $sample: { size: 1 } }
+          ];
 
           ts.data.collection('quotes').aggregate(pipeline).toArray((error, result) => {
             if (error) log.error('[DB] Error getting quote from database:', error.stack);
