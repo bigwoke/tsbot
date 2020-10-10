@@ -16,7 +16,7 @@ module.exports.run = (ts, ev, client, args) => {
 
     resp.on('end', () => {
       const response = JSON.parse(data);
-      if (!response.definition) return ts.sendTextMessage(client.getID(), ev.targetmode, 'No definition.');
+      if (response[0].message) return ts.sendTextMessage(client.getID(), ev.targetmode, 'No definition.');
 
       const definitions = response.length;
       let msg = `Found ${definitions} definition(s) for the word "${word}":\n`;
