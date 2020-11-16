@@ -1,5 +1,6 @@
 /* eslint-disable no-undefined */
 const log = require('../../log.js');
+const cfg = require('../../config');
 
 const timeouts = new Map();
 
@@ -140,8 +141,9 @@ module.exports.run = (ts, ev, client, args) => {
             if (quote) {
               const quoteNumber = quote.number;
               const timeoutFunc = () => timeouts.delete(quoteNumber);
+              const qtm = cfg.bot.quoteTimeoutModifier;
 
-              timeouts.set(quoteNumber, { authorId: author._id, timeout: setTimeout(timeoutFunc, ct * 5000) });
+              timeouts.set(quoteNumber, { authorId: author._id, timeout: setTimeout(timeoutFunc, ct * qtm) });
             }
 
             callback(quote, author);

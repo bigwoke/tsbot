@@ -95,14 +95,14 @@ DB_HOST='localhost'
 DB_PORT=27017
 # Database name
 DB_NAME='db'
-# If both of these credentials are set, they will be used
+# If both of the following credentials are set, they will be used
 # The bot can be run on an insecure db (not recommended)
 # Database login username
 DB_USER=''
 # Database login password
 DB_PASS=''
 # Custom MongoDB connection URI string.
-# If specified, all other connection info is ignored.
+# If specified, all other DB connection info is ignored.
 DB_URI=''
 
 #####################
@@ -115,6 +115,12 @@ NICKNAME='tsbot'
 HOMECID=
 # The prefix entered before commands
 PREFIX='!'
+# Modifier for quote timeouts in milliseconds. The amount of quotes by one
+# user will be multiplied by this number to get the amount of time a particular
+# quote by that user will be "on cooldown" before being displayed again.
+# Ex: if a user has 10 quotes, each quote displayed is on cooldown for 1 minute
+# (60,000ms) from the time the quote is displayed via the quote command.
+QUOTE_TIMEOUT_MOD=6000
 # Users with full access to every feature of the bot.
 # Correct values are unique IDs of teamspeak clients. Comma delimited.
 ROOT_USERS='AbCdEfGhIjKlMnOpQrStUvWxYzA=, AzYwXvUtSrQpOnMlKjIhGfEdCbA='
