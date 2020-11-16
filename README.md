@@ -15,10 +15,10 @@ There plenty of neat general commands for everyone:
 - 8ball - Theoretical magic 8 ball with a pool of 20 typical responses
 - coinflip - Flips a coin, 50/50 RNG
 - define - Finds the definition for the given word
-- diceroll - Rolls a die with the given amount of sides
 - help - Displays all commands the user has access to
 - playercount - Returns the player count of the given Steam game
 - quote - Returns a quote, optionally from a specific user or a chosen quote
+- roll - Rolls a die with the given amount of sides
 - seen - Shows the last time any users with the specified username were online
 - urban - Gets the top entries for a search term from Urban Dictionary
 - welcome - Manually invokes the welcome message function
@@ -33,6 +33,7 @@ Some tools for moderators or trusted users with elevated permissions:
 - grouplist - Lists all groups and their protected and auto-assigned users
 - msggroup - Sends a message to online members of a given server group
 - msguser - Sends a message to the given online user
+- summon - Calls the bot to the channel the command sender is in
 - turbopoke - Pokes the target user up to 60 times twice per second
 - userlist - Lists all users in the database
 - protlist - Lists server groups with users auto-assigned to them
@@ -49,9 +50,11 @@ Along with some useful, typically maintenence-based 'root' commands:
 - delquote - Deletes a quote from the database
 - deluid - Removes a unique ID from a user
 - deluser - Deletes a user from the database
+- demote - Removes a user's moderator status
 - disable - Disables the given command if it's enabled and non-root
 - enable - Enables the given command if it's disabled
 - gm - Sends the given message to all virtual servers
+- promote - Promotes a user to moderator status, cannot promote to root
 - protgroup - Toggles group protection for an existing servergroup
 - reload - Reloads the given command
 
@@ -115,6 +118,8 @@ NICKNAME='tsbot'
 HOMECID=
 # The prefix entered before commands
 PREFIX='!'
+# ID of the channel dedicated to bot location/summon info, if applicable
+INFO_CHANNEL_ID=
 # Modifier for quote timeouts in milliseconds. The amount of quotes by one
 # user will be multiplied by this number to get the amount of time a particular
 # quote by that user will be "on cooldown" before being displayed again.
