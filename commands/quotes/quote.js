@@ -62,7 +62,7 @@ module.exports.run = (ts, ev, client, args) => {
           const { author } = quote;
           const timeoutFunc = () => timeouts.delete(quoteNumber);
 
-          timeouts.set(quoteNumber, { author: author, timeout: setTimeout(timeoutFunc, ct * 5000) });
+          timeouts.set(quoteNumber, { authorId: author, timeout: setTimeout(timeoutFunc, ct * 5000) });
         }
 
         ts.data.collection('users').findOne({ _id: quote.author }, (error, result) => {
@@ -110,7 +110,7 @@ module.exports.run = (ts, ev, client, args) => {
 
         ts.data.collection('quotes').countDocuments(match).then(ct => {
           const timeoutVals = Array.from(timeouts.values());
-          const timeoutsMatchingUser = timeoutVals.filter(v => v.author._id.equals(author._id));
+          const timeoutsMatchingUser = timeoutVals.filter(v => v.authorId.equals(author._id));
 
           if (timeoutsMatchingUser.length === ct) {
             (() => {
@@ -141,7 +141,7 @@ module.exports.run = (ts, ev, client, args) => {
               const quoteNumber = quote.number;
               const timeoutFunc = () => timeouts.delete(quoteNumber);
 
-              timeouts.set(quoteNumber, { author: author, timeout: setTimeout(timeoutFunc, ct * 5000) });
+              timeouts.set(quoteNumber, { authorId: author._id, timeout: setTimeout(timeoutFunc, ct * 5000) });
             }
 
             callback(quote, author);
