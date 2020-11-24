@@ -16,7 +16,9 @@ module.exports.run = (ts, ev, client, args) => {
 
     resp.on('end', () => {
       const response = JSON.parse(data);
-      if (response.length === 0) return ts.sendTextMessage(client.getID(), ev.targetmode, 'No definition.');
+      if (response.length === 0 || response[0].meanings.length === 0) {
+        return ts.sendTextMessage(client.getID(), ev.targetmode, 'No definition.');
+      }
 
       const [definition] = response;
       const meanings = definition.meanings.length;
