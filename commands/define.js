@@ -6,7 +6,7 @@ module.exports.run = (ts, ev, client, args) => {
   if (!word) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
   if (!regex.test(word)) return ts.sendTextMessage(client.getID(), 1, 'That does not seem to be a word.');
 
-  const dictURI = `https://owlbot.info/api/v2/dictionary/${word}?format=json`;
+  const dictURI = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
   https.get(dictURI, resp => {
     let data = '';
 
@@ -16,15 +16,17 @@ module.exports.run = (ts, ev, client, args) => {
 
     resp.on('end', () => {
       const response = JSON.parse(data);
-      if (response[0].message) return ts.sendTextMessage(client.getID(), ev.targetmode, 'No definition.');
+      if (response.length === 0) return ts.sendTextMessage(client.getID(), ev.targetmode, 'No definition.');
 
-      const definitions = response.length;
-      let msg = `Found ${definitions} definition(s) for the word "${word}":\n`;
+      const [definition] = response;
+      const meanings = definition.meanings.length;
+      let msg = `Found ${meanings} meaning(s) for the word "${word}":\n`;
 
-      for (let ct = 0; ct < definitions && msg.length < ts.charLimit - 100; ct++) {
-        const { type } = response[ct];
-        const def = response[ct].definition.replace(/â/gu, '"');
-        const append = `\t[b]${ct + 1}[/b]:  ${type}. ${def}\n`;
+      for (let ct = 0; ct < meanings && msg.length < ts.charLimit - 100; ct++) {
+        const meaning = definition.meanings[ct];
+        const { partOfSpeech } = meaning;
+        const def = meaning.definitions[0].definition;
+        const append = `\t[b]${ct + 1}[/b]:  ${partOfSpeech}. ${def}\n`;
 
         if ((msg + append).length >= ts.charLimit) {
           break;
