@@ -114,7 +114,7 @@ module.exports.run = (ts, ev, client, args) => {
             const [quote] = r;
             if (!quote) {
               const msg = 'Could not find a quote by that user or containing that text.';
-              return ts.sendTextMessage(client.getID(), 1, msg);
+              return ts.sendTextMessage(client.getID(), ev.targetmode, msg);
             }
 
             // Assuming a quote was found, look up its author, then callback
@@ -157,7 +157,7 @@ module.exports.run = (ts, ev, client, args) => {
           ts.data.collection('quotes').aggregate(pipeline).toArray((error, result) => {
             if (error) log.error('[DB] Error getting quote from database:', error.stack);
             if (!result[0]) {
-              return ts.sendTextMessage(client.getID(), 1, 'Could not find quote by that user.');
+              return ts.sendTextMessage(client.getID(), ev.targetmode, 'Could not find quote by that user.');
             }
 
             const [quote] = result;
