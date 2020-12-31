@@ -118,7 +118,7 @@ module.exports.run = (ts, ev, client, args) => {
               for (const to of timeouts) {
                 const [key, val] = to;
 
-                if (val.author._id.equals(author._id)) {
+                if (val.authorId.equals(author._id)) {
                   return timeouts.delete(key);
                 }
               }
