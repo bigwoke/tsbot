@@ -22,7 +22,8 @@ const config = {
     home: process.env.HOMECID,
     prefix: process.env.PREFIX || '!',
     infoChannel: process.env.INFO_CHANNEL_ID,
-    quoteTimeoutModifier: process.env.QUOTE_TIMEOUT_MOD || 6000
+    quoteTimeoutModifier: process.env.QUOTE_TIMEOUT_MOD || 6000,
+    noMoveWaitTimer: 100
   },
   users: {
     root: process.env.ROOT_USERS.split(/,\s*/gu),
@@ -33,7 +34,8 @@ const config = {
     welcome: process.env.WELCOME !== 'false',
     sgprot: process.env.SGPROT === 'true',
     autogroups: process.env.AUTOGROUPS === 'true',
-    quotes: process.env.QUOTES === 'true'
+    quotes: process.env.QUOTES === 'true',
+    enforceMove: process.env.ENFORCE_MOVE === 'true'
   },
   loglevel: process.env.LOGLEVEL || 'info',
   sgprot: require('./sgprot.json'),

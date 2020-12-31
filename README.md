@@ -146,6 +146,10 @@ SGPROT='false'
 AUTOGROUPS='false'
 # Should quote keeping be enabled?
 QUOTES='false'
+# Should client moves be strictly enforced?
+# This is used to prevent the use of nomove plugins by stickying and
+# re-moving clients if they switch too quickly after being moved.
+ENFORCE_MOVE='false'
 
 ###########
 # Logging #

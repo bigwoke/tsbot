@@ -6,6 +6,7 @@ if (cfg.modules.welcome) log.info('Welcome messages are enabled.');
 if (cfg.modules.sgprot) log.info('Server group protection is enabled.');
 if (cfg.modules.autogroups) log.info('Client auto group assignment is enabled.');
 if (cfg.modules.db) log.info('Database-reliant features are enabled.');
+if (cfg.modules.enforceMove) log.info('Strict channel move enforcement is enabled.');
 
 async function sendWelcomeMessage (client, ts) {
   if (!cfg.modules.welcome) return;
@@ -124,8 +125,33 @@ async function autoGroupAssign (client, ts) {
   }
 }
 
+const recentMoves = new Map();
+function enforceClientMove (ev) {
+  const { client: cl, channel: ch, reasonid: type } = ev;
+  const uniqueID = cl.uniqueIdentifier;
+
+  if (type === 0 && recentMoves.has(uniqueID)) {
+    const recentMove = recentMoves.get(uniqueID);
+    log.silly(`Client "${cl.nickname}" seems to be using a no-move addon!`);
+    cl.addPerm('b_client_is_sticky', 1).catch(log.error);
+    cl.move(recentMove.toChannel.cid).catch(log.error);
+    setTimeout(() => {
+      cl.delPerm('b_client_is_sticky').catch(log.error);
+    }, cfg.bot.noMoveWaitTimer);
+  }
+
+  if (type !== 0) {
+    const moveTimeout = () => recentMoves.delete(uniqueID);
+    recentMoves.set(uniqueID, {
+      toChannel: ch,
+      timeout: setTimeout(moveTimeout, cfg.bot.noMoveWaitTimer)
+    });
+  }
+}
+
 module.exports = {
   welcome: sendWelcomeMessage,
   sgCheck: groupProtectionCheck,
-  autoGroups: autoGroupAssign
+  autoGroups: autoGroupAssign,
+  enforceMove: enforceClientMove
 };

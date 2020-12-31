@@ -159,6 +159,7 @@ ts.on('clientdisconnect', ev => {
 });
 
 ts.on('clientmoved', ev => {
+  if (cfg.modules.enforceMove) actions.enforceMove(ev);
   // If the client is serverquery and an info channel is set
   if (ev.client.type === 1 && cfg.bot.infoChannel) {
     // If the moved client has the same name as the bot config
