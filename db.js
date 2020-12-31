@@ -22,7 +22,10 @@ function setupData (ts) {
   });
 
   if (cfg.modules.quotes) {
-    const quotesIndexSpecs = [{ key: { number: 1 }, unique: true }];
+    const quotesIndexSpecs = [
+      { key: { number: 1 }, unique: true },
+      { key: { quote: 'text' } }
+    ];
     ts.data.collection('quotes').createIndexes(quotesIndexSpecs, (err) => {
       if (err) log.error('[DB] Error settings quotes collection index:', err.stack);
     });

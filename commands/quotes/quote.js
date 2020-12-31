@@ -81,6 +81,7 @@ module.exports.run = (ts, ev, client, args) => {
   function getQuote (searchTerm, callback) {
     const searchInt = Number.isInteger(parseInt(searchTerm, 10));
     if (searchInt) {
+      // Get the quote with the given number
       const query = { number: parseInt(searchTerm, 10) };
       ts.data.collection('quotes').findOne(query, (err, res) => {
         if (err) log.error('[DB] Error getting quote from database:', err.stack);
@@ -99,16 +100,38 @@ module.exports.run = (ts, ev, client, args) => {
         });
       });
     } else {
+      // Try to find a user to look up a quote for using the text input
       ts.data.collection('users').findOne({ name: searchTerm }, (err, res) => {
         if (err) log.error('[DB] Error getting quote from database:', err.stack);
         if (!res) {
-          return ts.sendTextMessage(client.getID(), 1, 'Could not find that user.');
+          const pipeline = [
+            { $match: { $text: { $search: searchTerm } } },
+            { $sample: { size: 1 } }
+          ];
+
+          // Since a user can't be found with text input, try using it to find a quote
+          ts.data.collection('quotes').aggregate(pipeline).toArray().then(r => {
+            const [quote] = r;
+            if (!quote) {
+              const msg = 'Could not find a quote by that user or containing that text.';
+              return ts.sendTextMessage(client.getID(), 1, msg);
+            }
+
+            // Assuming a quote was found, look up its author, then callback
+            ts.data.collection('users').findOne({ _id: quote.author }, (error, result) => {
+              if (err) log.error('[DB] Error getting quote from databse:', error.stack);
+              callback(quote, result);
+            });
+          }).catch(e => log.error('[DB] Error getting quote from databse:', e.stack));
+
+          return;
         }
 
         const author = res;
 
         const match = { author: author._id };
 
+        // Get a count of all quotes by the given author to determine timeout length
         ts.data.collection('quotes').countDocuments(match).then(ct => {
           const timeoutVals = Array.from(timeouts.values());
           const timeoutsMatchingUser = timeoutVals.filter(v => v.authorId.equals(author._id));
@@ -130,6 +153,7 @@ module.exports.run = (ts, ev, client, args) => {
             { $sample: { size: 1 } }
           ];
 
+          // Get quote matching the given author that hasn't been displayed recently
           ts.data.collection('quotes').aggregate(pipeline).toArray((error, result) => {
             if (error) log.error('[DB] Error getting quote from database:', error.stack);
             if (!result[0]) {
