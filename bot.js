@@ -203,7 +203,7 @@ ts.on('textmessage', ev => {
   }
 
   function runCommand () {
-    const cmd = ts.commands.get(fullCommand.slice(prefix.length));
+    const cmd = ts.commands.get(fullCommand.toLowerCase().slice(prefix.length));
     if (cmd) {
       if (cmd.info.level < client.level) {
         return noPerms(cmd);
