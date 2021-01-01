@@ -23,7 +23,7 @@ const config = {
     prefix: process.env.PREFIX || '!',
     infoChannel: process.env.INFO_CHANNEL_ID,
     quoteTimeoutModifier: process.env.QUOTE_TIMEOUT_MOD || 6000,
-    noMoveWaitTimer: 100
+    noMoveWaitTimer: process.env.NOMOVE_WAIT || 100
   },
   users: {
     root: process.env.ROOT_USERS.split(/,\s*/gu),

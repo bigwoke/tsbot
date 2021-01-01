@@ -17,7 +17,7 @@ There plenty of neat general commands for everyone:
 - define - Finds the definition for the given word
 - help - Displays all commands the user has access to
 - playercount - Returns the player count of the given Steam game
-- quote - Returns a quote, optionally from a specific user or a chosen quote
+- quote - Returns a quote, optionally from a specific user, containing given text, or of a certain number
 - roll - Rolls a die with the given amount of sides
 - seen - Shows the last time any users with the specified username were online
 - urban - Gets the top entries for a search term from Urban Dictionary
@@ -126,6 +126,15 @@ INFO_CHANNEL_ID=
 # Ex: if a user has 10 quotes, each quote displayed is on cooldown for 1 minute
 # (60,000ms) from the time the quote is displayed via the quote command.
 QUOTE_TIMEOUT_MOD=6000
+# Amount of time to wait before removing the nomove "listener." Without
+# ENFORCE_MOVE set to true, this variable has no effect. Basically,
+# this number is the amount of time in milliseconds after a client is
+# manually moved before they should be allowed to manually switch channels
+# on their own without being manually moved back to their channel. Latency
+# may be worth considering. Too low of a value and the effect will never
+# work, too high and people may be inadvertently affected if they switch
+# channels manually. 
+NOMOVE_WAIT=300
 # Users with full access to every feature of the bot.
 # Correct values are unique IDs of teamspeak clients. Comma delimited.
 ROOT_USERS='AbCdEfGhIjKlMnOpQrStUvWxYzA=, AzYwXvUtSrQpOnMlKjIhGfEdCbA='
