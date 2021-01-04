@@ -195,8 +195,8 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'quote',
-  usage: `${process.env.PREFIX}quote [number | user name]`,
-  desc: 'Prints a random quote unless a number is specified.',
+  usage: `${process.env.PREFIX}quote [number | user name | text]`,
+  desc: 'Prints a random quote unless a number or text to match is specified.',
   module: 'quote',
   level: 2
 };
