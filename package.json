@@ -1,6 +1,6 @@
 {
   "name": "tsbot",
-  "version": "5.5.0",
+  "version": "5.5.1",
   "description": "Custom TeamSpeak 3 Bot",
   "main": "bot.js",
   "dependencies": {
@@ -12,7 +12,7 @@
     "winston": "^2.4.5"
   },
   "devDependencies": {
-    "eslint": "^7.13.0"
+    "eslint": "^7.17.0"
   },
   "scripts": {
     "test": "node --trace-warnings bot.js"

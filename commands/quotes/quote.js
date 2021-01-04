@@ -104,8 +104,9 @@ module.exports.run = (ts, ev, client, args) => {
       ts.data.collection('users').findOne({ name: searchTerm }, (err, res) => {
         if (err) log.error('[DB] Error getting quote from database:', err.stack);
         if (!res) {
+          // Use the entire arg string instead of the first arg
           const pipeline = [
-            { $match: { $text: { $search: searchTerm } } },
+            { $match: { $text: { $search: args.join(' ') } } },
             { $sample: { size: 1 } }
           ];
 
