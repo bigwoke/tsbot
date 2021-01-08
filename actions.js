@@ -134,9 +134,11 @@ function enforceClientMove (ev) {
     const recentMove = recentMoves.get(uniqueID);
     log.silly(`Client "${cl.nickname}" seems to be using a no-move addon!`);
     cl.addPerm('b_client_is_sticky', 1).catch(log.error);
+    cl.addPerm('b_client_ignore_sticky', 0).catch(log.error);
     cl.move(recentMove.toChannel.cid).catch(log.error);
     setTimeout(() => {
       cl.delPerm('b_client_is_sticky').catch(log.error);
+      cl.delPerm('b_client_ignore_sticky').catch(log.error);
     }, cfg.bot.noMoveWaitTimer);
   }
 
