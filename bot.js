@@ -137,6 +137,7 @@ ts.on('ready', async () => {
     .then(list => {
       list.forEach(client => {
         actions.sgCheck(client, ts);
+        actions.idleCheck(client);
       });
     }).catch(err => log.error(err));
 });
@@ -150,6 +151,7 @@ ts.on('clientconnect', ev => {
   actions.welcome(client, ts);
   actions.sgCheck(client, ts);
   actions.autoGroups(client, ts);
+  actions.idleCheck(client);
   setUserLastSeen(ev.client.client_unique_identifier);
 });
 

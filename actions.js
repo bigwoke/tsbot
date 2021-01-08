@@ -151,9 +151,43 @@ function enforceClientMove (ev) {
   }
 }
 
+function idleClientCheck (client) {
+  if (!cfg.modules.antiafk) return;
+  if (!cfg.bot.idleChannel) {
+    log.warn('Environment variable IDLE_CHANNEL_ID not set, anti-AFK disabled.');
+    return;
+  }
+
+  const idleCheckInterval = setInterval(async () => {
+    const cl = await client.getInfo().catch(err => {
+      if (err.id === 512) return;
+      log.error('Error getting client info:', err);
+    });
+
+    if (!cl) {
+      clearInterval(idleCheckInterval);
+      return;
+    }
+
+    if (cl.cid === cfg.bot.idleChannel) return;
+
+    /* eslint-disable-next-line no-mixed-operators */
+    const muteState = cl.client_output_muted << 1 | cl.client_input_muted;
+    const idle = cl.client_idle_time >= cfg.bot.idleTime * 1000;
+
+    // If the client is idle, meets mute requirements, and is not in idle channel
+    if (idle && muteState >= cfg.bot.muteState && cl.cid !== cfg.bot.idleChannel) {
+      client.move(cfg.bot.idleChannel).catch(log.error);
+      client.message('You have been moved to an idle channel because you ' +
+        `were idle for over ${cfg.bot.idleTime} seconds.`);
+    }
+  }, 4000);
+}
+
 module.exports = {
   welcome: sendWelcomeMessage,
   sgCheck: groupProtectionCheck,
   autoGroups: autoGroupAssign,
-  enforceMove: enforceClientMove
+  enforceMove: enforceClientMove,
+  idleCheck: idleClientCheck
 };

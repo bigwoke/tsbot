@@ -68,7 +68,7 @@ Most of the configurable options can be put in a `.env` file. Server group prote
 
 ### 1) .ENV
 
-Create a file in the root directory that you cloned the repo to earlier, and name it simply `.env`. Below are all the possible configuration options you can put in this file. Only the `TS_PASS` option is technically required for the bot to function, but you will need to add yourself to `ROOT_USERS` to fully control the bot. Connection options are highly recommended for the sake of completeness, everything else has a default value of some kind if necessary, and are therefore not required to be in this file if you want to leave them out. Defaults can be found in `config.js`.
+Create a file in the root directory that you cloned the repo to earlier, and name it simply `.env`. Below are all the possible configuration options you can put in this file. Only the `TS_PASS` option is technically required for the bot to function, but you will need to add yourself to `ROOT_USERS` to fully control the bot. Connection options are highly recommended for the sake of completeness. Almost everything else has a default value of some kind if necessary, and are therefore not required to be in this file if you want to leave them out. Defaults can be found in `config.js`. Note, some modules do have required variables that must be present for them to function.
 
 ```INI
 ##################################
@@ -134,7 +134,23 @@ QUOTE_TIMEOUT_MOD=6000
 # may be worth considering. Too low of a value and the effect will never
 # work, too high and people may be inadvertently affected if they switch
 # channels manually. 
-NOMOVE_WAIT=300
+NOMOVE_WAIT=200
+# Amount of time in seconds after which an idle client should
+# be automoved to a designated idle channel.
+IDLE_TIME=900
+# ID of the channel containing idle clients, if applicable.
+# Required for the ANTI_AFK module to work.
+IDLE_CHANNEL_ID=
+# Minimum client mute state to require if an idle client is to be moved.
+# This state will be checked against before moving an idle client, and clients
+# whose mute state is greater than or equal to this option will be movable.
+# Valid options are as follows: 0 (none) < 1 (input) < 2 (output).
+# For example, if only clients with their microphone or sound muted 
+# should be moved, 1 (input) would be the minimum mute state. Unmuted clients 
+# would then not be moved if idle. Similarly, an idle state of 2 would
+# only move clients with their sound muted. 0 would move any clients
+# that are idle regardless of their mute state.
+IDLE_MUTE_STATE=1
 # Users with full access to every feature of the bot.
 # Correct values are unique IDs of teamspeak clients. Comma delimited.
 ROOT_USERS='AbCdEfGhIjKlMnOpQrStUvWxYzA=, AzYwXvUtSrQpOnMlKjIhGfEdCbA='
@@ -159,6 +175,9 @@ QUOTES='false'
 # This is used to prevent the use of nomove plugins by stickying and
 # re-moving clients if they switch too quickly after being moved.
 ENFORCE_MOVE='false'
+# Should AFK clients be moved to an idle channel automatically?
+# Requires IDLE_CHANNEL_ID to be set.
+ANTI_AFK='false'
 
 ###########
 # Logging #
