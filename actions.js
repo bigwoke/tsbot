@@ -7,6 +7,7 @@ if (cfg.modules.sgprot) log.info('Server group protection is enabled.');
 if (cfg.modules.autogroups) log.info('Client auto group assignment is enabled.');
 if (cfg.modules.db) log.info('Database-reliant features are enabled.');
 if (cfg.modules.enforceMove) log.info('Strict channel move enforcement is enabled.');
+if (cfg.modules.antiafk) log.info('Anti-AFK automoving is enabled.');
 
 async function sendWelcomeMessage (client, ts) {
   if (!cfg.modules.welcome) return;
