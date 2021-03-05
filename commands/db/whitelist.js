@@ -7,6 +7,7 @@ const mytsRegex = /^.{45}=$/u;
 function addUser (ts, client, identifier, who) {
   if (ipRegex.test(identifier)) {
     ts.data.collection('whitelist').insertOne({ name: who, ip: identifier });
+    return ts.sendTextMessage(client.getID(), 1, `User with identifier "${identifier}" added to whitelist.`);
   } else if (uidRegex.test(identifier)) {
     ts.getClientByUID(identifier).then(cl => {
       if (!cl) return ts.sendTextMessage(client.getID(), 1, 'That UID could not be found.');
@@ -14,11 +15,10 @@ function addUser (ts, client, identifier, who) {
         if (!info) return ts.sendTextMessage(client.getID(), 1, 'The user with that UID is not online.');
         if (!info.client_myteamspeak_id) return ts.sendTextMessage(client.getID(), 1, 'That user does not have a MyTS account.');
         ts.data.collection('whitelist').insertOne({ name: who, mytsid: info.client_myteamspeak_id });
+        return ts.sendTextMessage(client.getID(), 1, `User with identifier "${identifier}" added to whitelist.`);
       });
     });
   }
-
-  return ts.sendTextMessage(client.getID(), 1, `User with identifier "${identifier}" added to whitelist.`);
 }
 
 function delUser (ts, client, identifier) {
