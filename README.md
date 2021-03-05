@@ -9,6 +9,9 @@ That being said, the features with this bot are (arguably) somewhat light, and m
 - Server group protection - essentially a server group whitelist, where only users with certain unique IDs can be added to specified server groups.
 - Automatic server group assignment - sets a client to a specified server group on connection based on IP address.
 - Quote keeping - moderator-status users defined in `.env` can add quotes, their respective users, and optionally the time at which they were spoken (defaults to current time).
+- Client move enforcement - workaround for clientside anti-move addons.
+- Idle client automover - automatically moves idle clients to a chosen channel, based on customizable parameters.
+- Server whitelist - maintain and enforce a whitelist of IP addresses or MyTeamspeak IDs that are allowed to join the server.
 
 There plenty of neat general commands for everyone:
 
@@ -151,6 +154,10 @@ IDLE_CHANNEL_ID=
 # only move clients with their sound muted. 0 would move any clients
 # that are idle regardless of their mute state.
 IDLE_MUTE_STATE=1
+# Amount of time (in seconds) to ban clients who are not whitelisted upon
+# attempting to join the server. Setting this value to zero equates to
+# a permanent ban. Whitelist module must be enabled.
+WHITELIST_BAN_DURATION=300
 # Users with full access to every feature of the bot.
 # Correct values are unique IDs of teamspeak clients. Comma delimited.
 ROOT_USERS='AbCdEfGhIjKlMnOpQrStUvWxYzA=, AzYwXvUtSrQpOnMlKjIhGfEdCbA='

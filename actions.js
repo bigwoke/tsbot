@@ -8,6 +8,7 @@ if (cfg.modules.autogroups) log.info('Client auto group assignment is enabled.')
 if (cfg.modules.db) log.info('Database-reliant features are enabled.');
 if (cfg.modules.enforceMove) log.info('Strict channel move enforcement is enabled.');
 if (cfg.modules.antiafk) log.info('Anti-AFK automoving is enabled.');
+if (cfg.modules.whitelist) log.info('Server whitelist is enabled.');
 
 async function sendWelcomeMessage (client, ts) {
   if (!cfg.modules.welcome) return;
@@ -185,10 +186,34 @@ function idleClientCheck (client) {
   }, 4000);
 }
 
+function whitelistCheck (client, ts) {
+  if (!cfg.modules.whitelist) return;
+  if (!cfg.modules.db) return;
+
+  const client_ip = client.connectionClientIp;
+  client.getInfo().then(info => {
+    const client_mytsid = info.client_myteamspeak_id;
+
+    const query = {
+      $or: [
+        { ip: client_ip },
+        { mytsid: client_mytsid }
+      ]
+    };
+
+    ts.data.collection('whitelist').find(query).toArray().then(res => {
+      if (res.length === 0) {
+        setTimeout(() => client.ban('You are not on the whitelist.', cfg.bot.whitelistBanTime), 10);
+      }
+    });
+  });
+}
+
 module.exports = {
   welcome: sendWelcomeMessage,
   sgCheck: groupProtectionCheck,
   autoGroups: autoGroupAssign,
   enforceMove: enforceClientMove,
-  idleCheck: idleClientCheck
+  idleCheck: idleClientCheck,
+  whitelistCheck: whitelistCheck
 };

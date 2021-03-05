@@ -26,7 +26,8 @@ const config = {
     noMoveWaitTimer: process.env.NOMOVE_WAIT || 200,
     idleTime: parseInt(process.env.IDLE_TIME, 10) || 900,
     idleChannel: parseInt(process.env.IDLE_CHANNEL_ID, 10),
-    muteState: parseInt(process.env.IDLE_MUTE_STATE, 10) || 1
+    muteState: parseInt(process.env.IDLE_MUTE_STATE, 10) || 1,
+    whitelistBanTime: parseInt(process.env.WHITELIST_BAN_DURATION, 10) || 300
   },
   users: {
     root: process.env.ROOT_USERS.split(/,\s*/gu),
@@ -39,7 +40,8 @@ const config = {
     autogroups: process.env.AUTOGROUPS === 'true',
     quotes: process.env.QUOTES === 'true',
     enforceMove: process.env.ENFORCE_MOVE === 'true',
-    antiafk: process.env.ANTI_AFK === 'true'
+    antiafk: process.env.ANTI_AFK === 'true',
+    whitelist: process.env.WHITELIST === 'true'
   },
   loglevel: process.env.LOGLEVEL || 'info',
   sgprot: require('./sgprot.json'),
