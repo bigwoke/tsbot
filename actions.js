@@ -27,7 +27,7 @@ async function sendWelcomeMessage (client, ts) {
   const numSuffix = suffixes[end];
 
   const bot = await ts.whoami();
-  const channel = await ts.getChannelByID(bot.client_channel_id);
+  const channel = await ts.getChannelById(bot.client_channel_id);
 
   let welcome = `Hello [b]${nick}[/b], this is your ${visitCount + numSuffix} visit! `;
   welcome += `We first saw you on ${dateCreated} at ${timeCreated}.\n`;
