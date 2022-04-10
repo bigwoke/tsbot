@@ -31,7 +31,7 @@ module.exports.run = (ts, ev, client, args) => {
             [user] = user;
             const lastDate = tools.toDate(user.client_lastconnected, 'd');
             const lastTime = tools.toDate(user.client_lastconnected, 't');
-            const userNick = user.client_nickname;
+            const userNick = user.clientNickname;
             count++;
 
             if (resp.length >= ts.charLimit - 100) {
@@ -56,7 +56,7 @@ module.exports.run = (ts, ev, client, args) => {
           [user] = user;
           const lastDate = tools.toDate(user.client_lastconnected, 'd');
           const lastTime = tools.toDate(user.client_lastconnected, 't');
-          const userNick = user.client_nickname;
+          const userNick = user.clientNickname;
 
           let resp = 'Found 1 matching TeamSpeak client:';
           resp += `\n[B]${userNick}[/B]: Last seen on ${lastDate} at ${lastTime}`;

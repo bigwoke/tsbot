@@ -11,7 +11,7 @@ module.exports.run = async (ts, ev, client, args) => {
   if (!target) return ts.sendTextMessage(client.clid, 1, 'Cannot find the client with that unique ID!');
 
   let resp = `Who is the client with UID "${searchUID}"?\n`;
-  const targetNick = target.client_nickname;
+  const targetNick = target.clientNickname;
   let targetLevel = 'User';
   if (cfg.users.root.includes(searchUID)) targetLevel = 'Root';
   else if (cfg.users.mod.includes(searchUID)) targetLevel = 'Elevated';

@@ -119,7 +119,7 @@ TeamSpeak.connect({
   ts.on('ready', async () => {
     ts.whoami()
       .then(bot => {
-        log.info(`Authorization Successful! Logged in as ${bot.client_nickname}.`);
+        log.info(`Authorization Successful! Logged in as ${bot.clientNickname}.`);
         if (cfg.bot.home) {
           const homeCID = cfg.bot.home;
           ts.clientMove(bot.clientId, homeCID).catch(err => log.warn(err));
@@ -151,7 +151,7 @@ TeamSpeak.connect({
   });
   
   ts.on('clientdisconnect', ev => {
-    log.silly(`[-] Client "${ev.client.client_nickname}" disconnected.`);
+    log.silly(`[-] Client "${ev.client.clientNickname}" disconnected.`);
     setUserLastSeen(ts, ev.client.clientUniqueIdentifier);
   });
   
