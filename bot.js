@@ -147,12 +147,12 @@ TeamSpeak.connect({
     actions.autoGroups(client, ts);
     actions.idleCheck(client);
     actions.whitelistCheck(client, ts);
-    setUserLastSeen(ts, ev.client.client_unique_identifier);
+    setUserLastSeen(ts, ev.client.clientUniqueIdentifier);
   });
   
   ts.on('clientdisconnect', ev => {
     log.silly(`[-] Client "${ev.client.client_nickname}" disconnected.`);
-    setUserLastSeen(ts, ev.client.client_unique_identifier);
+    setUserLastSeen(ts, ev.client.clientUniqueIdentifier);
   });
   
   ts.on('clientmoved', ev => {
