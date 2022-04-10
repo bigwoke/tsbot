@@ -19,7 +19,7 @@ async function sendWelcomeMessage (client, ts) {
   const dateCreated = tools.toDate(cl.client_created, 'd');
   const timeCreated = tools.toDate(cl.client_created, 't');
 
-  const visitCount = cl.client_totalconnections.toString();
+  const visitCount = cl.clientTotalconnections.toString();
 
   let end = visitCount.slice(-1);
   if (end > 3 && end <= 9) end = 0;
