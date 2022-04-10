@@ -13,8 +13,8 @@ function addUser (ts, client, identifier, who) {
       if (!cl) return ts.sendTextMessage(client.clid, 1, 'That UID could not be found.');
       cl.getInfo().then(info => {
         if (!info) return ts.sendTextMessage(client.clid, 1, 'The user with that UID is not online.');
-        if (!info.client_myteamspeak_id) return ts.sendTextMessage(client.clid, 1, 'That user does not have a MyTS account.');
-        ts.data.collection('whitelist').insertOne({ name: who, mytsid: info.client_myteamspeak_id });
+        if (!info.clientMyteamspeakId) return ts.sendTextMessage(client.clid, 1, 'That user does not have a MyTS account.');
+        ts.data.collection('whitelist').insertOne({ name: who, mytsid: info.clientMyteamspeakId });
         return ts.sendTextMessage(client.clid, 1, `User with identifier "${identifier}" added to whitelist.`);
       });
     });

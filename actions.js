@@ -192,7 +192,7 @@ function whitelistCheck (client, ts) {
 
   const client_ip = client.connectionClientIp;
   client.getInfo().then(info => {
-    const client_mytsid = info.client_myteamspeak_id;
+    const client_mytsid = info.clientMyteamspeakId;
 
     const query = {
       $or: [
