@@ -9,7 +9,7 @@ function addUser (ts, client, identifier, who) {
     ts.data.collection('whitelist').insertOne({ name: who, ip: identifier });
     return ts.sendTextMessage(client.clid, 1, `User with identifier "${identifier}" added to whitelist.`);
   } else if (uidRegex.test(identifier)) {
-    ts.getClientByUID(identifier).then(cl => {
+    ts.getClientByUid(identifier).then(cl => {
       if (!cl) return ts.sendTextMessage(client.clid, 1, 'That UID could not be found.');
       cl.getInfo().then(info => {
         if (!info) return ts.sendTextMessage(client.clid, 1, 'The user with that UID is not online.');

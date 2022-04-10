@@ -13,14 +13,14 @@ module.exports.run = async (ts, ev, client, args) => {
   members = members.filter(m => m.client_unique_identifier !== 'ServerQuery');
 
   if (!Array.isArray(members)) {
-    const cl = await ts.getClientByUID(members.client_unique_identifier);
+    const cl = await ts.getClientByUid(members.client_unique_identifier);
     ts.sendTextMessage(cl.clid, 1, `[To group ${targetgroup.name}] from ${client.nickname}: ${message}`);
     ts.sendTextMessage(client.clid, 1, `Sent message to group ${targetgroup.name}.`);
     return;
   }
 
   members.forEach(async clinfo => {
-    const cl = await ts.getClientByUID(clinfo.client_unique_identifier);
+    const cl = await ts.getClientByUid(clinfo.client_unique_identifier);
     ts.sendTextMessage(cl.clid, 1, `[To group ${targetgroup.name}] from ${client.nickname}: ${message}`);
   });
   ts.sendTextMessage(client.clid, 1, `Sent message to group ${targetgroup.name}.`);

@@ -4,7 +4,7 @@ module.exports.run = async (ts, ev, client, args) => {
   if (!args[0] || !args[1]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
 
   const [searchUID] = args;
-  const target = await ts.getClientByUID(searchUID);
+  const target = await ts.getClientByUid(searchUID);
   if (!target) return ts.sendTextMessage(client.clid, 1, 'Could not find the given client.');
 
   const message = args.slice(1).join(' ');

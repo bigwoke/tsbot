@@ -25,7 +25,7 @@ module.exports.run = async (ts, ev, client, args) => {
   const options = { upsert: true };
 
   async function getAddr (callback) {
-    const foundClient = await ts.getClientByUID(args[1]);
+    const foundClient = await ts.getClientByUid(args[1]);
     if (foundClient) {
       callback(foundClient.connectionClientIp);
     } else {
