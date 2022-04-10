@@ -22,7 +22,7 @@ module.exports.run = async (ts, ev, client, args) => {
         [clFind] = clFind;
         ts.clientDbInfo(clFind.cldbid).then(cl => {
           [cl] = cl;
-          callback(cl.client_lastip);
+          callback(cl.clientLastip);
         });
       });
     }
