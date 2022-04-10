@@ -162,7 +162,7 @@ TeamSpeak.connect({
       // If the moved client has the same name as the bot config
       if (ev.client.nickname === cfg.bot.nick) {
         ts.whoami().then(bot => {
-          ts.getChannelById(bot.client_channel_id).then(ch => {
+          ts.getChannelById(bot.clientChannelId).then(ch => {
             const spacerDesc = `${cfg.bot.nick} is currently located in:\n` +
               `[center]"${ch.name}"[/center]\n[left]${cfg.bot.nick} can ` +
               'be moved by authorized users with the [color=#d58500]' +
