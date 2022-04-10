@@ -126,7 +126,7 @@ TeamSpeak.connect({
         }
       }).catch(err => log.error(err));
 
-    ts.clientList({ client_type: 0 })
+    ts.clientList({ clientType: 0 })
       .then(list => {
         list.forEach(client => {
           actions.sgCheck(client, ts);
