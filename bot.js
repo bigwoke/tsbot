@@ -122,7 +122,7 @@ TeamSpeak.connect({
         log.info(`Authorization Successful! Logged in as ${bot.client_nickname}.`);
         if (cfg.bot.home) {
           const homeCID = cfg.bot.home;
-          ts.clientMove(bot.client_id, homeCID).catch(err => log.warn(err));
+          ts.clientMove(bot.clientId, homeCID).catch(err => log.warn(err));
         }
       }).catch(err => log.error(err));
 

@@ -3,7 +3,7 @@ const log = require('../log.js');
 
 module.exports.run = (ts, ev, client) => {
   ts.whoami().then(bot => {
-    ts.clientMove(bot.client_id, client.cid).catch(err => log.warn(err));
+    ts.clientMove(bot.clientId, client.cid).catch(err => log.warn(err));
     log.debug(`SQ Client "${bot.name}" summoned by "${client.nickname}" to CID ${client.cid}`);
   });
 };
