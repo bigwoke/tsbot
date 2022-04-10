@@ -126,16 +126,6 @@ TeamSpeak.connect({
         }
       }).catch(err => log.error(err));
 
-    await Promise.all([
-      ts.registerEvent('server'),
-      ts.registerEvent('channel', 0),
-      ts.registerEvent('textserver'),
-      ts.registerEvent('textchannel'),
-      ts.registerEvent('textprivate')
-    ]).then(() => {
-      log.info('Subscribed to all events.');
-    }).catch(err => log.error(err));
-
     ts.clientList({ client_type: 0 })
       .then(list => {
         list.forEach(client => {
