@@ -132,11 +132,11 @@ function enforceClientMove (ev) {
   const { client: cl, channel: ch, reasonid: type } = ev;
   const uniqueID = cl.uniqueIdentifier;
 
-  if (type === 0 && recentMoves.has(uniqueID)) {
+  if (type === '0' && recentMoves.has(uniqueID)) {
     const recentMove = recentMoves.get(uniqueID);
     log.silly(`Client "${cl.nickname}" seems to be using a no-move addon!`);
-    cl.addPerm('b_client_is_sticky', 1).catch(log.error);
-    cl.addPerm('b_client_ignore_sticky', 0).catch(log.error);
+    cl.addPerm({ permname: 'b_client_is_sticky', permvalue: 1 }).catch(log.error);
+    cl.addPerm({ permname: 'b_client_ignore_sticky', permvalue: 0 }).catch(log.error);
     cl.move(recentMove.toChannel.cid).catch(log.error);
     setTimeout(() => {
       cl.delPerm('b_client_is_sticky').catch(log.error);
