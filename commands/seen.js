@@ -3,6 +3,7 @@ const cfg = require('../config');
 const tools = require('../tools.js');
 
 module.exports.run = (ts, ev, client, args) => {
+  if (!cfg.modules.db) return ts.sendTextMessage(client.clid, 1, 'Function unavailable without a database.');
   if (!args[0]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
 
   const searchUser = args.slice(0).join(/\s+/gu);

@@ -83,6 +83,7 @@ function watchCommands (ts) {
 }
 
 function setUserLastSeen (ts, uniqueId) {
+  if (!cfg.modules.db) return;
   ts.data.collection('users').findOneAndUpdate(
     { uid: uniqueId },
     { $set: { seen: new Date(Date.now()) } }
