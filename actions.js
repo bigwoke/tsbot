@@ -16,8 +16,8 @@ async function sendWelcomeMessage (client, ts) {
   const nick = client.nickname;
 
   const cl = await client.getDBInfo();
-  const dateCreated = tools.toDate(cl.client_created, 'd');
-  const timeCreated = tools.toDate(cl.client_created, 't');
+  const dateCreated = tools.toDate(cl.clientCreated, 'd');
+  const timeCreated = tools.toDate(cl.clientCreated, 't');
 
   const visitCount = cl.clientTotalconnections.toString();
 
