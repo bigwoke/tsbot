@@ -37,7 +37,7 @@ module.exports.run = (ts, ev, client, args) => {
     if (!autogroups[ip]) autogroups[ip] = [];
     if (autogroups[ip].includes[sgid]) return ts.sendTextMessage(client.clid, 1, 'That IP address has already been assigned the given server group.');
 
-    const servergroup = await ts.getServerGroupByID(parseInt(sgid, 10));
+    const servergroup = await ts.getServerGroupById(parseInt(sgid, 10));
     if (!servergroup) return ts.sendTextMessage(client.clid, 1, 'No server group with that ID could be found.');
 
     autogroups[ip].push(sgid);

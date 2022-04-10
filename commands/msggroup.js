@@ -4,7 +4,7 @@ module.exports.run = async (ts, ev, client, args) => {
   if (!args[0] || !args[1]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
 
   const [searchSGID] = args;
-  const targetgroup = await ts.getServerGroupByID(searchSGID);
+  const targetgroup = await ts.getServerGroupById(searchSGID);
   if (!targetgroup) return ts.sendTextMessage(client.clid, 1, 'Could not find the given server group.');
 
   const message = args.slice(1).join(' ');

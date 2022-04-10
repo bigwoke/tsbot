@@ -77,7 +77,7 @@ function groupProtectionCheck (client, ts) {
       } else {
         for (const key in cfg.sgprot) {
           if (parseInt(key, 10) === sgid && !cfg.sgprot[key].includes(uid)) {
-            ts.getServerGroupByID(sgid).then(serverGroup => {
+            ts.getServerGroupById(sgid).then(serverGroup => {
               client.serverGroupDel(sgid);
               client.poke(`The server group [B]${serverGroup.name}[/B] is protected!`);
               log.info(`User ${client.nickname} was removed from protected group ${serverGroup.name}`);
@@ -117,7 +117,7 @@ async function autoGroupAssign (client, ts) {
       if (key === clAddr) {
         for (const value in cfg.ipgroups[key]) {
           if (!clGroups.includes(value)) {
-            const group = await ts.getServerGroupByID(cfg.ipgroups[key][value]);
+            const group = await ts.getServerGroupById(cfg.ipgroups[key][value]);
             client.serverGroupAdd(cfg.ipgroups[key][value].toString());
             log.info(`User ${client.nickname} was added to the group ${group.name} assigned to their IP address.`);
           }

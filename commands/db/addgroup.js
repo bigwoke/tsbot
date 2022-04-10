@@ -14,7 +14,7 @@ module.exports.run = async (ts, ev, client, args) => {
     return ts.sendTextMessage(client.clid, 1, 'Given id does not match the required pattern.');
   }
 
-  const group = await ts.getServerGroupByID(groupid);
+  const group = await ts.getServerGroupById(groupid);
   if (!group) ts.sendTextMessage(client.clid, 1, 'That servergroup does not exist on the server.');
 
   const groupName = group.name;

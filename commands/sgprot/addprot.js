@@ -43,7 +43,7 @@ module.exports.run = (ts, ev, client, args) => {
     if (!sgprot[sgid]) sgprot[sgid] = [];
     if (sgprot[sgid].includes(uid)) return ts.sendTextMessage(client.clid, 1, 'That client is already an allowed member of the given group.');
 
-    const servergroup = await ts.getServerGroupByID(parseInt(sgid, 10));
+    const servergroup = await ts.getServerGroupById(parseInt(sgid, 10));
     if (!servergroup) return ts.sendTextMessage(client.clid, 1, 'No server group with that ID could be found.');
 
     sgprot[sgid].push(uid);

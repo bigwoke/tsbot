@@ -33,7 +33,7 @@ module.exports.run = (ts, ev, client) => {
       msg += `IP [b]${key}[/b]:\t`;
 
       for (const value in autogroups[key]) { //eslint-disable-line
-        const group = await ts.getServerGroupByID(autogroups[key][value].toString());
+        const group = await ts.getServerGroupById(autogroups[key][value].toString());
         const groupName = group.name;
 
         msg += `${parseInt(value, 10) === 0 ? '' : ', '}${groupName} (${autogroups[key][value]})`;

@@ -8,7 +8,7 @@ module.exports.run = async (ts, ev, client) => {
 
     let msg = 'The following server groups are protected:\n';
     for (const key in sgprot) {
-      const group = await ts.getServerGroupByID(key);
+      const group = await ts.getServerGroupById(key);
       const groupName = group.name;
 
       msg += `[b]${groupName}[/b] (${key}):\t`;
