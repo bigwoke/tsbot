@@ -1,3 +1,4 @@
+const cfg = require('../../config.js');
 const log = require('../../log.js');
 
 module.exports.run = async (ts, ev, client, args) => {
@@ -31,7 +32,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'promote',
-  usage: `${process.env.PREFIX}promote <name>`,
+  usage: `${cfg.bot.prefix}promote <name>`,
   desc: 'Sets an existing user to elevated level.',
   module: 'db',
   level: 0

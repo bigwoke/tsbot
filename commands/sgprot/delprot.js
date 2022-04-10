@@ -67,7 +67,7 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'delprot',
-  usage: `${process.env.PREFIX}delprot <sgid> <${useDB ? 'user name' : 'uniqueid'}>`,
+  usage: `${cfg.bot.prefix}delprot <sgid> <${useDB ? 'user name' : 'uniqueid'}>`,
   desc: 'Removes the given user from the protected list for the given server group.',
   module: 'sgprot',
   level: 0

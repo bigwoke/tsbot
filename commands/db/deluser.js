@@ -1,3 +1,4 @@
+const cfg = require('../../config.js');
 const log = require('../../log.js');
 
 module.exports.run = async (ts, ev, client, args) => {
@@ -26,7 +27,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'deluser',
-  usage: `${process.env.PREFIX}deluser <name>`,
+  usage: `${cfg.bot.prefix}deluser <name>`,
   desc: 'Removes a user\'s entry from the database.',
   module: 'db',
   level: 0

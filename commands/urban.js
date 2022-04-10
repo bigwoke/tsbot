@@ -1,3 +1,4 @@
+const cfg = require('../config')
 const https = require('https');
 
 module.exports.run = (ts, ev, client, args) => {
@@ -35,7 +36,7 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'urban',
-  usage: `${process.env.PREFIX}urban <phrase>`,
+  usage: `${cfg.bot.prefix}urban <phrase>`,
   desc: 'Gets the top entries for the given term from Urban Dictionary.',
   level: 2
 };

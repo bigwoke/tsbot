@@ -1,3 +1,4 @@
+const cfg = require('../../config')
 const log = require('../../log.js');
 
 module.exports.run = async (ts, ev, client, args) => {
@@ -40,7 +41,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'addgroup',
-  usage: `${process.env.PREFIX}addgroup <id>`,
+  usage: `${cfg.bot.prefix}addgroup <id>`,
   desc: 'Adds a servergroup and its basic properties to the database.',
   module: 'db',
   level: 0

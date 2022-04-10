@@ -1,3 +1,4 @@
+const cfg = require('../../config.js');
 const log = require('../../log.js');
 
 module.exports.run = async (ts, ev, client, args) => {
@@ -18,7 +19,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'delquote',
-  usage: `${process.env.PREFIX}delquote <num>`,
+  usage: `${cfg.bot.prefix}delquote <num>`,
   desc: 'Deletes the given quote from the database.',
   module: 'quote',
   level: 0

@@ -1,3 +1,4 @@
+const cfg = require('../config')
 const https = require('https');
 
 module.exports.run = (ts, ev, client, args) => {
@@ -42,7 +43,7 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'define',
-  usage: `${process.env.PREFIX}define <word>`,
+  usage: `${cfg.bot.prefix}define <word>`,
   desc: 'Grabs the definition(s) for the given word.',
   level: 2
 };

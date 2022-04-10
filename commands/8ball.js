@@ -1,3 +1,5 @@
+const cfg = require('../config')
+
 module.exports.run = (ts, ev, client) => {
   const outlookList = [
     'It is certain.',
@@ -28,7 +30,7 @@ module.exports.run = (ts, ev, client) => {
 
 module.exports.info = {
   name: '8ball',
-  usage: `${process.env.PREFIX}8ball`,
+  usage: `${cfg.bot.prefix}8ball`,
   desc: 'Asks a theoretical magic 8 ball for an outlook.',
   level: 2
 };

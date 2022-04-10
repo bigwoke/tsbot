@@ -52,7 +52,7 @@ module.exports.run = async (ts, ev, client) => {
 
 module.exports.info = {
   name: 'protlist',
-  usage: `${process.env.PREFIX}protlist`,
+  usage: `${cfg.bot.prefix}protlist`,
   desc: 'Lists all protected groups and their members.',
   module: 'sgprot',
   level: 1

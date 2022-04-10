@@ -1,3 +1,5 @@
+const cfg = require('../config')
+
 module.exports.run = (ts, ev, client) => {
   let flipResult = null;
   flipResult = Math.floor(Math.random() * 2);
@@ -8,7 +10,7 @@ module.exports.run = (ts, ev, client) => {
 
 module.exports.info = {
   name: 'coinflip',
-  usage: `${process.env.PREFIX}coinflip`,
+  usage: `${cfg.bot.prefix}coinflip`,
   desc: 'Simply flips a coin and returns heads or tails.',
   level: 2
 };

@@ -66,7 +66,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'adduser',
-  usage: `${process.env.PREFIX}adduser <name> <unique ID>`,
+  usage: `${cfg.bot.prefix}adduser <name> <unique ID>`,
   desc: 'Adds a user and their unique ID to the database.',
   module: 'db',
   level: 1

@@ -1,3 +1,5 @@
+const cfg = require('../config')
+
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[0] || !args[1]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
 
@@ -26,7 +28,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'msggroup',
-  usage: `${process.env.PREFIX}msggroup <sgid> <message>`,
+  usage: `${cfg.bot.prefix}msggroup <sgid> <message>`,
   desc: 'Sends a message to all online users in the group with the given ID.',
   level: 1
 };

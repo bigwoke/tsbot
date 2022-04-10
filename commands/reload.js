@@ -1,3 +1,4 @@
+const cfg = require('../config')
 const log = require('../log.js');
 
 function refresh (modulePath) {
@@ -31,7 +32,7 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'reload',
-  usage: `${process.env.PREFIX}reload <command>`,
+  usage: `${cfg.bot.prefix}reload <command>`,
   desc: 'Reloads the given command.',
   level: 0
 };

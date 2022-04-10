@@ -22,7 +22,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'whois',
-  usage: `${process.env.PREFIX}whois <uniqueid>`,
+  usage: `${cfg.bot.prefix}whois <uniqueid>`,
   desc: 'Returns basic information about the client with the given unique ID.',
   level: 2
 };

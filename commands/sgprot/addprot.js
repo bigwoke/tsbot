@@ -64,7 +64,7 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'addprot',
-  usage: `${process.env.PREFIX}addprot <sgid> <${cfg.modules.db ? 'user name' : 'uniqueid'}>`,
+  usage: `${cfg.bot.prefix}addprot <sgid> <${cfg.modules.db ? 'user name' : 'uniqueid'}>`,
   desc: 'Adds the given user to the protected list for the given server group.',
   module: 'sgprot',
   level: 0

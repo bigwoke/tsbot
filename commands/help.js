@@ -1,3 +1,4 @@
+const cfg = require('../config')
 const log = require('../log.js');
 
 module.exports.run = (ts, ev, client, args) => {
@@ -53,7 +54,7 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'help',
-  usage: `${process.env.PREFIX}help`,
+  usage: `${cfg.bot.prefix}help`,
   desc: 'Displays help information and accessible commands.',
   level: 2
 };

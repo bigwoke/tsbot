@@ -1,3 +1,4 @@
+const cfg = require('../../config.js');
 const log = require('../../log.js');
 
 module.exports.run = async (ts, ev, client, args) => {
@@ -31,7 +32,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'demote',
-  usage: `${process.env.PREFIX}demote <name>`,
+  usage: `${cfg.bot.prefix}demote <name>`,
   desc: 'Returns the given user to the \'user\' level.',
   module: 'db',
   level: 0

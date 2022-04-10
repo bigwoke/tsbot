@@ -1,3 +1,4 @@
+const cfg = require('../../config.js');
 const log = require('../../log.js');
 
 module.exports.run = (ts, ev, client) => {
@@ -49,7 +50,7 @@ module.exports.run = (ts, ev, client) => {
 
 module.exports.info = {
   name: 'userlist',
-  usage: `${process.env.PREFIX}userlist`,
+  usage: `${cfg.bot.prefix}userlist`,
   desc: 'Lists users in the database and their UIDs.',
   module: 'db',
   level: 1

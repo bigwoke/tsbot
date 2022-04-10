@@ -51,7 +51,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'delauto',
-  usage: `${process.env.PREFIX}delauto <sgid> <${cfg.modules.db ? 'user name' : 'ip address'}>`,
+  usage: `${cfg.bot.prefix}delauto <sgid> <${cfg.modules.db ? 'user name' : 'ip address'}>`,
   desc: 'Removes a server group id from assignment to the given IP address.',
   module: 'autogroups',
   level: 0

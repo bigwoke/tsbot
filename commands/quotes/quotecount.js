@@ -1,3 +1,4 @@
+const cfg = require('../../config.js');
 const log = require('../../log.js');
 
 module.exports.run = async (ts, ev, client, args) => {
@@ -29,7 +30,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'quotecount',
-  usage: `${process.env.PREFIX}quotecount [user name]`,
+  usage: `${cfg.bot.prefix}quotecount [user name]`,
   desc: 'Returns the total number of quotes, optionally by a given user.',
   module: 'quote',
   level: 2

@@ -38,7 +38,7 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'enable',
-  usage: `${process.env.PREFIX}enable <command>`,
+  usage: `${cfg.bot.prefix}enable <command>`,
   desc: 'Enables a currently disabled command.',
   level: 0
 };

@@ -1,3 +1,4 @@
+const cfg = require('../../config.js');
 const log = require('../../log.js');
 const db = require('../../db.js');
 
@@ -52,7 +53,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'addquote',
-  usage: `${process.env.PREFIX}addquote <user> <quote> [--date mm/dd/yyyy [hh:mm [am/pm]]]`,
+  usage: `${cfg.bot.prefix}addquote <user> <quote> [--date mm/dd/yyyy [hh:mm [am/pm]]]`,
   desc: 'Adds the given quote by the given user.',
   module: 'quote',
   level: 1

@@ -1,3 +1,4 @@
+const cfg = require('../config')
 const log = require('../log.js');
 const fs = require('fs');
 
@@ -27,7 +28,7 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'disable',
-  usage: `${process.env.PREFIX}disable <command>`,
+  usage: `${cfg.bot.prefix}disable <command>`,
   desc: 'Disables a currently enabled command.',
   level: 0
 };

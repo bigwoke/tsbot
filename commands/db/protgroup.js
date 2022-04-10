@@ -1,3 +1,4 @@
+const cfg = require('../../config.js');
 const log = require('../../log.js');
 
 module.exports.run = async (ts, ev, client, args) => {
@@ -26,7 +27,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'protgroup',
-  usage: `${process.env.PREFIX}protgroup <id>`,
+  usage: `${cfg.bot.prefix}protgroup <id>`,
   desc: 'Toggles protected status of the given servergroup.',
   module: 'db',
   level: 0

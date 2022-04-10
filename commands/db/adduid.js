@@ -1,3 +1,4 @@
+const cfg = require('../../config')
 const log = require('../../log.js');
 
 module.exports.run = async (ts, ev, client, args) => {
@@ -50,7 +51,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'adduid',
-  usage: `${process.env.PREFIX}adduid <name> <unique ID>`,
+  usage: `${cfg.bot.prefix}adduid <name> <unique ID>`,
   desc: 'Adds a unique ID to a user document.',
   module: 'db',
   level: 0

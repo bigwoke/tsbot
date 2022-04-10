@@ -80,7 +80,7 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'whitelist',
-  usage: `${process.env.PREFIX}whitelist <add | remove | enable | disable | list> {ip | uniqueID} {name}`,
+  usage: `${cfg.bot.prefix}whitelist <add | remove | enable | disable | list> {ip | uniqueID} {name}`,
   desc: 'Interacts with the server whitelist.',
   module: 'db',
   level: 0

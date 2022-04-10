@@ -1,3 +1,4 @@
+const cfg = require('../config')
 const https = require('https');
 
 module.exports.run = (ts, ev, client, args) => {
@@ -68,7 +69,7 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'playercount',
-  usage: `${process.env.PREFIX}playercount <steam appid>`,
+  usage: `${cfg.bot.prefix}playercount <steam appid>`,
   desc: 'Gives the current player count of the given steam game.',
   level: 2
 };

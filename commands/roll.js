@@ -1,3 +1,5 @@
+const cfg = require('../config')
+
 module.exports.run = (ts, ev, client, args) => {
   let upperLimit = 6;
   let rollResult = null;
@@ -13,7 +15,7 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'roll',
-  usage: `${process.env.PREFIX}roll [max]`,
+  usage: `${cfg.bot.prefix}roll [max]`,
   desc: 'Picks a number between one and the inclusive upper limit given, or six if none is given.',
   level: 2
 };

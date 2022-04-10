@@ -1,3 +1,4 @@
+const cfg = require('../../config.js');
 const log = require('../../log.js');
 
 module.exports.run = (ts, ev, client, args) => {
@@ -20,7 +21,7 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'delgroup',
-  usage: `${process.env.PREFIX}delgroup <id>`,
+  usage: `${cfg.bot.prefix}delgroup <id>`,
   desc: 'Removes a group document from the database.',
   module: 'db',
   level: 0

@@ -52,7 +52,7 @@ module.exports.run = (ts, ev, client) => {
 
 module.exports.info = {
   name: 'autolist',
-  usage: `${process.env.PREFIX}autolist`,
+  usage: `${cfg.bot.prefix}autolist`,
   desc: 'Lists all IP addresses with groups assigned to them.',
   module: 'autogroups',
   level: 1

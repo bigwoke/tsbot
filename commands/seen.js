@@ -86,7 +86,7 @@ module.exports.run = (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'seen',
-  usage: `${process.env.PREFIX}seen <nickname>`,
+  usage: `${cfg.bot.prefix}seen <nickname>`,
   desc: 'Lists the last time any users with the specified nickname were last online.',
   level: 2
 };

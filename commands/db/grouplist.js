@@ -1,3 +1,4 @@
+const cfg = require('../../config.js');
 const log = require('../../log.js');
 
 module.exports.run = (ts, ev, client) => {
@@ -63,7 +64,7 @@ module.exports.run = (ts, ev, client) => {
 
 module.exports.info = {
   name: 'grouplist',
-  usage: `${process.env.PREFIX}grouplist`,
+  usage: `${cfg.bot.prefix}grouplist`,
   desc: 'Lists groups in the database and their properties.',
   module: 'db',
   level: 1

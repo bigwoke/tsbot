@@ -1,3 +1,5 @@
+const cfg = require('../config')
+
 module.exports.run = async (ts, ev, client, args) => {
   if (!args[0] || !args[1]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
   if (!Number.isInteger(parseInt(args[0], 10))) return ts.sendTextMessage(client.clid, 1, 'error: First argument is not a number!');
@@ -24,7 +26,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
 module.exports.info = {
   name: 'turbopoke',
-  usage: `${process.env.PREFIX}turbopoke <# of pokes> <nickname>`,
+  usage: `${cfg.bot.prefix}turbopoke <# of pokes> <nickname>`,
   desc: 'Pokes the target user the specified amount of times, up to 60.',
   level: 1
 };

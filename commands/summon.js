@@ -1,3 +1,4 @@
+const cfg = require('../config')
 const log = require('../log.js');
 
 module.exports.run = (ts, ev, client) => {
@@ -9,7 +10,7 @@ module.exports.run = (ts, ev, client) => {
 
 module.exports.info = {
   name: 'summon',
-  usage: `${process.env.PREFIX}summon`,
+  usage: `${cfg.bot.prefix}summon`,
   desc: 'Summons the bot to the channel of the sender, allowing it to read that channel\'s chat.',
   level: 1
 };
