@@ -29,7 +29,7 @@ module.exports.run = async (ts, ev, client, args) => {
     if (foundClient) {
       callback(foundClient.connectionClientIp);
     } else {
-      ts.clientDBFind(args[1], true).then(clFind => {
+      ts.clientDbFind(args[1], true).then(clFind => {
         [clFind] = clFind;
         ts.clientDbInfo(clFind.cldbid).then(cl => {
           [cl] = cl;

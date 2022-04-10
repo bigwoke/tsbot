@@ -8,7 +8,7 @@ module.exports.run = (ts, ev, client, args) => {
   const searchUser = args.slice(0).join(/\s+/gu);
 
   async function findTS3User () {
-    let results = await ts.clientDBFind(searchUser, false).catch(err => {
+    let results = await ts.clientDbFind(searchUser, false).catch(err => {
       if (err.id === 1281) {
         ts.sendTextMessage(client.clid, ev.targetmode, 'No matching TeamSpeak clients found.');
       } else {

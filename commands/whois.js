@@ -5,7 +5,7 @@ module.exports.run = async (ts, ev, client, args) => {
   if (!args[0]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
 
   const [searchUID] = args;
-  const [targetDBID] = await ts.clientDBFind(searchUID, true);
+  const [targetDBID] = await ts.clientDbFind(searchUID, true);
   const [target] = await ts.clientDbInfo(targetDBID.cldbid);
 
   if (!target) return ts.sendTextMessage(client.clid, 1, 'Cannot find the client with that unique ID!');
