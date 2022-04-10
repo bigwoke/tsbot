@@ -174,7 +174,7 @@ function idleClientCheck (client) {
     if (cl.cid === cfg.bot.idleChannel) return;
 
     /* eslint-disable-next-line no-mixed-operators */
-    const muteState = cl.client_output_muted << 1 | cl.clientInputMuted;
+    const muteState = cl.clientOutputMuted << 1 | cl.clientInputMuted;
     const idle = cl.clientIdleTime >= cfg.bot.idleTime * 1000;
 
     // If the client is idle, meets mute requirements, and is not in idle channel
