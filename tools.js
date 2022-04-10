@@ -18,14 +18,12 @@ function isObjectEmpty (obj) {
   return Object.keys(obj).length === 0;
 }
 
-function createEmptyFileIfAbsent (file) {
+async function createEmptyFileIfAbsent (file) {
   try {
-    fs.access(file, fs.constants.R_OK, err => {
-      if (err) log.error(err);
-    });
+    await fsp.access(file, fs.constants.F_OK | fs.constants.W_OK);
   } catch (err) {
     if (err.code !== 'ENOENT') return log.error('Error accessing checked file:', err.stack);
-    fs.writeFile(file, '{}');
+    await fsp.writeFile(file, '{}');
   }
 }
 

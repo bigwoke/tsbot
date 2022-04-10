@@ -1,4 +1,13 @@
+const tools = require('./tools');
+
 /* eslint-disable no-process-env */
+async function requireIfNoDb(file) {
+  if (process.env.DB !== 'true') {
+    await tools.verifyFile(file);
+    return require(file);
+  }
+}
+
 const config = {
   ts3: {
     protocol: process.env.TS_PROTO || 'ssh',
@@ -30,8 +39,8 @@ const config = {
     whitelistBanTime: parseInt(process.env.WHITELIST_BAN_DURATION, 10) || 300
   },
   users: {
-    root: process.env.ROOT_USERS?.split(/,\s*/gu),
-    mod: process.env.MOD_USERS?.split(/,\s*/gu)
+    root: process.env.ROOT_USERS?.split(/,\s*/gu) || [],
+    mod: process.env.MOD_USERS?.split(/,\s*/gu) || []
   },
   modules: {
     db: process.env.DB === 'true',
@@ -44,8 +53,8 @@ const config = {
     whitelist: process.env.WHITELIST === 'true'
   },
   loglevel: process.env.LOGLEVEL || 'info',
-  sgprot: require('./sgprot.json'),
-  autogroups: require('./autogroups.json')
+  sgprot: requireIfNoDb('./sgprot.json'),
+  autogroups: requireIfNoDb('./autogroups.json')
 };
 
 module.exports = config;
