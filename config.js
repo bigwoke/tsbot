@@ -30,8 +30,8 @@ const config = {
     whitelistBanTime: parseInt(process.env.WHITELIST_BAN_DURATION, 10) || 300
   },
   users: {
-    root: process.env.ROOT_USERS.split(/,\s*/gu),
-    mod: process.env.MOD_USERS.split(/,\s*/gu)
+    root: process.env.ROOT_USERS?.split(/,\s*/gu),
+    mod: process.env.MOD_USERS?.split(/,\s*/gu)
   },
   modules: {
     db: process.env.DB === 'true',
