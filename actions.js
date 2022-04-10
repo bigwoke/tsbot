@@ -53,7 +53,7 @@ function groupProtectionCheck (client, ts) {
       return;
     }
 
-    cl.client_servergroups.forEach(async sgid => {
+    cl.clientServergroups.forEach(async sgid => {
       if (cfg.modules.db) {
         const user = await ts.data.collection('users').findOne({ uid: uid });
         const group = await ts.data.collection('groups').findOne({ _id: sgid });
@@ -98,7 +98,7 @@ async function autoGroupAssign (client, ts) {
 
   const clinfo = await client.getInfo();
   const clAddr = clinfo.connection_client_ip;
-  const clGroups = clinfo.client_servergroups;
+  const clGroups = clinfo.clientServergroups;
 
   if (cfg.modules.db) {
     const user = await ts.data.collection('users').findOne({ ip: clAddr });
