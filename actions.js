@@ -76,7 +76,7 @@ function groupProtectionCheck (client, ts) {
         }
       } else {
         for (const key in cfg.sgprot) {
-          if (parseInt(key, 10) === sgid && !cfg.sgprot[key].includes(uid)) {
+          if (key === sgid && !cfg.sgprot[key].includes(uid)) {
             ts.getServerGroupById(sgid).then(serverGroup => {
               client.serverGroupDel(sgid);
               client.poke(`The server group [B]${serverGroup.name}[/B] is protected!`);
