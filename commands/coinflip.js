@@ -3,7 +3,7 @@ module.exports.run = (ts, ev, client) => {
   flipResult = Math.floor(Math.random() * 2);
   flipResult = flipResult === 0 ? 'tails' : 'heads';
 
-  ts.sendTextMessage(client.getID(), ev.targetmode, `Coin flipped! You landed on ${flipResult}.`);
+  ts.sendTextMessage(client.clid, ev.targetmode, `Coin flipped! You landed on ${flipResult}.`);
 };
 
 module.exports.info = {

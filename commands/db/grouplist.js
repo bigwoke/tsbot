@@ -16,8 +16,8 @@ module.exports.run = (ts, ev, client) => {
       const group = res[i];
 
       if (resp.length >= ts.charLimit - 100) {
-        ts.sendTextMessage(client.getID(), 1, resp).catch(e => {
-          ts.sendTextMessage(client.getID(), 1, 'error: Too many characters in response.');
+        ts.sendTextMessage(client.clid, 1, resp).catch(e => {
+          ts.sendTextMessage(client.clid, 1, 'error: Too many characters in response.');
           log.error('Error printing long message:', e.stack);
         });
 
@@ -51,10 +51,10 @@ module.exports.run = (ts, ev, client) => {
       resp += `[B]${group.name}[/B] (${group._id}):\tProt: ${group.prot}\tAuth: ${authUsers || 'NONE'}\tAuto: ${autoUsers || 'NONE'}\n`;
     }
 
-    if (res.length === 0) return ts.sendTextMessage(client.getID(), 1, 'No group documents.');
-    ts.sendTextMessage(client.getID(), 1, resp).catch(e => {
+    if (res.length === 0) return ts.sendTextMessage(client.clid, 1, 'No group documents.');
+    ts.sendTextMessage(client.clid, 1, resp).catch(e => {
       if (e.id === 1541) {
-        ts.sendTextMessage(client.getID(), 1, 'ERR: Too many characters, please report this bug.');
+        ts.sendTextMessage(client.clid, 1, 'ERR: Too many characters, please report this bug.');
       }
       log.error('Error printing long message:', e.stack);
     });

@@ -35,7 +35,7 @@ async function sendWelcomeMessage (client, ts) {
   welcome += 'I can only see your command if you send a PM, or if we are in the same channel. ';
   welcome += `I currently reside in the channel "${channel.name}."`;
 
-  ts.sendTextMessage(client.getID(), 1, welcome);
+  ts.sendTextMessage(client.clid, 1, welcome);
 }
 
 function groupProtectionCheck (client, ts) {

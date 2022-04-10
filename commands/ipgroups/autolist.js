@@ -7,7 +7,7 @@ module.exports.run = (ts, ev, client) => {
   async function userAutoListDB () {
     let msg = 'The following users are auto-assigned to these server groups:\n';
     const groups = await ts.data.collection('groups').find({ auto_users: { $exists: true, $ne: [] } }).toArray();
-    if (groups.length === 0) return ts.sendTextMessage(client.getID(), 1, 'No auto-assigned users.');
+    if (groups.length === 0) return ts.sendTextMessage(client.clid, 1, 'No auto-assigned users.');
 
     for (let i = 0; i < groups.length; i++) {
       const group = groups[i];
@@ -21,11 +21,11 @@ module.exports.run = (ts, ev, client) => {
         msg += `${j === 0 ? '' : ', '}${user.name}`;
       }
     }
-    ts.sendTextMessage(client.getID(), 1, msg);
+    ts.sendTextMessage(client.clid, 1, msg);
   }
 
   async function userAutoListFile () {
-    if (tools.isEmpty(autogroups)) return ts.sendTextMessage(client.getID(), 1, 'No server groups are assigned to any IP addresses.');
+    if (tools.isEmpty(autogroups)) return ts.sendTextMessage(client.clid, 1, 'No server groups are assigned to any IP addresses.');
 
     let msg = 'The following IP addresses are assigned to these server groups:\n';
 
@@ -40,7 +40,7 @@ module.exports.run = (ts, ev, client) => {
         if (value === autogroups[key].length) msg += '\n';
       }
     }
-    ts.sendTextMessage(client.getID(), 1, msg);
+    ts.sendTextMessage(client.clid, 1, msg);
   }
 
   if (cfg.modules.db) {

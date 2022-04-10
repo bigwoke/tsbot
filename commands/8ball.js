@@ -23,7 +23,7 @@ module.exports.run = (ts, ev, client) => {
   ];
 
   const outlook = outlookList[Math.floor(Math.random() * outlookList.length)];
-  ts.sendTextMessage(client.getID(), ev.targetmode, `8 Ball says: "${outlook}"`);
+  ts.sendTextMessage(client.clid, ev.targetmode, `8 Ball says: "${outlook}"`);
 };
 
 module.exports.info = {

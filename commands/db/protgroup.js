@@ -1,11 +1,11 @@
 const log = require('../../log.js');
 
 module.exports.run = async (ts, ev, client, args) => {
-  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument!');
+  if (!args[0]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument!');
   const groupid = parseInt(args[0], 10);
 
   const match = await ts.data.collection('groups').findOne({ _id: groupid });
-  if (!match) return ts.sendTextMessage(client.getID(), 1, 'Document does not exist.');
+  if (!match) return ts.sendTextMessage(client.clid, 1, 'Document does not exist.');
 
   const filter = { _id: groupid };
   let update = { $set: { prot: true } };
@@ -19,7 +19,7 @@ module.exports.run = async (ts, ev, client, args) => {
   ts.data.collection('groups').updateOne(filter, update, (err) => {
     if (err) log.error('[DB] Error setting protection status of group:', err.stack);
 
-    ts.sendTextMessage(client.getID(), 1, resp);
+    ts.sendTextMessage(client.clid, 1, resp);
     log.info(`[DB] Group ${groupid} protection is now enabled.`);
   });
 };

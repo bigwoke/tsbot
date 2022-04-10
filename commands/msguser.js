@@ -1,14 +1,14 @@
 module.exports.run = async (ts, ev, client, args) => {
-  if (!args[0] || !args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
+  if (!args[0] || !args[1]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
 
   const [searchUID] = args;
   const target = await ts.getClientByUID(searchUID);
-  if (!target) return ts.sendTextMessage(client.getID(), 1, 'Could not find the given client.');
+  if (!target) return ts.sendTextMessage(client.clid, 1, 'Could not find the given client.');
 
   const message = args.slice(1).join(' ');
 
-  ts.sendTextMessage(target.getID(), 1, `[b]${client.nickname}[/b] says: ${message}`);
-  ts.sendTextMessage(client.getID(), 1, `Sent message to ${target.nickname}.`);
+  ts.sendTextMessage(target.clid, 1, `[b]${client.nickname}[/b] says: ${message}`);
+  ts.sendTextMessage(client.clid, 1, `Sent message to ${target.nickname}.`);
 };
 
 module.exports.info = {

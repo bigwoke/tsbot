@@ -3,8 +3,8 @@ const https = require('https');
 module.exports.run = (ts, ev, client, args) => {
   const [word] = args;
   const regex = /^[a-zA-Z]+$/u;
-  if (!word) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
-  if (!regex.test(word)) return ts.sendTextMessage(client.getID(), 1, 'That does not seem to be a word.');
+  if (!word) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
+  if (!regex.test(word)) return ts.sendTextMessage(client.clid, 1, 'That does not seem to be a word.');
 
   const dictURI = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
   https.get(dictURI, resp => {
@@ -17,7 +17,7 @@ module.exports.run = (ts, ev, client, args) => {
     resp.on('end', () => {
       const response = JSON.parse(data);
       if (response.length === 0 || response[0].meanings.length === 0) {
-        return ts.sendTextMessage(client.getID(), ev.targetmode, 'No definition.');
+        return ts.sendTextMessage(client.clid, ev.targetmode, 'No definition.');
       }
 
       const [definition] = response;
@@ -35,7 +35,7 @@ module.exports.run = (ts, ev, client, args) => {
         }
         msg += append;
       }
-      ts.sendTextMessage(client.getID(), ev.targetmode, msg);
+      ts.sendTextMessage(client.clid, ev.targetmode, msg);
     });
   });
 };

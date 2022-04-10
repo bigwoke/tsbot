@@ -4,13 +4,13 @@ const fs = require('fs');
 const autogroups = cfg.modules.db ? null : require('../../autogroups.json');
 
 module.exports.run = (ts, ev, client, args) => {
-  if (!args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
-  if (!Number.isInteger(parseInt(args[0], 10))) return ts.sendTextMessage(client.getID(), 1, 'First argument is not a group ID.');
+  if (!args[1]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
+  if (!Number.isInteger(parseInt(args[0], 10))) return ts.sendTextMessage(client.clid, 1, 'First argument is not a group ID.');
 
   async function addUserDB () {
     const sgid = parseInt(args[0], 10);
     const user = await ts.data.collection('users').findOne({ name: args[1] });
-    if (!user) return ts.sendTextMessage(client.getID(), 1, 'That user is not registered in the database.');
+    if (!user) return ts.sendTextMessage(client.clid, 1, 'That user is not registered in the database.');
 
     const filter = { _id: sgid };
     const update = { $addToSet: { auto_users: user._id } };
@@ -19,14 +19,14 @@ module.exports.run = (ts, ev, client, args) => {
       if (err) log.error('[DB] Error adding autoassigned user to group:', err.stack);
 
       if (res.result.n === 0) {
-        ts.sendTextMessage(client.getID(), 1, 'Could not find specified group.');
+        ts.sendTextMessage(client.clid, 1, 'Could not find specified group.');
       } else if (res.result.nModified === 0) {
-        ts.sendTextMessage(client.getID(), 1, 'User is already autoassigned to this group.');
+        ts.sendTextMessage(client.clid, 1, 'User is already autoassigned to this group.');
       } else if (res.result.nModified === 1) {
-        ts.sendTextMessage(client.getID(), 1, 'Successfully added autoassign user to group.');
+        ts.sendTextMessage(client.clid, 1, 'Successfully added autoassign user to group.');
         log.info(`[DB] User ${user.name} added to group ${sgid}`);
       } else {
-        ts.sendTextMessage(client.getID(), 1, 'Issue authorizing user.');
+        ts.sendTextMessage(client.clid, 1, 'Issue authorizing user.');
       }
     });
   }
@@ -35,17 +35,17 @@ module.exports.run = (ts, ev, client, args) => {
     const [sgid, ip] = args;
 
     if (!autogroups[ip]) autogroups[ip] = [];
-    if (autogroups[ip].includes[sgid]) return ts.sendTextMessage(client.getID(), 1, 'That IP address has already been assigned the given server group.');
+    if (autogroups[ip].includes[sgid]) return ts.sendTextMessage(client.clid, 1, 'That IP address has already been assigned the given server group.');
 
     const servergroup = await ts.getServerGroupByID(parseInt(sgid, 10));
-    if (!servergroup) return ts.sendTextMessage(client.getID(), 1, 'No server group with that ID could be found.');
+    if (!servergroup) return ts.sendTextMessage(client.clid, 1, 'No server group with that ID could be found.');
 
     autogroups[ip].push(sgid);
     fs.writeFile('autogroups.json', JSON.stringify(autogroups, null, 2), err => {
       if (err) log.error(err);
     });
 
-    ts.sendTextMessage(client.getID(), 1, `The given IP address has been assigned server group ${sgid}.`);
+    ts.sendTextMessage(client.clid, 1, `The given IP address has been assigned server group ${sgid}.`);
     log.info(`The IP address ${ip} has been assigned server group ${sgid}.`);
   }
 

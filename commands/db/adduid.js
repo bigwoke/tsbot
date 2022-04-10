@@ -1,15 +1,15 @@
 const log = require('../../log.js');
 
 module.exports.run = async (ts, ev, client, args) => {
-  if (!args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
+  if (!args[1]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
 
   const match = await ts.data.collection('users').findOne({ name: args[0] });
-  if (!match) return ts.sendTextMessage(client.getID(), 1, 'Could not find user.');
+  if (!match) return ts.sendTextMessage(client.clid, 1, 'Could not find user.');
 
   const uidRegex = /^.{27}=$/u;
 
   if (!uidRegex.test(args[1])) {
-    return ts.sendTextMessage(client.getID(), 1, 'Unique ID does not match the required pattern.');
+    return ts.sendTextMessage(client.clid, 1, 'Unique ID does not match the required pattern.');
   }
 
   async function getAddr (callback) {
@@ -35,14 +35,14 @@ module.exports.run = async (ts, ev, client, args) => {
       if (err) log.error('[DB] Error updating document:', err.stack);
 
       if (res.result.n === 0) {
-        ts.sendTextMessage(client.getID(), 1, 'Couldn\'t find document, please report this bug.');
+        ts.sendTextMessage(client.clid, 1, 'Couldn\'t find document, please report this bug.');
       } else if (res.result.n === 1 && res.result.nModified === 0 && res.result.ok === 1) {
-        ts.sendTextMessage(client.getID(), 1, 'User document already has that ID.');
+        ts.sendTextMessage(client.clid, 1, 'User document already has that ID.');
       } else if (res.result.nModified === 1) {
-        ts.sendTextMessage(client.getID(), 1, 'Successfully added unique ID.');
+        ts.sendTextMessage(client.clid, 1, 'Successfully added unique ID.');
         log.info('[DB] Unique ID', args[1], 'added to', args[0]);
       } else {
-        ts.sendTextMessage(client.getID(), 1, 'Issue adding unique ID.');
+        ts.sendTextMessage(client.clid, 1, 'Issue adding unique ID.');
       }
     });
   });

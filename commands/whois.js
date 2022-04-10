@@ -2,13 +2,13 @@ const tools = require('../tools.js');
 const cfg = require('../config.js');
 
 module.exports.run = async (ts, ev, client, args) => {
-  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
+  if (!args[0]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
 
   const [searchUID] = args;
   const [targetDBID] = await ts.clientDBFind(searchUID, true);
   const [target] = await ts.clientDBInfo(targetDBID.cldbid);
 
-  if (!target) return ts.sendTextMessage(client.getID(), 1, 'Cannot find the client with that unique ID!');
+  if (!target) return ts.sendTextMessage(client.clid, 1, 'Cannot find the client with that unique ID!');
 
   let resp = `Who is the client with UID "${searchUID}"?\n`;
   const targetNick = target.client_nickname;
@@ -17,7 +17,7 @@ module.exports.run = async (ts, ev, client, args) => {
   else if (cfg.users.mod.includes(searchUID)) targetLevel = 'Elevated';
   const targetLastSeen = tools.toDate(target.client_lastconnected);
   resp += `Nickname: ${targetNick}\nDBID: ${targetDBID.cldbid}\nPermission Level: ${targetLevel}\nLast Seen: ${targetLastSeen}`;
-  ts.sendTextMessage(client.getID(), 1, resp);
+  ts.sendTextMessage(client.clid, 1, resp);
 };
 
 module.exports.info = {

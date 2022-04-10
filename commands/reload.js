@@ -10,10 +10,10 @@ function refresh (modulePath) {
 }
 
 module.exports.run = (ts, ev, client, args) => {
-  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
+  if (!args[0]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
 
   const toReload = ts.commands.get(args[0]);
-  if (!toReload) return ts.sendTextMessage(client.getID(), 1, 'That command was not found.');
+  if (!toReload) return ts.sendTextMessage(client.clid, 1, 'That command was not found.');
   const nameToReload = toReload.info.name;
 
   log.info(`Manually reloading command ${nameToReload}`);
@@ -22,11 +22,11 @@ module.exports.run = (ts, ev, client, args) => {
 
   const cmd = refresh(`./${nameToReload}.js`);
   if (!cmd || !cmd.info || !cmd.run) {
-    return ts.sendTextMessage(client.getID(), 1, `Issue reloading ${nameToReload}, not reloading.`);
+    return ts.sendTextMessage(client.clid, 1, `Issue reloading ${nameToReload}, not reloading.`);
   }
   ts.commands.set(cmd.info.name, cmd);
 
-  ts.sendTextMessage(client.getID(), 1, `Command ${nameToReload} has been manually reloaded.`);
+  ts.sendTextMessage(client.clid, 1, `Command ${nameToReload} has been manually reloaded.`);
 };
 
 module.exports.info = {

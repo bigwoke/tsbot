@@ -1,7 +1,7 @@
 const log = require('../../log.js');
 
 module.exports.run = (ts, ev, client, args) => {
-  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument!');
+  if (!args[0]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument!');
   const groupid = parseInt(args[0], 10);
 
   const filter = { _id: groupid };
@@ -10,10 +10,10 @@ module.exports.run = (ts, ev, client, args) => {
     if (err) log.error('Error deleting user document:', err.stack);
 
     if (res.result.n === 1) {
-      ts.sendTextMessage(client.getID(), 1, 'Successfully removed group document.');
+      ts.sendTextMessage(client.clid, 1, 'Successfully removed group document.');
       log.info('[DB] Group document removed:', groupid);
     } else {
-      ts.sendTextMessage(client.getID(), 1, 'Group document with given id could not be found.');
+      ts.sendTextMessage(client.clid, 1, 'Group document with given id could not be found.');
     }
   });
 };

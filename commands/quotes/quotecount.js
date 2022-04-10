@@ -24,7 +24,7 @@ module.exports.run = async (ts, ev, client, args) => {
   const msg = user
     ? `${user.name} has [b]${count}[/b] existing quotes. Their latest quote: #${max}`
     : `There are [b]${count}[/b] total existing quotes. Most recent quote: #${max}`;
-  ts.sendTextMessage(client.getID(), ev.targetmode, msg);
+  ts.sendTextMessage(client.clid, ev.targetmode, msg);
 };
 
 module.exports.info = {

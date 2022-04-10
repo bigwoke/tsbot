@@ -3,8 +3,8 @@ const https = require('https');
 module.exports.run = (ts, ev, client, args) => {
   const [appid] = args;
 
-  if (!appid) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
-  if (!Number.isInteger(parseInt(appid, 10))) return ts.sendTextMessage(client.getID(), 1, 'error: Required argument is not a number!');
+  if (!appid) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
+  if (!Number.isInteger(parseInt(appid, 10))) return ts.sendTextMessage(client.clid, 1, 'error: Required argument is not a number!');
 
   function getPlayerCount (cl, id, callback) {
     const playercountURI = `https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?format=json&appid=${id}`;
@@ -22,7 +22,7 @@ module.exports.run = (ts, ev, client, args) => {
 
       resp.on('end', () => {
         const { response } = JSON.parse(data);
-        if (response.result !== 1) return ts.sendTextMessage(cl.getID(), 1, 'No Steam game exists with that ID.');
+        if (response.result !== 1) return ts.sendTextMessage(cl.clid, 1, 'No Steam game exists with that ID.');
         count = response.player_count;
 
         https.get(appinfoStoreURI, resp => {
@@ -48,7 +48,7 @@ module.exports.run = (ts, ev, client, args) => {
                 resp.on('end', () => {
                   const [game] = JSON.parse(data).applist.apps.app.filter(obj => obj.appid === parseInt(id, 10));
 
-                  if (!game) return ts.sendTextMessage(cl.getID(), 1, 'No Steam game exists with that ID.');
+                  if (!game) return ts.sendTextMessage(cl.clid, 1, 'No Steam game exists with that ID.');
 
                   appname = game.name;
                   callback(count, appname);
@@ -62,7 +62,7 @@ module.exports.run = (ts, ev, client, args) => {
   }
 
   getPlayerCount(client, appid, (count, appname) => {
-    ts.sendTextMessage(client.getID(), ev.targetmode, `Current ${appname} player count: [b]${count}[/b]`);
+    ts.sendTextMessage(client.clid, ev.targetmode, `Current ${appname} player count: [b]${count}[/b]`);
   });
 };
 

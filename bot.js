@@ -206,7 +206,7 @@ TeamSpeak.connect({
     if (!fullCommand.startsWith(prefix)) return;
   
     function noPerms (cmd) {
-      ts.sendTextMessage(client.getId(), 1, `You do not have permission to use the ${cmd.info.name} command.`);
+      ts.sendTextMessage(client.clid, 1, `You do not have permission to use the ${cmd.info.name} command.`);
     }
   
     function runCommand () {

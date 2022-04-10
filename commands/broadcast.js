@@ -1,5 +1,5 @@
 module.exports.run = (ts, ev, client, args) => {
-  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
+  if (!args[0]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
 
   const msg = args.join(' ');
   ts.sendTextMessage('', 3, msg);

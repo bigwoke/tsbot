@@ -40,7 +40,7 @@ module.exports.run = (ts, ev, client, args) => {
   }
 
   function displayQuote (output) {
-    ts.sendTextMessage(client.getID(), ev.targetmode, output);
+    ts.sendTextMessage(client.clid, ev.targetmode, output);
   }
 
   function getRandomQuote (callback) {
@@ -85,7 +85,7 @@ module.exports.run = (ts, ev, client, args) => {
       const query = { number: parseInt(searchTerm, 10) };
       ts.data.collection('quotes').findOne(query, (err, res) => {
         if (err) log.error('[DB] Error getting quote from database:', err.stack);
-        if (!res) return ts.sendTextMessage(client.getID(), ev.targetmode, 'Could not find quote.');
+        if (!res) return ts.sendTextMessage(client.clid, ev.targetmode, 'Could not find quote.');
 
         const quote = res;
 
@@ -115,7 +115,7 @@ module.exports.run = (ts, ev, client, args) => {
             const [quote] = r;
             if (!quote) {
               const msg = 'Could not find a quote by that user or containing that text.';
-              return ts.sendTextMessage(client.getID(), ev.targetmode, msg);
+              return ts.sendTextMessage(client.clid, ev.targetmode, msg);
             }
 
             // Assuming a quote was found, look up its author, then callback
@@ -158,7 +158,7 @@ module.exports.run = (ts, ev, client, args) => {
           ts.data.collection('quotes').aggregate(pipeline).toArray((error, result) => {
             if (error) log.error('[DB] Error getting quote from database:', error.stack);
             if (!result[0]) {
-              return ts.sendTextMessage(client.getID(), ev.targetmode, 'Could not find quote by that user.');
+              return ts.sendTextMessage(client.clid, ev.targetmode, 'Could not find quote by that user.');
             }
 
             const [quote] = result;

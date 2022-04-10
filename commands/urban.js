@@ -2,7 +2,7 @@ const https = require('https');
 
 module.exports.run = (ts, ev, client, args) => {
   const phrase = args.join(' ');
-  if (!phrase) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
+  if (!phrase) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
 
   const dictURI = `https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(phrase)}`;
   https.get(dictURI, resp => {
@@ -28,7 +28,7 @@ module.exports.run = (ts, ev, client, args) => {
         }
         msg += append;
       }
-      ts.sendTextMessage(client.getID(), ev.targetmode, msg);
+      ts.sendTextMessage(client.clid, ev.targetmode, msg);
     });
   });
 };

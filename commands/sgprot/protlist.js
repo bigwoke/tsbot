@@ -4,7 +4,7 @@ const tools = cfg.modules.db ? null : require('../../tools.js');
 
 module.exports.run = async (ts, ev, client) => {
   async function userProtListFile () {
-    if (tools.isEmpty(sgprot)) return ts.sendTextMessage(client.getID(), 1, 'There are no protected groups.');
+    if (tools.isEmpty(sgprot)) return ts.sendTextMessage(client.clid, 1, 'There are no protected groups.');
 
     let msg = 'The following server groups are protected:\n';
     for (const key in sgprot) {
@@ -20,13 +20,13 @@ module.exports.run = async (ts, ev, client) => {
         if (count === sgprot[key].length) msg += '\n';
       });
     }
-    ts.sendTextMessage(client.getID(), 1, msg);
+    ts.sendTextMessage(client.clid, 1, msg);
   }
 
   async function userProtListDB () {
     let msg = 'The following server groups are protected:\n';
     const protGroups = await ts.data.collection('groups').find({ prot: true }).toArray();
-    if (protGroups.length === 0) return ts.sendTextMessage(client.getID(), 1, 'No server groups are protected.');
+    if (protGroups.length === 0) return ts.sendTextMessage(client.clid, 1, 'No server groups are protected.');
 
     for (let i = 0; i < protGroups.length; i++) {
       const group = protGroups[i];
@@ -40,7 +40,7 @@ module.exports.run = async (ts, ev, client) => {
       }
       msg += '\n';
     }
-    ts.sendTextMessage(client.getID(), 1, msg);
+    ts.sendTextMessage(client.clid, 1, msg);
   }
 
   if (cfg.modules.db) {

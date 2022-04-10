@@ -1,13 +1,13 @@
 const log = require('../../log.js');
 
 module.exports.run = async (ts, ev, client, args) => {
-  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument!');
+  if (!args[0]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument!');
 
   const match = await ts.data.collection('users').findOne({ name: args[0] });
-  if (!match) return ts.sendTextMessage(client.getID(), 1, 'User with the given name could not be found.');
+  if (!match) return ts.sendTextMessage(client.clid, 1, 'User with the given name could not be found.');
 
   if (match.level === 0) {
-    return ts.sendTextMessage(client.getID(), 1, 'Cannot modify level of root user.');
+    return ts.sendTextMessage(client.clid, 1, 'Cannot modify level of root user.');
   }
 
   const filter = { name: args[0] };
@@ -17,14 +17,14 @@ module.exports.run = async (ts, ev, client, args) => {
     if (err) log.error('[DB] Error inserting/updating document:', err.stack);
 
     if (res.result.n === 0) {
-      ts.sendTextMessage(client.getID(), 1, 'Couldn\'t find document, please report this bug.');
+      ts.sendTextMessage(client.clid, 1, 'Couldn\'t find document, please report this bug.');
     } else if (res.result.n === 1 && res.result.nModified === 0 && res.result.ok === 1) {
-      ts.sendTextMessage(client.getID(), 1, `${args[0]} is not an elevated user.`);
+      ts.sendTextMessage(client.clid, 1, `${args[0]} is not an elevated user.`);
     } else if (res.result.nModified === 1) {
-      ts.sendTextMessage(client.getID(), 1, `Successfully demoted ${args[0]}.`);
+      ts.sendTextMessage(client.clid, 1, `Successfully demoted ${args[0]}.`);
       log.info(`[DB] User "${args[0]}" demoted by "${client.nickname}" (DBID ${client.databaseId})`);
     } else {
-      ts.sendTextMessage(client.getID(), 1, 'Issue demoting user.');
+      ts.sendTextMessage(client.clid, 1, 'Issue demoting user.');
     }
   });
 };

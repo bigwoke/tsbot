@@ -2,17 +2,17 @@ const log = require('../../log.js');
 const db = require('../../db.js');
 
 module.exports.run = async (ts, ev, client, args) => {
-  if (!args[1]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
+  if (!args[1]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
 
   const user = await ts.data.collection('users').findOne({ name: args[0] });
-  if (!user) return ts.sendTextMessage(client.getID(), 1, 'That user could not be found.');
+  if (!user) return ts.sendTextMessage(client.clid, 1, 'That user could not be found.');
 
   const datePos = args.indexOf('--date');
   const hasDate = datePos !== -1;
 
   const quote = hasDate ? args.slice(1, datePos).join(' ') : args.slice(1).join(' ');
   if (quote.length >= 4096) {
-    return ts.sendTextMessage(client.getID(), 1, 'Quote is too long, maximum 4096 characters.');
+    return ts.sendTextMessage(client.clid, 1, 'Quote is too long, maximum 4096 characters.');
   }
 
   let date = null;
@@ -21,7 +21,7 @@ module.exports.run = async (ts, ev, client, args) => {
     date = new Date(Date.parse(dateRaw));
 
     if (Number.isNaN(Date.parse(dateRaw))) {
-      return ts.sendTextMessage(client.getID(), 1, 'Date given is invalid.');
+      return ts.sendTextMessage(client.clid, 1, 'Date given is invalid.');
     }
   } else {
     date = new Date(Date.now());
@@ -44,7 +44,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
       if (result.result.ok === 1) {
         log.info(`Quote #${num} added by ${client.nickname}`);
-        ts.sendTextMessage(client.getID(), 1, `Inserted quote #${num}.`);
+        ts.sendTextMessage(client.clid, 1, `Inserted quote #${num}.`);
       }
     });
   });

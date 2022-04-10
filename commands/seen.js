@@ -3,14 +3,14 @@ const cfg = require('../config');
 const tools = require('../tools.js');
 
 module.exports.run = (ts, ev, client, args) => {
-  if (!args[0]) return ts.sendTextMessage(client.getID(), 1, 'error: Missing argument(s)!');
+  if (!args[0]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');
 
   const searchUser = args.slice(0).join(/\s+/gu);
 
   async function findTS3User () {
     let results = await ts.clientDBFind(searchUser, false).catch(err => {
       if (err.id === 1281) {
-        ts.sendTextMessage(client.getID(), ev.targetmode, 'No matching TeamSpeak clients found.');
+        ts.sendTextMessage(client.clid, ev.targetmode, 'No matching TeamSpeak clients found.');
       } else {
         log.error(err);
       }
@@ -35,15 +35,15 @@ module.exports.run = (ts, ev, client, args) => {
             count++;
 
             if (resp.length >= ts.charLimit - 100) {
-              ts.sendTextMessage(client.getID(), 1, resp).catch(err => {
-                ts.sendTextMessage(client.getID(), 1, 'error: Too many characters in response.');
+              ts.sendTextMessage(client.clid, 1, resp).catch(err => {
+                ts.sendTextMessage(client.clid, 1, 'error: Too many characters in response.');
                 log.error('Error printing long message:', err.stack);
               });
               resp = '';
             }
 
             resp += `\n[B]${userNick}[/B]: Last seen on ${lastDate} at ${lastTime}`;
-            if (count === dbidArray.length) ts.sendTextMessage(client.getID(), 1, resp);
+            if (count === dbidArray.length) ts.sendTextMessage(client.clid, 1, resp);
           }).catch(err => log.error(err));
       });
     } else {
@@ -61,7 +61,7 @@ module.exports.run = (ts, ev, client, args) => {
           let resp = 'Found 1 matching TeamSpeak client:';
           resp += `\n[B]${userNick}[/B]: Last seen on ${lastDate} at ${lastTime}`;
 
-          ts.sendTextMessage(client.getID(), 1, resp);
+          ts.sendTextMessage(client.clid, 1, resp);
         }).catch(err => log.error(err));
     }
   }
@@ -70,10 +70,10 @@ module.exports.run = (ts, ev, client, args) => {
     ts.data.collection('users').findOne({ name: searchUser }).then(res => {
       if (res) {
         if (res.seen) {
-          ts.sendTextMessage(client.getID(), ev.targetmode, `${res.name} was last seen ` +
+          ts.sendTextMessage(client.clid, ev.targetmode, `${res.name} was last seen ` +
             `(joining or leaving) at ${res.seen.toLocaleString()}.`);
         } else {
-          ts.sendTextMessage(client.getID(), ev.targetmode, `${res.name} is missing ` +
+          ts.sendTextMessage(client.clid, ev.targetmode, `${res.name} is missing ` +
             'a last seen date entry.');
           findTS3User();
         }
