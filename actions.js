@@ -97,7 +97,7 @@ async function autoGroupAssign (client, ts) {
   if (!cfg.modules.autogroups) return;
 
   const clinfo = await client.getInfo();
-  const clAddr = clinfo.connection_client_ip;
+  const clAddr = clinfo.connectionClientIp;
   const clGroups = clinfo.clientServergroups;
 
   if (cfg.modules.db) {
