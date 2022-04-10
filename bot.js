@@ -82,7 +82,7 @@ function watchCommands (ts) {
   });
 }
 
-function setUserLastSeen (uniqueId) {
+function setUserLastSeen (ts, uniqueId) {
   ts.data.collection('users').findOneAndUpdate(
     { uid: uniqueId },
     { $set: { seen: new Date(Date.now()) } }
@@ -157,12 +157,12 @@ TeamSpeak.connect({
     actions.autoGroups(client, ts);
     actions.idleCheck(client);
     actions.whitelistCheck(client, ts);
-    setUserLastSeen(ev.client.client_unique_identifier);
+    setUserLastSeen(ts, ev.client.client_unique_identifier);
   });
   
   ts.on('clientdisconnect', ev => {
     log.silly(`[-] Client "${ev.client.client_nickname}" disconnected.`);
-    setUserLastSeen(ev.client.client_unique_identifier);
+    setUserLastSeen(ts, ev.client.client_unique_identifier);
   });
   
   ts.on('clientmoved', ev => {
@@ -215,9 +215,9 @@ TeamSpeak.connect({
         if (cmd.info.level < client.level) {
           return noPerms(cmd);
         }
-          cmd.run(ts, ev, client, args);
-          log.debug(`Command '${cmd.info.name}' receieved from '${nick}'`);
-          log.silly(`Full content of '${cmd.info.name}' (from '${nick}'): ${message}`);
+        cmd.run(ts, ev, client, args);
+        log.debug(`Command '${cmd.info.name}' receieved from '${nick}'`);
+        log.silly(`Full content of '${cmd.info.name}' (from '${nick}'): ${message}`);
   
       }
     }
@@ -248,4 +248,4 @@ TeamSpeak.connect({
   });
   
   ts.on('close', ev => log.info('Connection has been closed:', ev));
-})
+});
