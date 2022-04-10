@@ -15,7 +15,7 @@ async function sendWelcomeMessage (client, ts) {
   if (!client || client.isQuery()) return;
   const nick = client.nickname;
 
-  const [cl] = await ts.clientDBInfo(client.databaseId);
+  const cl = await client.getDBInfo();
   const dateCreated = tools.toDate(cl.client_created, 'd');
   const timeCreated = tools.toDate(cl.client_created, 't');
 
