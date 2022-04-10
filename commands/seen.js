@@ -26,7 +26,7 @@ module.exports.run = (ts, ev, client, args) => {
 
       // For each element in the array of DBIDs
       dbidArray.forEach(element => {
-        ts.clientDBInfo(element)
+        ts.clientDbInfo(element)
           .then(user => {
             [user] = user;
             const lastDate = tools.toDate(user.client_lastconnected, 'd');
@@ -51,7 +51,7 @@ module.exports.run = (ts, ev, client, args) => {
         [results] = results;
       }
       const { cldbid } = results;
-      ts.clientDBInfo(cldbid)
+      ts.clientDbInfo(cldbid)
         .then(user => {
           [user] = user;
           const lastDate = tools.toDate(user.client_lastconnected, 'd');

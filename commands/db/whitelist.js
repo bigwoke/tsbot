@@ -49,32 +49,32 @@ module.exports.run = (ts, ev, client, args) => {
   }
 
   switch (args[0].toLowerCase()) {
-    case 'add':
-      addUser(ts, client, args[1], args.slice(2).join(' '));
-      break;
-    case 'remove':
-      delUser(ts, client, args.slice(1).join(' '));
-      break;
-    case 'enable':
-      cfg.modules.whitelist = true;
-      ts.sendTextMessage(client.clid, 1, 'Server whitelist enabled.');
-      break;
-    case 'disable':
-      cfg.modules.whitelist = false;
-      ts.sendTextMessage(client.clid, 1, 'Server whitelist disabled.');
-      break;
-    case 'list':
-      ts.data.collection('whitelist').find().toArray().then(wl => {
-        let msg = 'Server whitelist:\n';
-        for (const entry of wl) {
-          msg += `${entry.name}:\t${entry.ip ? entry.ip : entry.mytsid}\n`;
-        }
-        if (msg === 'Server whitelist:\n') msg = 'Whitelist is empty!';
-        ts.sendTextMessage(client.clid, 1, msg);
-      });
-      break;
-    default:
-      return ts.sendTextMessage(client.clid, 1, 'Didn\'t recognize that subcommand!');
+  case 'add':
+    addUser(ts, client, args[1], args.slice(2).join(' '));
+    break;
+  case 'remove':
+    delUser(ts, client, args.slice(1).join(' '));
+    break;
+  case 'enable':
+    cfg.modules.whitelist = true;
+    ts.sendTextMessage(client.clid, 1, 'Server whitelist enabled.');
+    break;
+  case 'disable':
+    cfg.modules.whitelist = false;
+    ts.sendTextMessage(client.clid, 1, 'Server whitelist disabled.');
+    break;
+  case 'list':
+    ts.data.collection('whitelist').find().toArray().then(wl => {
+      let msg = 'Server whitelist:\n';
+      for (const entry of wl) {
+        msg += `${entry.name}:\t${entry.ip ? entry.ip : entry.mytsid}\n`;
+      }
+      if (msg === 'Server whitelist:\n') msg = 'Whitelist is empty!';
+      ts.sendTextMessage(client.clid, 1, msg);
+    });
+    break;
+  default:
+    return ts.sendTextMessage(client.clid, 1, 'Didn\'t recognize that subcommand!');
   }
 };
 

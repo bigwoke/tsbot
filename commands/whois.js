@@ -6,7 +6,7 @@ module.exports.run = async (ts, ev, client, args) => {
 
   const [searchUID] = args;
   const [targetDBID] = await ts.clientDBFind(searchUID, true);
-  const [target] = await ts.clientDBInfo(targetDBID.cldbid);
+  const [target] = await ts.clientDbInfo(targetDBID.cldbid);
 
   if (!target) return ts.sendTextMessage(client.clid, 1, 'Cannot find the client with that unique ID!');
 

@@ -1,4 +1,4 @@
-const cfg = require('../config')
+const cfg = require('../config');
 
 module.exports.run = (ts, ev, client, args) => {
   if (!args[0]) return ts.sendTextMessage(client.clid, 1, 'error: Missing argument(s)!');

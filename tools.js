@@ -8,9 +8,9 @@ function epochNumberToDate (epochSeconds, type) {
   localeDate.setUTCSeconds(epochSeconds);
 
   switch (type) {
-    case 't': return localeDate.toLocaleTimeString('en-US');
-    case 'd': return localeDate.toLocaleDateString('en-US');
-    default: return `${localeDate.toLocaleDateString('en-US')} ${localeDate.toLocaleTimeString('en-US')}`;
+  case 't': return localeDate.toLocaleTimeString('en-US');
+  case 'd': return localeDate.toLocaleDateString('en-US');
+  default: return `${localeDate.toLocaleDateString('en-US')} ${localeDate.toLocaleTimeString('en-US')}`;
   }
 }
 

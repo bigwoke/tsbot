@@ -31,7 +31,7 @@ module.exports.run = async (ts, ev, client, args) => {
     } else {
       ts.clientDBFind(args[1], true).then(clFind => {
         [clFind] = clFind;
-        ts.clientDBInfo(clFind.cldbid).then(cl => {
+        ts.clientDbInfo(clFind.cldbid).then(cl => {
           [cl] = cl;
           callback(cl.client_lastip);
         });
@@ -51,15 +51,15 @@ module.exports.run = async (ts, ev, client, args) => {
         ts.sendTextMessage(client.clid, 1, 'Successfully inserted user document.');
         log.info('[DB] New user document inserted:', args[0]);
       } else if (res.result.n === 0) {
-          ts.sendTextMessage(client.clid, 1, 'Couldn\'t find document, please report this bug.');
-        } else if (res.result.n === 1 && res.result.nModified === 0 && res.result.ok === 1) {
-          ts.sendTextMessage(client.clid, 1, 'User document already has that value.');
-        } else if (res.result.nModified === 1) {
-          ts.sendTextMessage(client.clid, 1, 'Successfully updated user document.');
-          log.info('[DB] Existing user document updated:', args[0]);
-        } else {
-          ts.sendTextMessage(client.clid, 1, 'Issue editing document.');
-        }
+        ts.sendTextMessage(client.clid, 1, 'Couldn\'t find document, please report this bug.');
+      } else if (res.result.n === 1 && res.result.nModified === 0 && res.result.ok === 1) {
+        ts.sendTextMessage(client.clid, 1, 'User document already has that value.');
+      } else if (res.result.nModified === 1) {
+        ts.sendTextMessage(client.clid, 1, 'Successfully updated user document.');
+        log.info('[DB] Existing user document updated:', args[0]);
+      } else {
+        ts.sendTextMessage(client.clid, 1, 'Issue editing document.');
+      }
     });
   });
 };

@@ -1,4 +1,4 @@
-const cfg = require('../config')
+const cfg = require('../config');
 
 module.exports.run = (ts, ev, client, args) => {
   let upperLimit = 6;

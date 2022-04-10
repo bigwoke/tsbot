@@ -1,4 +1,4 @@
-const cfg = require('../../config')
+const cfg = require('../../config');
 const log = require('../../log.js');
 
 module.exports.run = async (ts, ev, client, args) => {
@@ -20,7 +20,7 @@ module.exports.run = async (ts, ev, client, args) => {
     } else {
       ts.clientDBFind(args[1], true).then(clFind => {
         [clFind] = clFind;
-        ts.clientDBInfo(clFind.cldbid).then(cl => {
+        ts.clientDbInfo(clFind.cldbid).then(cl => {
           [cl] = cl;
           callback(cl.client_lastip);
         });

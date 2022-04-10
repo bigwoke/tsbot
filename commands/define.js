@@ -1,4 +1,4 @@
-const cfg = require('../config')
+const cfg = require('../config');
 const https = require('https');
 
 module.exports.run = (ts, ev, client, args) => {

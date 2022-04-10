@@ -1,4 +1,4 @@
-const cfg = require('../config')
+const cfg = require('../config');
 const log = require('../log.js');
 
 module.exports.run = (ts, ev, client) => {
