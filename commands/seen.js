@@ -29,8 +29,8 @@ module.exports.run = (ts, ev, client, args) => {
         ts.clientDbInfo(element)
           .then(user => {
             [user] = user;
-            const lastDate = tools.toDate(user.client_lastconnected, 'd');
-            const lastTime = tools.toDate(user.client_lastconnected, 't');
+            const lastDate = tools.toDate(user.clientLastconnected, 'd');
+            const lastTime = tools.toDate(user.clientLastconnected, 't');
             const userNick = user.clientNickname;
             count++;
 
@@ -54,8 +54,8 @@ module.exports.run = (ts, ev, client, args) => {
       ts.clientDbInfo(cldbid)
         .then(user => {
           [user] = user;
-          const lastDate = tools.toDate(user.client_lastconnected, 'd');
-          const lastTime = tools.toDate(user.client_lastconnected, 't');
+          const lastDate = tools.toDate(user.clientLastconnected, 'd');
+          const lastTime = tools.toDate(user.clientLastconnected, 't');
           const userNick = user.clientNickname;
 
           let resp = 'Found 1 matching TeamSpeak client:';

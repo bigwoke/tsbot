@@ -15,7 +15,7 @@ module.exports.run = async (ts, ev, client, args) => {
   let targetLevel = 'User';
   if (cfg.users.root.includes(searchUID)) targetLevel = 'Root';
   else if (cfg.users.mod.includes(searchUID)) targetLevel = 'Elevated';
-  const targetLastSeen = tools.toDate(target.client_lastconnected);
+  const targetLastSeen = tools.toDate(target.clientLastconnected);
   resp += `Nickname: ${targetNick}\nDBID: ${targetDBID.cldbid}\nPermission Level: ${targetLevel}\nLast Seen: ${targetLastSeen}`;
   ts.sendTextMessage(client.clid, 1, resp);
 };
