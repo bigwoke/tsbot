@@ -5,7 +5,7 @@
   "main": "bot.js",
   "dependencies": {
     "dotenv": "^5.0.1",
-    "mongodb": "^3.6.4",
+    "mongodb": "^3.6.10",
     "node-watch": "^0.6.4",
     "ts3-nodejs-library": "^3.4.1",
     "winston": "^2.4.5"
